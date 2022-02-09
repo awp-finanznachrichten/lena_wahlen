@@ -9,7 +9,7 @@ storyblock <- Textbausteine %>%
 
 storyblock <- storyblock$Text_d
 
-output <- paste0(output,storyblock,"\n\n")
+output <- paste0(output,storyblock,"<br><br>")
 }
 return(output)  
 }  
@@ -23,7 +23,7 @@ get_liste_gewinner <- function(anzahl_sitze_partei) {
   
   if (nrow(anzahl_sitze_partei) > 1) {
   for (p in 1:nrow(anzahl_sitze_partei)){
-    output <- paste0(output,"die ",anzahl_sitze_partei$Partei[p]," holt ",anzahl_sitze_partei$change[p]," Sitze, ")  
+    output <- paste0(output,"die <b>",anzahl_sitze_partei$Partei[p],"</b> holt ",anzahl_sitze_partei$change[p]," Sitze, ")  
     
   }  
   output <- gsub("1 Sitze","1 Sitz",output)
@@ -42,7 +42,7 @@ get_liste_verlierer <- function(anzahl_sitze_partei) {
 
   if (nrow(anzahl_sitze_partei) > 1) {
     for (p in 1:nrow(anzahl_sitze_partei)){
-      output <- paste0(output,"die ",anzahl_sitze_partei$Partei[p]," verliert ",abs(anzahl_sitze_partei$change[p])," Sitze, ")  
+      output <- paste0(output,"die <b>",anzahl_sitze_partei$Partei[p],"</b> verliert ",abs(anzahl_sitze_partei$change[p])," Sitze, ")  
       
     }  
     output <- gsub("1 Sitze","1 Sitz",output)
@@ -160,10 +160,10 @@ text <- gsub("#ParteiFirst_Sitze",ParteiFirst_Sitze,text)
 text <- gsub("#ParteiSecond_Sitze",ParteiSecond_Sitze,text)
 text <- gsub("#ParteiLast_Sitze",ParteiLast_Sitze,text)
 
-text <- gsub("#ParteiSecondLast",ParteiSecondLast,text)
-text <- gsub("#ParteiFirst",ParteiFirst,text)
-text <- gsub("#ParteiSecond",ParteiSecond,text)
-text <- gsub("#ParteiLast",ParteiLast,text)
+text <- gsub("#ParteiSecondLast",paste0("<b>",ParteiSecondLast,"</b>"),text)
+text <- gsub("#ParteiFirst",paste0("<b>",ParteiFirst,"</b>"),text)
+text <- gsub("#ParteiSecond",paste0("<b>",ParteiSecond,"</b>"),text)
+text <- gsub("#ParteiLast",paste0("<b>",ParteiLast,"</b>"),text)
 
 
 text <- gsub("#ListeGewinner",ListeGewinner,text)
