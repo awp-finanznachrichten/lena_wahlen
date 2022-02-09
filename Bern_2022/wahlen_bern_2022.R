@@ -15,6 +15,9 @@ wahlkreise <- c("Jura bernois","Biel-Bienne - Seeland","Oberaargau","Emmental","
 data_gesamt <- data.frame("Wahlkreis","Storyboard","Text_de")
 colnames(data_gesamt) <- c("Wahlkreis","Storyboard","Text_de")
 
+#Untertitel Datawrapper
+untertitel <- "Folgende Wahlkreise sind bereits ausgezählt: "
+
 for (w in 1:length(wahlkreise)) {
 wahlkreis <- wahlkreise[w]
 
@@ -175,6 +178,8 @@ new_entry <- data.frame(wahlkreis,storyboard,text)
 colnames(new_entry) <- c("Wahlkreis","Storyboard","Text_de")
 data_gesamt <- rbind(data_gesamt,new_entry)
 
+#Untertitel für Datawrapper ergänzen
+untertitel <- paste0(untertitel,wahlkreis,", ")
 cat(text)
 
 }
@@ -196,3 +201,12 @@ gitcommit()
 gitpush()
 
 #Datawrapper-Grafik aktualisieren
+if (nchar(untertitel) == 45) {
+untertitel <- "Es sind noch keine Wahlkreise ausgezählt."  
+} else {
+untertitel <- substr(untertitel,1,nchar(untertitel)-2)  
+}  
+
+datawrapper_auth("BMcG33cGBCp2FpqF1BSN5lHhKrw2W8Ait4AYbDEjkjVgCiWe07iqoX5pwHXdW36g", overwrite = TRUE)
+dw_edit_chart("mGAXr",intro=undertitel,annotate=paste0("Letzte Aktualisierung: ",format(Sys.time(),"%d.%m.%Y %H:%M Uhr")))
+dw_publish_chart()
