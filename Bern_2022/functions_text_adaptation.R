@@ -27,7 +27,7 @@ return(text)
 }  
 
 text_optimisation <- function(text) {
-  text <- gsub("\n\ndie","\n\nDie",text)
+  text <- gsub("<br><br>die","<br><br>Die",text)
   text <- gsub(" 1 "," einen ",text)
   text <- gsub(" 2 "," zwei ",text)
   text <- gsub(" 3 "," drei ",text)
