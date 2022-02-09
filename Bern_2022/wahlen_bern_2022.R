@@ -1,9 +1,6 @@
 #Working Directory definieren
 setwd("C:/Users/sw/OneDrive/LENA_Project/lena_wahlen/Bern_2022")
 
-#Kanton
-kanton <- "Bern"
-
 #Bibliotheken, Funktionen und vorhandene Daten laden
 source("config.R", encoding = "UTF-8")
 source("functions_storyfinder.R", encoding = "UTF-8")
@@ -171,8 +168,14 @@ cat(text)
 data_gesamt <- data_gesamt[-1,]
 
 data_datawrapper <- merge(Gemeinden_Wahlkreise,data_gesamt)
-View(data_datawrapper)
+write.csv(data_datawrapper,"Output/Uebersicht_dw.csv", na = "", row.names = FALSE, fileEncoding = "UTF-8")
 
 #Auf Github hochladen
+git2r::config(user.name = "awp-finanznachrichten",user.email = "sw@awp.ch")
+token <- read.csv("C:/Users/sw/OneDrive/Github_Token/token.txt",header=FALSE)[1,1]
+git2r::cred_token(token)
+gitadd()
+gitcommit()
+gitpush()
 
 #Datawrapper-Grafik aktualisieren
