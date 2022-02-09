@@ -22,7 +22,7 @@ for (w in 1:length(wahlkreise)) {
 wahlkreis <- wahlkreise[w]
 
 #Sind Daten schon da?
-link <- paste0("https://www.bewas.sites.be.ch/2019/2018-03-25/WAHL_GROSSRAT/csvResultatWahlkreis-",LETTERS[w],".csv")
+link <- paste0("https://www.bewas.sites.be.ch/2018/2018-03-25/WAHL_GROSSRAT/csvResultatWahlkreis-",LETTERS[w],".csv")
 check_csv1 <- tryCatch( {
   read.csv(link,sep =";",skip = 4) 
   }, error= function(e) {
