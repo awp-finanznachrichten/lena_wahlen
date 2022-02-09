@@ -19,7 +19,15 @@ for (w in 1:length(wahlkreise)) {
 wahlkreis <- wahlkreise[w]
 
 #Sind Daten schon da?
-check <- TRUE
+link <- paste0("https://www.bewas.sites.be.ch/2022/2022-03-27/WAHL_GROSSRAT/csvResultatWahlkreis-",LETTERS[w],".csv")
+check_csv1 <- tryCatch( {
+  read.csv(link,sep =";",skip = 4) 
+  }, error= function(e) {
+    print(e)
+  }    
+)
+
+check <- grepl("cannot open",check_csv[1])
 
 if (check == FALSE) {
 storyboard <- NA
