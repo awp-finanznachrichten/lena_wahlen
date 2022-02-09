@@ -8,12 +8,17 @@ green_cleanup <- function(text, anzahl_sitze_partei) {
     text <- gsub("grosse Verliererin. Sie büsst ","grossen Verlierer. Sie büssen ",text)
   }  
   
+  text <- gsub("Die <b>Grüne</b> ist ","Die <b>Grünen</b> sind ",text)
   text <- gsub("Die Grüne ist ","Die Grünen sind ",text)
+  text <- gsub("hält die <b>Grüne</b> ","halten die <b>Grünen</b> ",text)
   text <- gsub("hält die Grüne ","halten die Grünen ",text)
-  text <- gsub("hält die Grüne ","halten die Grünen ",text)
+  text <- gsub("die <b>Grüne</b> verliert ","die <b>Grünen</b> verlieren ",text)
   text <- gsub("die Grüne verliert ","die Grünen verlieren ",text)
+  text <- gsub("die <b>Grüne</b> hält ","die <b>Grünen</b> halten ",text)
   text <- gsub("die Grüne hält ","die Grünen halten ",text)
-  text <- gsub("Die Grüne ","Die Grünen ",text)
+  text <- gsub("Die <b>Grüne</b> ","Die <b>Grünen</b> ",text)
+  text <- gsub("die Grüne ","die Grünen ",text)
+  text <- gsub("Die <b>Grüne</b> ","Die <b>Grünen</b> ",text)
   text <- gsub("die Grüne ","die Grünen ",text)
 
 return(text)  

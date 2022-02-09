@@ -171,7 +171,7 @@ data_datawrapper <- merge(Gemeinden_Wahlkreise,data_gesamt)
 write.csv(data_datawrapper,"Output/Uebersicht_dw.csv", na = "", row.names = FALSE, fileEncoding = "UTF-8")
 
 #Auf Github hochladen
-git2r::config(user.name = "awp-finanznachrichten",user.email = "sw@awp.ch")
+#git2r::config(user.name = "awp-finanznachrichten",user.email = "sw@awp.ch")
 token <- read.csv("C:/Users/sw/OneDrive/Github_Token/token.txt",header=FALSE)[1,1]
 git2r::cred_token(token)
 gitadd()
