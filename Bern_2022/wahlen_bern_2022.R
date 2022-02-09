@@ -27,9 +27,9 @@ check_csv1 <- tryCatch( {
   }    
 )
 
-check <- grepl("cannot open",check_csv[1])
+fail_check <- grepl("cannot open",check_csv[1])
 
-if (check == FALSE) {
+if (fail_check == TRUE) {
 storyboard <- NA
 text <- paste0("Der Wahlkreis ",wahlkreis," ist noch nicht ausgezählt")
 
