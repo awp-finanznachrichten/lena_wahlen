@@ -12,11 +12,9 @@ library(readxl)
 library(git2r)
 library(DatawRappr)
 library(rvest)
+library(readxl)
 
 cat("Benoetigte Bibliotheken geladen\n")
-
-
-
 
 #Github-Funktionen
 gitcommit <- function(msg = "commit from Rstudio", dir = getwd()){
@@ -53,3 +51,19 @@ gitpush <- function(dir = getwd()){
   cmd <- paste(unlist(cmd_list),collapse = " & ")
   shell(cmd)
 }
+
+cat("Benoetigte Funktionen geladen\n")
+
+Listen_und_Parteien <- read_excel("Daten/LENA_Listen_Kanton_Bern.xlsx", 
+                                      sheet = "Listen_Parteien")
+
+Sitzverteilung_Historisch <- read_excel("Daten/LENA_Listen_Kanton_Bern.xlsx", 
+                                  sheet = "Sitzverteilung_2018")
+
+Gemeinden_Wahlkreise <- read_excel("Daten/Bern_Wahlkreise.xlsx")
+
+cat("Listen und Sitzverteilunge geladen\n")
+
+Textbausteine <- read_excel("Daten/Textbausteine_LENA_Wahlen_Kantonal.xlsx")
+
+cat("Texte geladen\n")
