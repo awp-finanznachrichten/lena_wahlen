@@ -27,9 +27,18 @@ check_csv1 <- tryCatch( {
   }    
 )
 
-fail_check <- grepl("cannot open",check_csv[1])
+link <- paste0("https://www.bewas.sites.be.ch/2018/2018-03-25/WAHL_GROSSRAT/reportResultatWahlkreisRanglisteCsv-",LETTERS[w],".csv")
+check_csv2 <- tryCatch( {
+  read.csv(link,sep =";",skip = 4) 
+}, error= function(e) {
+  print(e)
+}    
+)
 
-if (fail_check == TRUE) {
+fail_check1 <- grepl("cannot open",check_csv1[1])
+fail_check2 <- grepl("cannot open",check_csv2[1])
+
+if (fail_check1 == TRUE || fail_check2 == TRUE) {
 storyboard <- NA
 text <- paste0("Der Wahlkreis ",wahlkreis," ist noch nicht ausgezählt")
 
@@ -55,7 +64,6 @@ new_data <- new_data %>%
          "Sitze" = "Sièges")
 
 #Neu gewählte und abgewählte Kandidaten scrapen
-
 link <- paste0("https://www.bewas.sites.be.ch/2018/2018-03-25/WAHL_GROSSRAT/reportResultatWahlkreisRanglisteCsv-",LETTERS[w],".csv")
 candidates_data <- read.csv(link,sep =";",skip = 2)
 candidates_data$Liste.liste <- as.numeric(gsub(" .*","",candidates_data$Liste.liste))
@@ -186,5 +194,6 @@ git2r::cred_token(token)
 gitadd()
 gitcommit()
 gitpush()
+View(data_datawrapper)
 
 #Datawrapper-Grafik aktualisieren
