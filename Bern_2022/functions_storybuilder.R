@@ -23,7 +23,7 @@ get_liste_gewinner <- function(anzahl_sitze_partei) {
   
   if (nrow(anzahl_sitze_partei) > 1) {
   for (p in 1:nrow(anzahl_sitze_partei)){
-    output <- paste0(output,"die <b>",anzahl_sitze_partei$Partei[p],"</b> holt ",anzahl_sitze_partei$change[p]," Sitze, ")  
+    output <- paste0(output,"die <b>",anzahl_sitze_partei$Fraktion_de[p],"</b> holt ",anzahl_sitze_partei$change[p]," Sitze, ")  
     
   }  
   output <- gsub("1 Sitze","1 Sitz",output)
@@ -42,7 +42,7 @@ get_liste_verlierer <- function(anzahl_sitze_partei) {
 
   if (nrow(anzahl_sitze_partei) > 1) {
     for (p in 1:nrow(anzahl_sitze_partei)){
-      output <- paste0(output,"die <b>",anzahl_sitze_partei$Partei[p],"</b> verliert ",abs(anzahl_sitze_partei$change[p])," Sitze, ")  
+      output <- paste0(output,"die <b>",anzahl_sitze_partei$Fraktion_de[p],"</b> verliert ",abs(anzahl_sitze_partei$change[p])," Sitze, ")  
       
     }  
     output <- gsub("1 Sitze","1 Sitz",output)
@@ -62,7 +62,7 @@ anzahl_sitze_partei <- anzahl_sitze_partei %>%
   filter(Sitze > 0)
 
 for (p in 1:nrow(anzahl_sitze_partei)){
-output <- paste0(output,"die ",anzahl_sitze_partei$Partei[p]," ",anzahl_sitze_partei$Sitze[p]," Sitze, ")  
+output <- paste0(output,"die ",anzahl_sitze_partei$Fraktion_de[p]," ",anzahl_sitze_partei$Sitze[p]," Sitze, ")  
     
 }  
 output <- gsub("1 Sitze","1 Sitz",output)
@@ -96,7 +96,7 @@ get_liste_parteienout <- function(anzahl_sitze_partei) {
     
   if (nrow(parteien_out) > 1) {
     for (p in 1:nrow(parteien_out)) {
-      output <- paste0(output,"die ",parteien_out$Partei[p],", ")  
+      output <- paste0(output,"die ",parteien_out$Fraktion_de[p],", ")  
       
     }  
   output <- substr( output ,1,nchar(output)-2)
@@ -112,7 +112,7 @@ get_liste_neugewaehlt <- function(candidates_neu_gewaehlt) {
 if (nrow(candidates_neu_gewaehlt) > 0){
   for (n in 1:nrow(candidates_neu_gewaehlt)) {
     output <- paste0(output,candidates_neu_gewaehlt$Name.nom[n],
-                                " (",candidates_neu_gewaehlt$Partei[n],"), ")  
+                                " (",candidates_neu_gewaehlt$Fraktion_de[n],"), ")  
   }
   output <- substr(output,1,nchar(output)-2)
   output <- stri_replace_last(output,fixed=","," und")
@@ -126,7 +126,7 @@ output <- ""
 if (nrow(candidates_abgewaehlt) > 0){
   for (n in 1:nrow(candidates_abgewaehlt)) {
     output <- paste0(output,candidates_abgewaehlt$Name.nom[n],
-                              " (",candidates_abgewaehlt$Partei[n],"), ")  
+                              " (",candidates_abgewaehlt$Fraktion_de[n],"), ")  
   }
   output <- substr(output,1,nchar(output)-2)
   output <- stri_replace_last(output,fixed=","," und")
@@ -143,12 +143,12 @@ replace_varables_de <- function(text,wahlkreis,anzahl_sitze_partei,diverse_sitze
 
 anzahl_sitze_partei <- anzahl_sitze_partei[order(-anzahl_sitze_partei$change),]
 
-text <- gsub("#Wahlkreis",wahlkreis,text)
+text <- gsub("#Wahlkreis_de",wahlkreis,text)
 
-ParteiFirst <- anzahl_sitze_partei$Partei[1]
-ParteiSecond <- anzahl_sitze_partei$Partei[2]
-ParteiLast <- anzahl_sitze_partei$Partei[nrow(anzahl_sitze_partei)]
-ParteiSecondLast <- anzahl_sitze_partei$Partei[nrow(anzahl_sitze_partei)-1]
+ParteiFirst <- anzahl_sitze_partei$Fraktion_de[1]
+ParteiSecond <- anzahl_sitze_partei$Fraktion_de[2]
+ParteiLast <- anzahl_sitze_partei$Fraktion_de[nrow(anzahl_sitze_partei)]
+ParteiSecondLast <- anzahl_sitze_partei$Fraktion_de[nrow(anzahl_sitze_partei)-1]
 
 ParteiFirst_Sitze <- anzahl_sitze_partei$change[1]
 ParteiSecond_Sitze <- anzahl_sitze_partei$change[2]
@@ -160,25 +160,25 @@ text <- gsub("#ParteiFirst_Sitze",ParteiFirst_Sitze,text)
 text <- gsub("#ParteiSecond_Sitze",ParteiSecond_Sitze,text)
 text <- gsub("#ParteiLast_Sitze",ParteiLast_Sitze,text)
 
-text <- gsub("#ParteiSecondLast",paste0("<b>",ParteiSecondLast,"</b>"),text)
-text <- gsub("#ParteiFirst",paste0("<b>",ParteiFirst,"</b>"),text)
-text <- gsub("#ParteiSecond",paste0("<b>",ParteiSecond,"</b>"),text)
-text <- gsub("#ParteiLast",paste0("<b>",ParteiLast,"</b>"),text)
+text <- gsub("#ParteiSecondLast_de",paste0("<b>",ParteiSecondLast,"</b>"),text)
+text <- gsub("#ParteiFirst_de",paste0("<b>",ParteiFirst,"</b>"),text)
+text <- gsub("#ParteiSecond_de",paste0("<b>",ParteiSecond,"</b>"),text)
+text <- gsub("#ParteiLast_de",paste0("<b>",ParteiLast,"</b>"),text)
 
 
-text <- gsub("#ListeGewinner",ListeGewinner,text)
-text <- gsub("#ListeVerlierer",ListeVerlierer,text)
+text <- gsub("#ListeGewinner_de",ListeGewinner,text)
+text <- gsub("#ListeVerlierer_de",ListeVerlierer,text)
 
-text <- gsub("#ListeSitzverteilung",ListeSitzverteilung,text)
-text <- gsub("#ParteienOut",ListeParteienOut,text)
-text <- gsub("#ListeDiversemitSitze",ListeDiversemitSitze,text)
+text <- gsub("#ListeSitzverteilung_de",ListeSitzverteilung,text)
+text <- gsub("#ParteienOut_de",ListeParteienOut,text)
+text <- gsub("#ListeDiversemitSitze_de",ListeDiversemitSitze,text)
 
-text <- gsub("#ListeNeugewaehlt",ListeNeugewaehlt,text)
-text <- gsub("#ListeAbgewaehlt",ListeAbgewaehlt,text)
+text <- gsub("#ListeNeugewaehlt_de",ListeNeugewaehlt,text)
+text <- gsub("#ListeAbgewaehlt_de",ListeAbgewaehlt,text)
 
 
 if (grepl("#ListeDiverse",text) == TRUE) {
-text <- gsub("#ListeDiverse",diverse_sitze$Liste_Name,text)
+text <- gsub("#ListeDiverse_de",diverse_sitze$Liste_Name,text)
 text <- gsub("#Diverse_Sitze",diverse_sitze$Sitze,text)
 }
 
@@ -191,7 +191,7 @@ if (grepl("#ParteiOut",text) == TRUE) {
   parteien_out <- anzahl_sitze_partei %>%
     filter(Sitze_alt > 0,
            Sitze == 0)
-  text <- gsub("#ParteiOut",parteien_out$Partei[1],text)
+  text <- gsub("#ParteiOut_de",parteien_out$Fraktion_de[1],text)
 }  
 
 

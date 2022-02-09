@@ -84,23 +84,24 @@ candidates_abgewaehlt <- candidates_data %>%
 liste_wahlkreis <- left_join(liste_wahlkreis,new_data)
 liste_wahlkreis$Sitze <- as.numeric(liste_wahlkreis$Sitze)
 
+
 #Sitze aufsummieren nach Partei
 anzahl_sitze_partei <- liste_wahlkreis %>%
-  filter(Partei != "Diverse",
-         Partei != "Aufrecht Schweiz") %>%
-  group_by(Partei) %>%
+  filter(Fraktion_de != "Diverse",
+         Fraktion_de != "Aufrecht Schweiz") %>%
+  group_by(Fraktion_de) %>%
   summarise(Sitze=sum(Sitze)
   )
 
 
 #Diverse Listen Sitze
 diverse_sitze <- liste_wahlkreis %>%
-  filter(Partei == "Diverse",
+  filter(Fraktion_de == "Diverse",
          Sitze > 0)
 
 #Aufrecht Schweiz Sitze
 aufrecht_sitze <- liste_wahlkreis %>%
-  filter(Partei == "Aufrecht Schweiz",
+  filter(Fraktion_de == "Aufrecht Schweiz",
          Sitze > 0)
 
 #Zusammenführen mit historischen Daten und Vergleich
@@ -110,8 +111,9 @@ sitze_wahlkreis_historisch <- Sitzverteilung_Historisch %>%
 
 anzahl_sitze_partei <- left_join(anzahl_sitze_partei,
                                  sitze_wahlkreis_historisch,
-                                 by = c("Partei"="key")) %>%
+                                 by = c("Fraktion_de"="key")) %>%
   rename("Sitze_alt" = "value")
+
 
 anzahl_sitze_partei$Sitze_alt <- as.numeric(anzahl_sitze_partei$Sitze_alt)
 anzahl_sitze_partei$change <- anzahl_sitze_partei$Sitze-anzahl_sitze_partei$Sitze_alt
