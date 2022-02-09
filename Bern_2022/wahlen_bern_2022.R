@@ -22,7 +22,7 @@ for (w in 1:length(wahlkreise)) {
 wahlkreis <- wahlkreise[w]
 
 #Sind Daten schon da?
-link <- paste0("https://www.bewas.sites.be.ch/2018/2018-03-25/WAHL_GROSSRAT/csvResultatWahlkreis-",LETTERS[w],".csv")
+link <- paste0("https://www.bewas.sites.be.ch/2019/2018-03-25/WAHL_GROSSRAT/csvResultatWahlkreis-",LETTERS[w],".csv")
 check_csv1 <- tryCatch( {
   read.csv(link,sep =";",skip = 4) 
   }, error= function(e) {
@@ -208,5 +208,5 @@ untertitel <- substr(untertitel,1,nchar(untertitel)-2)
 }  
 
 datawrapper_auth("BMcG33cGBCp2FpqF1BSN5lHhKrw2W8Ait4AYbDEjkjVgCiWe07iqoX5pwHXdW36g", overwrite = TRUE)
-dw_edit_chart("mGAXr",intro=undertitel,annotate=paste0("Letzte Aktualisierung: ",format(Sys.time(),"%d.%m.%Y %H:%M Uhr")))
-dw_publish_chart()
+dw_edit_chart("mGAXr",intro=untertitel,annotate=paste0("Letzte Aktualisierung: ",format(Sys.time(),"%d.%m.%Y %H:%M Uhr")))
+dw_publish_chart("mGAXr")

@@ -68,3 +68,6 @@ cat("Listen und Sitzverteilunge geladen\n")
 Textbausteine <- read_excel("Daten/Textbausteine_LENA_Wahlen_Kantonal.xlsx")
 
 cat("Texte geladen\n")
+
+
+
