@@ -2,60 +2,24 @@
 setwd("C:/Users/simon/OneDrive/LENA_Project/lena_wahlen/Bern_2022")
 
 #Bibliotheken, Funktionen und vorhandene Daten laden
-source("config.R", encoding = "UTF-8")
-source("functions_storyfinder.R", encoding = "UTF-8")
-source("functions_storybuilder.R", encoding = "UTF-8")
-source("functions_text_adaptation.R", encoding = "UTF-8")
+source("config.R")
+source("functions_storyfinder.R")
+source("functions_storybuilder.R")
 
 #Wahlkreise
 wahlkreise <- c("Jura bernois","Biel-Bienne - Seeland","Oberaargau","Emmental","Mittelland-Nord",
                 "Bern","Mittelland-Süd","Thun","Oberland")
 
-####Dataframe für alle Daten
-data_gesamt <- data.frame("Wahlkreis","Storyboard","Text_de")
-colnames(data_gesamt) <- c("Wahlkreis","Storyboard","Text_de")
-
-#Untertitel Datawrapper
-untertitel <- "Folgende Wahlkreise sind bereits ausgezählt: "
-
 for (w in 1:length(wahlkreise)) {
+  
 wahlkreis <- wahlkreise[w]
-
 #Sind Daten schon da?
-link <- paste0("https://www.bewas.sites.be.ch/2018/2018-03-25/WAHL_GROSSRAT/csvResultatWahlkreis-",LETTERS[w],".csv")
-check_csv1 <- tryCatch( {
-  read.csv(link,sep =";",skip = 4) 
-  }, error= function(e) {
-    print(e)
-  }    
-)
-
-link <- paste0("https://www.bewas.sites.be.ch/2018/2018-03-25/WAHL_GROSSRAT/reportResultatWahlkreisRanglisteCsv-",LETTERS[w],".csv")
-check_csv2 <- tryCatch( {
-  read.csv(link,sep =";",skip = 4) 
-}, error= function(e) {
-  print(e)
-}    
-)
-
-fail_check1 <- grepl("cannot open",check_csv1[1])
-fail_check2 <- grepl("cannot open",check_csv2[1])
-
-if (fail_check1 == TRUE || fail_check2 == TRUE) {
-storyboard <- NA
-text <- paste0("Der Wahlkreis ",wahlkreis," ist noch nicht ausgezählt")
-
-new_entry <- data.frame(wahlkreis,storyboard,text)
-colnames(new_entry) <- c("Wahlkreis","Storyboard","Text_de")
-data_gesamt <- rbind(data_gesamt,new_entry)
-
-} else {  
 
 #Listendaten filtern
 liste_wahlkreis <- Listen_und_Parteien %>%
   filter(Wahlkreis == wahlkreise[w])
 
-###Neue Daten von CSV scrapen (Tabelle als Alternative?)
+#Neue Daten von CSV scrapen (Tabelle als Alternative?)
 link <- paste0("https://www.bewas.sites.be.ch/2018/2018-03-25/WAHL_GROSSRAT/csvResultatWahlkreis-",LETTERS[w],".csv")
 new_data <- read.csv(link,sep =";",skip = 4)
 new_data$No.liste <- as.numeric(new_data$No.liste)
@@ -66,19 +30,6 @@ new_data <- new_data %>%
   rename("Liste_Nummer" = "No.liste",
          "Sitze" = "Sièges")
 
-#Neu gewählte und abgewählte Kandidaten scrapen
-link <- paste0("https://www.bewas.sites.be.ch/2018/2018-03-25/WAHL_GROSSRAT/reportResultatWahlkreisRanglisteCsv-",LETTERS[w],".csv")
-candidates_data <- read.csv(link,sep =";",skip = 2)
-candidates_data$Liste.liste <- as.numeric(gsub(" .*","",candidates_data$Liste.liste))
-candidates_data <- left_join(candidates_data,liste_wahlkreis,by=c(Liste.liste = "Liste_Nummer"))
-
-candidates_neu_gewaehlt <- candidates_data %>%
-  filter(Gew..elu.e == "*",
-         Bish..Sort. == "")
-
-candidates_abgewaehlt <- candidates_data %>%
-  filter(Gew..elu.e == "",
-         Bish..Sort. == "x")
 
 #Daten zusammenführen
 liste_wahlkreis <- left_join(liste_wahlkreis,new_data)
@@ -119,6 +70,22 @@ anzahl_sitze_partei <- na.omit(anzahl_sitze_partei)
 anzahl_sitze_partei <- anzahl_sitze_partei[order(-anzahl_sitze_partei$change),]
 print(anzahl_sitze_partei)
 
+#Neu gewählte und abgewählte Kandidaten scrapen
+neu_gewaehlt_text <- ""
+abgewaehlt_text <- ""
+
+link <- paste0("https://www.bewas.sites.be.ch/2018/2018-03-25/WAHL_GROSSRAT/reportResultatWahlkreisRanglisteCsv-",LETTERS[w],".csv")
+candidates_data <- read.csv(link,sep =";",skip = 2)
+candidates_data$Liste.liste <- as.numeric(gsub(" .*","",candidates_data$Liste.liste))
+candidates_data <- left_join(candidates_data,liste_wahlkreis,by=c(Liste.liste = "Liste_Nummer"))
+
+candidates_neu_gewaehlt <- candidates_data %>%
+  filter(Gew..elu.e == "*",
+         Bish..Sort. == "")
+
+candidates_abgewaehlt <- candidates_data %>%
+  filter(Gew..elu.e == "",
+         Bish..Sort. == "x")
 
 ###Storyfinder
 
@@ -142,14 +109,15 @@ neu_gewaehlt <- get_neu_gewaehlt(candidates_neu_gewaehlt)
 #Abgewaehlt
 abgewaehlt <- get_abgewaehlt(candidates_abgewaehlt)
 
-storyboard <- paste0(winners,losers,nochange,
+storyblocks <- paste0(winners,losers,nochange,
                 sitzverteilung,sitzverteilung_diverse,sitzverteilung_aufrecht,
                 neu_gewaehlt, abgewaehlt)
+print(storyblocks)
 
 ###Storybuilder
 
 #Textbausteine holen
-text <- get_textbausteine_de(storyboard,Textbausteine)
+text <- get_textbausteine_de(storyblocks,Textbausteine)
 
 #Kompliziertere Variablen erstellen
 ListeGewinner <- get_liste_gewinner(anzahl_sitze_partei)
@@ -170,44 +138,42 @@ text <- replace_varables_de(text,wahlkreis,anzahl_sitze_partei,diverse_sitze,auf
 
 
 #Letzte Textanpassungen
-text <- green_cleanup(text,anzahl_sitze_partei)
-text <- text_optimisation(text)
 
-#Daten einfügen
-new_entry <- data.frame(wahlkreis,storyboard,text)
-colnames(new_entry) <- c("Wahlkreis","Storyboard","Text_de")
-data_gesamt <- rbind(data_gesamt,new_entry)
-
-#Untertitel für Datawrapper ergänzen
-untertitel <- paste0(untertitel,wahlkreis,", ")
-cat(text)
-
-}
-}
-
-
-#Daten vorbereiten für Datawrapper
-data_gesamt <- data_gesamt[-1,]
-
-data_datawrapper <- merge(Gemeinden_Wahlkreise,data_gesamt)
-write.csv(data_datawrapper,"Output/Uebersicht_dw.csv", na = "", row.names = FALSE, fileEncoding = "UTF-8")
-
-#Auf Github hochladen
-#git2r::config(user.name = "awp-finanznachrichten",user.email = "sw@awp.ch")
-token <- read.csv("C:/Users/simon/OneDrive/Github_Token/token.txt",header=FALSE)[1,1]
-git2r::cred_token(token)
-gitadd()
-gitcommit()
-gitpush()
-
-#Datawrapper-Grafik aktualisieren
-if (nchar(untertitel) == 45) {
-untertitel <- "Es sind noch keine Wahlkreise ausgezählt."  
-} else {
-untertitel <- substr(untertitel,1,nchar(untertitel)-2)  
+if (anzahl_sitze_partei$Partei[1] == "Grüne") {
+text <- gsub("grosse Gewinnerin. Sie holt ","grossen Gewinner. Sie holen ",text)
 }  
 
-datawrapper_auth("BMcG33cGBCp2FpqF1BSN5lHhKrw2W8Ait4AYbDEjkjVgCiWe07iqoX5pwHXdW36g", overwrite = TRUE)
-dw_edit_chart("mGAXr",intro=untertitel,annotate=paste0("Letzte Aktualisierung: ",format(Sys.time(),"%d.%m.%Y %H:%M Uhr")))
-dw_publish_chart("mGAXr")
+if (anzahl_sitze_partei$Partei[nrow(anzahl_sitze_partei)] == "Grüne") {
+text <- gsub("grosse Verliererin. Sie büsst ","grossen Verlierer. Sie büssen ",text)
+}  
 
+text <- gsub("Die Grüne ist ","Die Grünen sind ",text)
+text <- gsub("hält die Grüne ","halten die Grünen ",text)
+text <- gsub("hält die Grüne ","halten die Grünen ",text)
+text <- gsub("die Grüne verliert ","die Grünen verlieren ",text)
+text <- gsub("die Grüne hält ","die Grünen halten ",text)
+text <- gsub("Die Grüne ","Die Grünen ",text)
+text <- gsub("die Grüne ","die Grünen ",text)
+
+text <- gsub("\n\ndie","\n\nDie",text)
+text <- gsub(" 1 "," einen ",text)
+text <- gsub(" 2 "," zwei ",text)
+text <- gsub(" 3 "," drei ",text)
+text <- gsub(" 4 "," vier ",text)
+text <- gsub(" 5 "," fünf ",text)
+text <- gsub(" 6 "," sechs ",text)
+text <- gsub(" 7 "," sieben ",text)
+text <- gsub(" 8 "," acht ",text)
+text <- gsub(" 9 "," neun ",text)
+text <- gsub(" 10 "," zehn ",text)
+text <- gsub(" 11 "," elf ",text)
+text <- gsub(" 12 "," zwölf ",text)
+
+cat(text)
+}
+
+#Daten vorbereiten für Datawrapper
+
+#Auf Github hochladen
+
+#Datawrapper-Grafik aktualisieren
