@@ -19,7 +19,7 @@ for (w in 1:length(wahlkreise)) {
 wahlkreis <- wahlkreise[w]
 
 #Sind Daten schon da?
-link <- paste0("https://www.bewas.sites.be.ch/2022/2022-03-27/WAHL_GROSSRAT/csvResultatWahlkreis-",LETTERS[w],".csv")
+link <- paste0("https://www.bewas.sites.be.ch/2018/2018-03-25/WAHL_GROSSRAT/csvResultatWahlkreis-",LETTERS[w],".csv")
 check_csv1 <- tryCatch( {
   read.csv(link,sep =";",skip = 4) 
   }, error= function(e) {
@@ -194,6 +194,5 @@ git2r::cred_token(token)
 gitadd()
 gitcommit()
 gitpush()
-View(data_datawrapper)
 
 #Datawrapper-Grafik aktualisieren
