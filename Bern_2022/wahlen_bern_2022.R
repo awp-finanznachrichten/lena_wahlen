@@ -80,6 +80,7 @@ candidates_abgewaehlt <- candidates_data %>%
   filter(Gew..elu.e == "",
          Bish..Sort. == "x")
 
+
 #Daten zusammenführen
 liste_wahlkreis <- left_join(liste_wahlkreis,new_data)
 liste_wahlkreis$Sitze <- as.numeric(liste_wahlkreis$Sitze)
