@@ -214,3 +214,6 @@ datawrapper_auth("BMcG33cGBCp2FpqF1BSN5lHhKrw2W8Ait4AYbDEjkjVgCiWe07iqoX5pwHXdW3
 dw_edit_chart("mGAXr",intro=untertitel,annotate=paste0("Letzte Aktualisierung: ",format(Sys.time(),"%d.%m.%Y %H:%M Uhr")))
 dw_publish_chart("mGAXr")
 
+#Texte speichern
+library(xlsx)
+write.xlsx(data_gesamt,"LENA_Wahlen_Bern_Texte.xlsx",row.names = FALSE)
