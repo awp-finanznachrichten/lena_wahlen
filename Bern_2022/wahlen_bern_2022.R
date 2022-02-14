@@ -1,5 +1,5 @@
 #Working Directory definieren
-setwd("C:/Users/sw/OneDrive/LENA_Project/lena_wahlen/Bern_2022")
+setwd("C:/Users/simon/OneDrive/LENA_Project/lena_wahlen/Bern_2022")
 
 #Bibliotheken, Funktionen und vorhandene Daten laden
 source("config.R", encoding = "UTF-8")
@@ -196,12 +196,13 @@ data_gesamt <- data_gesamt[-1,]
 data_datawrapper <- data_gesamt
 data_datawrapper$Wahlkreis[1] <- "Berner Jura"
 data_datawrapper$Wahlkreis[2] <- "Biel-Seeland"
+data_datawrapper$Color <- as.numeric(rownames(data_datawrapper))
 
 write.csv(data_datawrapper,"Output/Uebersicht_dw_new.csv", na = "", row.names = FALSE, fileEncoding = "UTF-8")
 
 #Auf Github hochladen
 #git2r::config(user.name = "awp-finanznachrichten",user.email = "sw@awp.ch")
-token <- read.csv("C:/Users/sw/OneDrive/Github_Token/token.txt",header=FALSE)[1,1]
+token <- read.csv("C:/Users/simon/OneDrive/Github_Token/token.txt",header=FALSE)[1,1]
 git2r::cred_token(token)
 gitadd()
 gitcommit()
