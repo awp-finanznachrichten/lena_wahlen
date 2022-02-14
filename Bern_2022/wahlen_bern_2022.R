@@ -38,8 +38,8 @@ check_csv2 <- tryCatch( {
 }    
 )
 
-fail_check1 <- grepl("cannot open",check_csv1[1])
-fail_check2 <- grepl("cannot open",check_csv2[1])
+fail_check1 <- grepl("Verbindung nicht",check_csv1[1])
+fail_check2 <- grepl("Verbindung nicht",check_csv2[1])
 
 if (fail_check1 == TRUE || fail_check2 == TRUE) {
 storyboard <- NA
@@ -235,3 +235,5 @@ dw_publish_chart("Gypmx")
 #Texte speichern
 #library(xlsx)
 #write.xlsx(data_gesamt,"LENA_Wahlen_Bern_Texte.xlsx",row.names = FALSE)
+
+View(data_datawrapper)
