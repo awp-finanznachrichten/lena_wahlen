@@ -1,5 +1,5 @@
 #Working Directory definieren
-setwd("C:/Users/simon/OneDrive/LENA_Project/lena_wahlen/Bern_2022")
+setwd("C:/Users/sw/OneDrive/LENA_Project/lena_wahlen/Bern_2022")
 
 #Bibliotheken, Funktionen und vorhandene Daten laden
 source("config.R", encoding = "UTF-8")
@@ -192,12 +192,16 @@ cat(text)
 #Daten vorbereiten für Datawrapper
 data_gesamt <- data_gesamt[-1,]
 
-data_datawrapper <- merge(Gemeinden_Wahlkreise,data_gesamt)
-write.csv(data_datawrapper,"Output/Uebersicht_dw.csv", na = "", row.names = FALSE, fileEncoding = "UTF-8")
+#data_datawrapper <- merge(Gemeinden_Wahlkreise,data_gesamt)
+data_datawrapper <- data_gesamt
+data_datawrapper$Wahlkreis[1] <- "Berner Jura"
+data_datawrapper$Wahlkreis[2] <- "Biel-Seeland"
+
+write.csv(data_datawrapper,"Output/Uebersicht_dw_new.csv", na = "", row.names = FALSE, fileEncoding = "UTF-8")
 
 #Auf Github hochladen
 #git2r::config(user.name = "awp-finanznachrichten",user.email = "sw@awp.ch")
-token <- read.csv("C:/Users/simon/OneDrive/Github_Token/token.txt",header=FALSE)[1,1]
+token <- read.csv("C:/Users/sw/OneDrive/Github_Token/token.txt",header=FALSE)[1,1]
 git2r::cred_token(token)
 gitadd()
 gitcommit()
@@ -211,8 +215,8 @@ untertitel <- substr(untertitel,1,nchar(untertitel)-2)
 }  
 
 datawrapper_auth("BMcG33cGBCp2FpqF1BSN5lHhKrw2W8Ait4AYbDEjkjVgCiWe07iqoX5pwHXdW36g", overwrite = TRUE)
-dw_edit_chart("mGAXr",intro=untertitel,annotate=paste0("Letzte Aktualisierung: ",format(Sys.time(),"%d.%m.%Y %H:%M Uhr")))
-dw_publish_chart("mGAXr")
+#dw_edit_chart("mGAXr",intro=untertitel,annotate=paste0("Letzte Aktualisierung: ",format(Sys.time(),"%d.%m.%Y %H:%M Uhr")))
+#dw_publish_chart("mGAXr")
 
 #Texte speichern
 #library(xlsx)
