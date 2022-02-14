@@ -185,6 +185,10 @@ data_gesamt <- rbind(data_gesamt,new_entry)
 untertitel <- paste0(untertitel,wahlkreis,", ")
 cat(text)
 
+#Color Numberr
+
+
+
 }
 }
 
@@ -196,8 +200,17 @@ data_gesamt <- data_gesamt[-1,]
 data_datawrapper <- data_gesamt
 data_datawrapper$Wahlkreis[1] <- "Berner Jura"
 data_datawrapper$Wahlkreis[2] <- "Biel-Seeland"
-data_datawrapper$Color <- as.numeric(rownames(data_datawrapper))
 
+
+#Farbe definieren
+data_datawrapper$Color <- 0
+for (r in 1:nrow(data_datawrapper) ) {
+  if (is.na(data_datawrapper$Storyboard[r]) == FALSE) {
+data_datawrapper$Color[r] <- r
+}
+}
+  
+  
 write.csv(data_datawrapper,"Output/Uebersicht_dw_new.csv", na = "", row.names = FALSE, fileEncoding = "UTF-8")
 
 #Auf Github hochladen
