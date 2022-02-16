@@ -1,8 +1,11 @@
 #Working Directory definieren
 setwd("C:/Users/simon/OneDrive/LENA_Project/lena_wahlen/Vaud_2022")
 
-#Bibliotheken und Funktionen laden
-source("config.R")
+#Bibliotheken, Funktionen und vorhandene Daten laden
+source("config.R", encoding = "UTF-8")
+source("functions_storyfinder.R", encoding = "UTF-8")
+source("functions_storybuilder.R", encoding = "UTF-8")
+source("functions_text_adaptation.R", encoding = "UTF-8")
 
 #Wahlkreise
 wahlkreise <- c("Aigle","Broye-Vully","Gros-de-Vaud","Jura-Nord vaudois (La Vallée)","Jura-Nord vaudois (Yverdon)",
@@ -12,82 +15,209 @@ wahlkreise <- c("Aigle","Broye-Vully","Gros-de-Vaud","Jura-Nord vaudois (La Vall
 codes_wahlkreise <- c("A2","A3","A4","A11","A12","A13","A14","A5","A6","A7","A8","A9","A10")
 
 ####Dataframe für alle Daten
-data_gesamt <- data.frame("Jahr","Wahlkreis","Liste_Nummer","Liste_Name","Liste_Kurzname","Sitze","Gewaehlt")
-colnames(data_gesamt) <- c("Jahr","Wahlkreis","Liste_Nummer","Liste_Name","Liste_Kurzname","Sitze","Gewaehlt")
+data_gesamt <- data.frame("Wahlkreis","Storyboard","Text_de")
+colnames(data_gesamt) <- c("Wahlkreis","Storyboard","Text_de")
 
-
-
-###Daten pro Wahlkreise
+#Untertitel Datawrapper
+untertitel <- "Folgende Wahlkreise sind bereits ausgezählt: "
 
 for (w in 1:length(wahlkreise)) {
+wahlkreis <- wahlkreise[w]
 
-##Scraping von Listen und bisherigen Sitzen
-url <- paste0("https://www.elections.vd.ch/votelec/app5/html/VDGC20170430-",codes_wahlkreise[w],"/Resultat/resultatsGenerauxResultatElection.html")
-webpage <- read_html(url)
+#Sind Daten schon da?
+fail_check <- FALSE
+
+if (fail_check == TRUE) {
+storyboard <- NA
+text <- paste0("Der Wahlkreis ",wahlkreis," ist noch nicht ausgezählt")
+
+new_entry <- data.frame(wahlkreis,storyboard,text)
+colnames(new_entry) <- c("Wahlkreis","Storyboard","Text_de")
+data_gesamt <- rbind(data_gesamt,new_entry)
+
+} else {  
+
+#Listendaten filtern
+liste_wahlkreis <- Listen_und_Parteien %>%
+  filter(Wahlkreis == wahlkreise[w])
+
+###Neue Daten von CSV scrapen (Tabelle als Alternative?)
+link <- paste0("https://www.bewas.sites.be.ch/2018/2018-03-25/WAHL_GROSSRAT/csvResultatWahlkreis-",LETTERS[w],".csv")
+new_data <- read.csv(link,sep =";",skip = 4)
+new_data$No.liste <- as.numeric(new_data$No.liste)
+new_data <- new_data[1:nrow(liste_wahlkreis),]
+
+new_data <- new_data %>%
+  select("No.liste","Sièges") %>%
+  rename("Liste_Nummer" = "No.liste",
+         "Sitze" = "Sièges")
+
+#Neu gewählte und abgewählte Kandidaten scrapen
+link <- paste0("https://www.bewas.sites.be.ch/2018/2018-03-25/WAHL_GROSSRAT/reportResultatWahlkreisRanglisteCsv-",LETTERS[w],".csv")
+candidates_data <- read.csv(link,sep =";",skip = 2)
+candidates_data$Liste.liste <- as.numeric(gsub(" .*","",candidates_data$Liste.liste))
+candidates_data <- left_join(candidates_data,liste_wahlkreis,by=c(Liste.liste = "Liste_Nummer"))
+
+candidates_neu_gewaehlt <- candidates_data %>%
+  filter(Gew..elu.e == "*",
+         Bish..Sort. == "")
+
+candidates_abgewaehlt <- candidates_data %>%
+  filter(Gew..elu.e == "",
+         Bish..Sort. == "x")
 
 
-data_table <- html_text(html_nodes(webpage,"td"))
+#Daten zusammenführen
+liste_wahlkreis <- left_join(liste_wahlkreis,new_data)
+liste_wahlkreis$Sitze <- as.numeric(liste_wahlkreis$Sitze)
 
-#Create new Dataframe
-data_wahlkreis <- data.frame("Liste_Nummer","Liste_Name","Liste_Kurzname","Sitze")
-colnames(data_wahlkreis) <- c("Liste_Nummer","Liste_Name","Liste_Kurzname","Sitze")
-list_number <- 1
 
-for (i in seq(1,which(grepl("Total",data_table))-1,4)) {
+#Sitze aufsummieren nach Partei
+anzahl_sitze_partei <- liste_wahlkreis %>%
+  filter(Fraktion_de != "Diverse",
+         Fraktion_de != "Aufrecht Schweiz") %>%
+  group_by(Fraktion_de) %>%
+  summarise(Sitze=sum(Sitze)
+  )
 
-new_data <- data.frame(list_number,data_table[i],data_table[i+1],data_table[i+3])
-colnames(new_data) <- c("Liste_Nummer","Liste_Name","Liste_Kurzname","Sitze")
 
-data_wahlkreis <- rbind(data_wahlkreis,new_data)
-list_number <- list_number+1
+#Diverse Listen Sitze
+diverse_sitze <- liste_wahlkreis %>%
+  filter(Fraktion_de == "Diverse",
+         Sitze > 0)
+
+#Aufrecht Schweiz Sitze
+aufrecht_sitze <- liste_wahlkreis %>%
+  filter(Fraktion_de == "Aufrecht Schweiz",
+         Sitze > 0)
+
+#Zusammenführen mit historischen Daten und Vergleich
+sitze_wahlkreis_historisch <- Sitzverteilung_Historisch %>%
+  filter(Wahlkreis == wahlkreise[w]) %>%
+  gather()
+
+anzahl_sitze_partei <- left_join(anzahl_sitze_partei,
+                                 sitze_wahlkreis_historisch,
+                                 by = c("Fraktion_de"="key")) %>%
+  rename("Sitze_alt" = "value")
+
+
+anzahl_sitze_partei$Sitze_alt <- as.numeric(anzahl_sitze_partei$Sitze_alt)
+anzahl_sitze_partei$change <- anzahl_sitze_partei$Sitze-anzahl_sitze_partei$Sitze_alt
+anzahl_sitze_partei <- na.omit(anzahl_sitze_partei)
+anzahl_sitze_partei <- anzahl_sitze_partei[order(-anzahl_sitze_partei$change),]
+print(anzahl_sitze_partei)
+
+
+###Storyfinder
+
+#Gewinner und Verlierer  
+winners <- get_winner(anzahl_sitze_partei)
+losers <- get_losers(anzahl_sitze_partei)
+nochange <- special_check_nochange(anzahl_sitze_partei)
+
+#Sitzverteilung
+sitzverteilung <- get_sitzverteilung(anzahl_sitze_partei)
+
+#Sitzverteilung Diverse
+sitzverteilung_diverse <- get_sitzverteilung_diverse(diverse_sitze)
+
+#Sitzverteilung Aufrecht
+sitzverteilung_aufrecht <- get_sitzverteilung_aufrecht(aufrecht_sitze)
+
+#Neu Gewählt
+neu_gewaehlt <- get_neu_gewaehlt(candidates_neu_gewaehlt)
+
+#Abgewaehlt
+abgewaehlt <- get_abgewaehlt(candidates_abgewaehlt)
+
+storyboard <- paste0(winners,losers,nochange,
+                sitzverteilung,sitzverteilung_diverse,sitzverteilung_aufrecht,
+                neu_gewaehlt, abgewaehlt)
+
+###Storybuilder
+
+#Textbausteine holen
+text <- get_textbausteine_de(storyboard,Textbausteine)
+
+#Kompliziertere Variablen erstellen
+ListeGewinner <- get_liste_gewinner(anzahl_sitze_partei)
+ListeVerlierer <- get_liste_verlierer(anzahl_sitze_partei)
+ListeDiversemitSitze <- get_liste_diverse(diverse_sitze)
+
+ListeSitzverteilung <- get_liste_sitzverteilung(anzahl_sitze_partei)
+ListeParteienOut <- get_liste_parteienout(anzahl_sitze_partei)
+ListeNeugewaehlt <- get_liste_neugewaehlt(candidates_neu_gewaehlt)
+ListeAbgewaehlt <- get_liste_abgewaehlt(candidates_abgewaehlt)
+
+
+#Variablen ersetzen
+text <- replace_varables_de(text,wahlkreis,anzahl_sitze_partei,diverse_sitze,aufrecht_sitze,
+                            ListeGewinner,ListeVerlierer,
+                            ListeSitzverteilung,ListeDiversemitSitze,
+                            ListeNeugewaehlt,ListeAbgewaehlt)
+
+
+#Letzte Textanpassungen
+text <- green_cleanup(text,anzahl_sitze_partei)
+text <- text_optimisation(text)
+
+#Daten einfügen
+new_entry <- data.frame(wahlkreis,storyboard,text)
+colnames(new_entry) <- c("Wahlkreis","Storyboard","Text_de")
+data_gesamt <- rbind(data_gesamt,new_entry)
+
+#Untertitel für Datawrapper ergänzen
+untertitel <- paste0(untertitel,wahlkreis,", ")
+cat(text)
+
+#Color Numberr
+
+
+
+}
 }
 
-data_wahlkreis <- data_wahlkreis[-1,]
-data_wahlkreis$Sitze <- as.numeric(data_wahlkreis$Sitze)
+
+#Daten vorbereiten für Datawrapper
+data_gesamt <- data_gesamt[-1,]
+
+#data_datawrapper <- merge(Gemeinden_Wahlkreise,data_gesamt)
+data_datawrapper <- data_gesamt
+data_datawrapper$Wahlkreis[1] <- "Berner Jura"
+data_datawrapper$Wahlkreis[2] <- "Biel-Seeland"
 
 
-#Create new Dataframe
-#data_wahlkreis_new <- data.frame("Liste_Nummer","Sitze_neu")
-#colnames(data_wahlkreis_new) <- c("Liste_Nummer","Sitze_neu")
+#Farbe definieren
+data_datawrapper$Color <- 0
+for (r in 1:nrow(data_datawrapper) ) {
+  if (is.na(data_datawrapper$Storyboard[r]) == FALSE) {
+data_datawrapper$Color[r] <- r
+}
+}
+  
+  
+write.csv(data_datawrapper,"Output/Uebersicht_dw_new.csv", na = "", row.names = FALSE, fileEncoding = "UTF-8")
 
-#for (i in seq(7,length(data_table),6)) {
-#  new_data <- data.frame(data_table[i],sample(0:3,1))
-#  colnames(new_data) <- c("Liste_Nummer","Sitze_neu")
-#  data_wahlkreis_new <- rbind(data_wahlkreis_new,new_data)
-#}
+#Auf Github hochladen
+#git2r::config(user.name = "awp-finanznachrichten",user.email = "sw@awp.ch")
+token <- read.csv("C:/Users/simon/OneDrive/Github_Token/token.txt",header=FALSE)[1,1]
+git2r::cred_token(token)
+gitadd()
+gitcommit()
+gitpush()
 
-#data_wahlkreis_new <- data_wahlkreis_new[-1,]
-#data_wahlkreis_new$Sitze_neu <- as.numeric(data_wahlkreis_new$Sitze_neu)
-
-#Daten zusammenführen und vergleichen
-#data_wahlkreis <- merge(data_wahlkreis,data_wahlkreis_new)
-#data_wahlkreis$Sitze_change <- data_wahlkreis$Sitze_neu - data_wahlkreis$Sitze_bisher
-
-#Gewählte Personen
-data_wahlkreis$Gewaehlt <- ""
-
-for (i in seq(which(grepl("Total",data_table))+3,length(data_table),3) ) {
-data_wahlkreis$Gewaehlt <- paste0(data_wahlkreis$Gewaehlt,data_table[i]," (",data_table[i+1],"); ")
+#Datawrapper-Grafik aktualisieren
+if (nchar(untertitel) == 45) {
+untertitel <- "Es sind noch keine Wahlkreise ausgezählt."  
+} else {
+untertitel <- substr(untertitel,1,nchar(untertitel)-2)  
 }  
 
+datawrapper_auth("BMcG33cGBCp2FpqF1BSN5lHhKrw2W8Ait4AYbDEjkjVgCiWe07iqoX5pwHXdW36g", overwrite = TRUE)
+dw_edit_chart("Gypmx",intro=untertitel,annotate=paste0("Letzte Aktualisierung: ",format(Sys.time(),"%d.%m.%Y %H:%M Uhr")))
+dw_publish_chart("Gypmx")
 
-    
-#Wahlkreisname hinzufügen und weitere Formatierungen
-data_wahlkreis$Wahlkreis <- wahlkreise[w]
-data_wahlkreis$Jahr <- "2017"
-data_wahlkreis$Liste_Nummer <- as.numeric(data_wahlkreis$Liste_Nummer)
-data_wahlkreis <- data_wahlkreis[order(data_wahlkreis$Liste_Nummer),]
-
-#Add Data
-data_gesamt <- rbind(data_gesamt,data_wahlkreis)
-
-print(data_wahlkreis)
-}
-
-data_gesamt <- data_gesamt[-1,]
-#Storyfinder
-
-#Storybuider
-
-#Output
-
+#Texte speichern
+#library(xlsx)
+#write.xlsx(data_gesamt,"LENA_Wahlen_Bern_Texte.xlsx",row.names = FALSE)

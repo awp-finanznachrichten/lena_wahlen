@@ -12,8 +12,8 @@ wahlkreise <- c("Jura bernois","Biel-Bienne - Seeland","Oberaargau","Emmental","
                 "Bern","Mittelland-Süd","Thun","Oberland")
 
 ####Dataframe für alle Daten
-data_gesamt <- data.frame("Wahlkreis","Storyboard","Text_de")
-colnames(data_gesamt) <- c("Wahlkreis","Storyboard","Text_de")
+data_gesamt <- data.frame("Wahlkreis","Storyboard","Text_de","Text_fr")
+colnames(data_gesamt) <- c("Wahlkreis","Storyboard","Text_de","Text_fr")
 
 #Untertitel Datawrapper
 untertitel <- "Folgende Wahlkreise sind bereits ausgezählt: "
@@ -44,9 +44,10 @@ fail_check2 <- grepl("Verbindung nicht",check_csv2[1])
 if (fail_check1 == TRUE || fail_check2 == TRUE) {
 storyboard <- NA
 text <- paste0("Der Wahlkreis ",wahlkreis," ist noch nicht ausgezählt")
+text_fr <- paste0("Le cercle électoral ",wahlkreis," n'a pas encore été comptée")
 
-new_entry <- data.frame(wahlkreis,storyboard,text)
-colnames(new_entry) <- c("Wahlkreis","Storyboard","Text_de")
+new_entry <- data.frame(wahlkreis,storyboard,text,text_fr)
+colnames(new_entry) <- c("Wahlkreis","Storyboard","Text_de","Text_fr")
 data_gesamt <- rbind(data_gesamt,new_entry)
 
 } else {  
@@ -153,6 +154,7 @@ storyboard <- paste0(winners,losers,nochange,
 
 #Textbausteine holen
 text <- get_textbausteine_de(storyboard,Textbausteine)
+text_fr <- get_textbausteine_fr(storyboard,Textbausteine)
 
 #Kompliziertere Variablen erstellen
 ListeGewinner <- get_liste_gewinner(anzahl_sitze_partei)
@@ -164,6 +166,16 @@ ListeParteienOut <- get_liste_parteienout(anzahl_sitze_partei)
 ListeNeugewaehlt <- get_liste_neugewaehlt(candidates_neu_gewaehlt)
 ListeAbgewaehlt <- get_liste_abgewaehlt(candidates_abgewaehlt)
 
+ListeGewinner_fr <- get_liste_gewinner_fr(anzahl_sitze_partei)
+ListeVerlierer_fr <- get_liste_verlierer_fr(anzahl_sitze_partei)
+ListeDiversemitSitze_fr <- get_liste_diverse_fr(diverse_sitze)
+
+ListeSitzverteilung_fr <- get_liste_sitzverteilung_fr(anzahl_sitze_partei)
+ListeParteienOut_fr <- get_liste_parteienout_fr(anzahl_sitze_partei)
+ListeNeugewaehlt_fr <- get_liste_neugewaehlt_fr(candidates_neu_gewaehlt)
+ListeAbgewaehlt_fr <- get_liste_abgewaehlt_fr(candidates_abgewaehlt)
+
+
 
 #Variablen ersetzen
 text <- replace_varables_de(text,wahlkreis,anzahl_sitze_partei,diverse_sitze,aufrecht_sitze,
@@ -171,23 +183,26 @@ text <- replace_varables_de(text,wahlkreis,anzahl_sitze_partei,diverse_sitze,auf
                             ListeSitzverteilung,ListeDiversemitSitze,
                             ListeNeugewaehlt,ListeAbgewaehlt)
 
+text_fr <- replace_varables_fr(text_fr,wahlkreis,anzahl_sitze_partei,diverse_sitze,aufrecht_sitze,
+                            ListeGewinner_fr,ListeVerlierer_fr,
+                            ListeSitzverteilung_fr,ListeDiversemitSitze_fr,
+                            ListeNeugewaehlt_fr,ListeAbgewaehlt_fr)
 
 #Letzte Textanpassungen
 text <- green_cleanup(text,anzahl_sitze_partei)
 text <- text_optimisation(text)
 
+text_fr <- green_cleanup_fr(text_fr,anzahl_sitze_partei)
+text_fr <- text_optimisation_fr(text_fr)
+
 #Daten einfügen
-new_entry <- data.frame(wahlkreis,storyboard,text)
-colnames(new_entry) <- c("Wahlkreis","Storyboard","Text_de")
+new_entry <- data.frame(wahlkreis,storyboard,text,text_fr)
+colnames(new_entry) <- c("Wahlkreis","Storyboard","Text_de","Text_fr")
 data_gesamt <- rbind(data_gesamt,new_entry)
 
 #Untertitel für Datawrapper ergänzen
 untertitel <- paste0(untertitel,wahlkreis,", ")
 cat(text)
-
-#Color Numberr
-
-
 
 }
 }
@@ -200,7 +215,7 @@ data_gesamt <- data_gesamt[-1,]
 data_datawrapper <- data_gesamt
 data_datawrapper$Wahlkreis[1] <- "Berner Jura"
 data_datawrapper$Wahlkreis[2] <- "Biel-Seeland"
-
+data_datawrapper$Wahlkreis_fr <- data_gesamt$Wahlkreis
 
 #Farbe definieren
 data_datawrapper$Color <- 0
@@ -235,5 +250,3 @@ dw_publish_chart("Gypmx")
 #Texte speichern
 #library(xlsx)
 #write.xlsx(data_gesamt,"LENA_Wahlen_Bern_Texte.xlsx",row.names = FALSE)
-
-View(data_datawrapper)
