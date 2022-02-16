@@ -350,7 +350,7 @@ replace_varables_fr <- function(text,wahlkreis,anzahl_sitze_partei,diverse_sitze
   
   anzahl_sitze_partei <- anzahl_sitze_partei[order(-anzahl_sitze_partei$change),]
   
-  text <- gsub("#Wahlkreis_de",wahlkreis,text)
+  text <- gsub("#Wahlkreis_fr",wahlkreis,text)
   
   ParteiFirst <- anzahl_sitze_partei$Fraktion_fr[1]
   ParteiSecond <- anzahl_sitze_partei$Fraktion_fr[2]

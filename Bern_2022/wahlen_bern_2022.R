@@ -24,7 +24,7 @@ wahlkreis <- wahlkreise[w]
 wahlkreis_fr <- wahlkreise_fr[w]
 
 #Sind Daten schon da?
-link <- paste0("https://www.bewas.sites.be.ch/2018/2019-03-25/WAHL_GROSSRAT/csvResultatWahlkreis-",LETTERS[w],".csv")
+link <- paste0("https://www.bewas.sites.be.ch/2018/2018-03-25/WAHL_GROSSRAT/csvResultatWahlkreis-",LETTERS[w],".csv")
 check_csv1 <- tryCatch( {
   read.csv(link,sep =";",skip = 4) 
   }, error= function(e) {
@@ -185,7 +185,7 @@ text <- replace_varables_de(text,wahlkreis,anzahl_sitze_partei,diverse_sitze,auf
                             ListeSitzverteilung,ListeDiversemitSitze,
                             ListeNeugewaehlt,ListeAbgewaehlt)
 
-text_fr <- replace_varables_fr(text_fr,wahlkreis,anzahl_sitze_partei,diverse_sitze,aufrecht_sitze,
+text_fr <- replace_varables_fr(text_fr,wahlkreis_fr,anzahl_sitze_partei,diverse_sitze,aufrecht_sitze,
                             ListeGewinner_fr,ListeVerlierer_fr,
                             ListeSitzverteilung_fr,ListeDiversemitSitze_fr,
                             ListeNeugewaehlt_fr,ListeAbgewaehlt_fr)
@@ -241,7 +241,7 @@ datawrapper_auth("BMcG33cGBCp2FpqF1BSN5lHhKrw2W8Ait4AYbDEjkjVgCiWe07iqoX5pwHXdW3
 dw_edit_chart("Gypmx",annotate=paste0("Letzte Aktualisierung: ",format(Sys.time(),"%d.%m.%Y %H:%M Uhr")))
 dw_publish_chart("Gypmx")
 
-dw_edit_chart("mlkcf",annotate=paste0("Etat: ",format(Sys.time(),"%d.%m.%Y %H.%M")))
+dw_edit_chart("mlkcf",annotate=paste0("Etat: ",format(Sys.time(),"%d.%m.%Y %Hh%M")))
 dw_publish_chart("mlkcf")
 
 
