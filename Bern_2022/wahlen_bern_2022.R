@@ -244,8 +244,12 @@ untertitel <- substr(untertitel,1,nchar(untertitel)-2)
 }  
 
 datawrapper_auth("BMcG33cGBCp2FpqF1BSN5lHhKrw2W8Ait4AYbDEjkjVgCiWe07iqoX5pwHXdW36g", overwrite = TRUE)
-dw_edit_chart("Gypmx",intro=untertitel,annotate=paste0("Letzte Aktualisierung: ",format(Sys.time(),"%d.%m.%Y %H:%M Uhr")))
+dw_edit_chart("Gypmx",annotate=paste0("Letzte Aktualisierung: ",format(Sys.time(),"%d.%m.%Y %H:%M Uhr")))
 dw_publish_chart("Gypmx")
+
+dw_edit_chart("mlkcf",annotate=paste0("Etat: ",format(Sys.time(),"%d.%m.%Y %H.%M")))
+dw_publish_chart("mlkcf")
+
 
 #Texte speichern
 #library(xlsx)
