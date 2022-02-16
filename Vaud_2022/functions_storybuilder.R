@@ -155,7 +155,7 @@ get_liste_diverse <- function(diverse_sitze) {
   output <- ""  
   if (nrow(diverse_sitze) > 1) {
     for (p in 1:nrow(diverse_sitze)){
-      output <- paste0(output,"die Liste '",diverse_sitze$Liste_Name,"' holt ",diverse_sitze$Sitze," Sitze, ")  
+      output <- paste0(output,"die Liste '",diverse_sitze$Liste_Name[p],"' holt ",diverse_sitze$Sitze[p]," Sitze, ")  
       
     }  
     output <- gsub("1 Sitze","1 Sitz",output)
@@ -170,7 +170,7 @@ get_liste_diverse_fr <- function(diverse_sitze) {
   output <- ""  
   if (nrow(diverse_sitze) > 1) {
     for (p in 1:nrow(diverse_sitze)){
-      output <- paste0(output,"la list '",diverse_sitze$Liste_Name,"' obtient ",diverse_sitze$Sitze," sièges, ")  
+      output <- paste0(output,"la list '",diverse_sitze$Liste_Name[p],"' obtient ",diverse_sitze$Sitze[p]," sièges, ")  
       
     }  
     output <- gsub("1 sièges","1 siège",output)
@@ -350,7 +350,7 @@ replace_varables_fr <- function(text,wahlkreis,anzahl_sitze_partei,diverse_sitze
   
   anzahl_sitze_partei <- anzahl_sitze_partei[order(-anzahl_sitze_partei$change),]
   
-  text <- gsub("#Wahlkreis_de",wahlkreis,text)
+  text <- gsub("#Wahlkreis_fr",wahlkreis,text)
   
   ParteiFirst <- anzahl_sitze_partei$Fraktion_fr[1]
   ParteiSecond <- anzahl_sitze_partei$Fraktion_fr[2]

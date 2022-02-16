@@ -8,9 +8,9 @@ source("functions_storybuilder.R", encoding = "UTF-8")
 source("functions_text_adaptation.R", encoding = "UTF-8")
 
 #Wahlkreise
-wahlkreise <- c("Aigle","Broye-Vully","Gros-de-Vaud","Jura-Nord vaudois (La Vallée)","Jura-Nord vaudois (Yverdon)",
-                "Lausanne (Lausanne Ville)","Lausanne (Romandel)","Lavaux-Oron","Morges","Nyon","Ouest lausannois",
-                "Riviera-Pays-d'Enhaut (Vevey)","Riviera-Pays-d'Enhaut (Pays-d'Enhaut)")
+wahlkreise <- c("Aigle","Broye-Vully","Gros-de-Vaud","La Vallée","Yverdon",
+                "Lausanne-Ville","Romanel","Lavaux-Oron","Morges","Nyon","Ouest lausannois",
+                "Vevey","Pays-d'Enhaut")
 
 codes_wahlkreise <- c("A2","A3","A4","A11","A12","A13","A14","A5","A6","A7","A8","A9","A10")
 
@@ -39,36 +39,48 @@ if (fail_check == TRUE) {
   #Listendaten filtern
   liste_wahlkreis <- Listen_und_Parteien %>%
     filter(Wahlkreis == wahlkreise[w])
+
+  ###Neue Daten von Website scrapen 
+  url <- paste0("https://www.elections.vd.ch/votelec/app5/html/VDGC20170430-",codes_wahlkreise[w],"/Resultat/resultatsGenerauxResultatElection.html")
+  webpage <- read_html(url)
   
-  ###Neue Daten von CSV scrapen (Tabelle als Alternative?)
-  link <- paste0("https://www.bewas.sites.be.ch/2018/2018-03-25/WAHL_GROSSRAT/csvResultatWahlkreis-",LETTERS[w],".csv")
-  new_data <- read.csv(link,sep =";",skip = 4)
-  new_data$No.liste <- as.numeric(new_data$No.liste)
-  new_data <- new_data[1:nrow(liste_wahlkreis),]
+  data_table <- html_text(html_nodes(webpage,"td"))
   
-  new_data <- new_data %>%
-    select("No.liste","Sièges") %>%
-    rename("Liste_Nummer" = "No.liste",
-           "Sitze" = "Sièges")
+  #Create new Dataframe
+  data_wahlkreis <- data.frame("Liste_Nummer","Liste_Name","Liste_Kurzname","Sitze")
+  colnames(data_wahlkreis) <- c("Liste_Nummer","Liste_Name","Liste_Kurzname","Sitze")
+  list_number <- 1
   
-  #Neu gewählte und abgewählte Kandidaten scrapen
-  link <- paste0("https://www.bewas.sites.be.ch/2018/2018-03-25/WAHL_GROSSRAT/reportResultatWahlkreisRanglisteCsv-",LETTERS[w],".csv")
-  candidates_data <- read.csv(link,sep =";",skip = 2)
-  candidates_data$Liste.liste <- as.numeric(gsub(" .*","",candidates_data$Liste.liste))
-  candidates_data <- left_join(candidates_data,liste_wahlkreis,by=c(Liste.liste = "Liste_Nummer"))
+  for (i in seq(1,which(grepl("Total",data_table))-1,4)) {
+    
+    new_data <- data.frame(list_number,data_table[i],data_table[i+1],data_table[i+3])
+    colnames(new_data) <- c("Liste_Nummer","Liste_Name","Liste_Kurzname","Sitze")
+    
+    data_wahlkreis <- rbind(data_wahlkreis,new_data)
+    list_number <- list_number+1
+  }
   
-  candidates_neu_gewaehlt <- candidates_data %>%
-    filter(Gew..elu.e == "*",
-           Bish..Sort. == "")
-  
-  candidates_abgewaehlt <- candidates_data %>%
-    filter(Gew..elu.e == "",
-           Bish..Sort. == "x")
-  
+  data_wahlkreis <- data_wahlkreis[-1,]
+  data_wahlkreis$Sitze <- as.numeric(data_wahlkreis$Sitze)
+  data_wahlkreis$Liste_Nummer <- as.numeric(data_wahlkreis$Liste_Nummer)
+
+  new_data <- data_wahlkreis %>%
+    select("Liste_Nummer","Sitze") 
   
   #Daten zusammenführen
   liste_wahlkreis <- left_join(liste_wahlkreis,new_data)
   liste_wahlkreis$Sitze <- as.numeric(liste_wahlkreis$Sitze)
+  
+  #Gewählte Personen
+  gewaehlte_personen <- ""
+  
+  for (i in seq(which(grepl("Total",data_table))+3,length(data_table),3) ) {
+    gewaehlte_personen <- paste0(gewaehlte_personen,data_table[i]," (",data_table[i+1],"); ")
+  }  
+  
+  #Abgleich Personendaten (neu gewählt und abgewählt)
+  #candidates_neu_gewaehlt
+  #candidates_abgewaehlt
   
   
   #Sitze aufsummieren nach Partei
@@ -78,7 +90,6 @@ if (fail_check == TRUE) {
     group_by(Fraktion_de) %>%
     summarise(Sitze=sum(Sitze)
     )
-  
   
   #Diverse Listen Sitze
   diverse_sitze <- liste_wahlkreis %>%
@@ -125,14 +136,16 @@ if (fail_check == TRUE) {
   sitzverteilung_aufrecht <- get_sitzverteilung_aufrecht(aufrecht_sitze)
   
   #Neu Gewählt
-  neu_gewaehlt <- get_neu_gewaehlt(candidates_neu_gewaehlt)
+  #neu_gewaehlt <- get_neu_gewaehlt(candidates_neu_gewaehlt)
+  
   
   #Abgewaehlt
-  abgewaehlt <- get_abgewaehlt(candidates_abgewaehlt)
+  #abgewaehlt <- get_abgewaehlt(candidates_abgewaehlt)
   
   storyboard <- paste0(winners,losers,nochange,
-                       sitzverteilung,sitzverteilung_diverse,sitzverteilung_aufrecht,
-                       neu_gewaehlt, abgewaehlt)
+                       sitzverteilung,sitzverteilung_diverse,sitzverteilung_aufrecht
+                       #neu_gewaehlt, abgewaehlt)
+  )
   
   ###Storybuilder
   
@@ -144,11 +157,13 @@ if (fail_check == TRUE) {
   ListeGewinner <- get_liste_gewinner(anzahl_sitze_partei)
   ListeVerlierer <- get_liste_verlierer(anzahl_sitze_partei)
   ListeDiversemitSitze <- get_liste_diverse(diverse_sitze)
-  
+
   ListeSitzverteilung <- get_liste_sitzverteilung(anzahl_sitze_partei)
   ListeParteienOut <- get_liste_parteienout(anzahl_sitze_partei)
-  ListeNeugewaehlt <- get_liste_neugewaehlt(candidates_neu_gewaehlt)
-  ListeAbgewaehlt <- get_liste_abgewaehlt(candidates_abgewaehlt)
+  #ListeNeugewaehlt <- get_liste_neugewaehlt(candidates_neu_gewaehlt)
+  #ListeAbgewaehlt <- get_liste_abgewaehlt(candidates_abgewaehlt)
+  ListeNeugewaehlt <- gewaehlte_personen
+  ListeAbgewaehlt <- ""
   
   ListeGewinner_fr <- get_liste_gewinner_fr(anzahl_sitze_partei)
   ListeVerlierer_fr <- get_liste_verlierer_fr(anzahl_sitze_partei)
@@ -156,8 +171,10 @@ if (fail_check == TRUE) {
   
   ListeSitzverteilung_fr <- get_liste_sitzverteilung_fr(anzahl_sitze_partei)
   ListeParteienOut_fr <- get_liste_parteienout_fr(anzahl_sitze_partei)
-  ListeNeugewaehlt_fr <- get_liste_neugewaehlt_fr(candidates_neu_gewaehlt)
-  ListeAbgewaehlt_fr <- get_liste_abgewaehlt_fr(candidates_abgewaehlt)
+  #ListeNeugewaehlt_fr <- get_liste_neugewaehlt_fr(candidates_neu_gewaehlt)
+  #ListeAbgewaehlt_fr <- get_liste_abgewaehlt_fr(candidates_abgewaehlt)
+  ListeNeugewaehlt_fr <- gewaehlte_personen
+  ListeAbgewaehlt_fr <- ""
   
   
   
@@ -189,13 +206,15 @@ if (fail_check == TRUE) {
 }
 }
 
-
 #Daten vorbereiten für Datawrapper
 data_gesamt <- data_gesamt[-1,]
 
 #data_datawrapper <- merge(Gemeinden_Wahlkreise,data_gesamt)
 data_datawrapper <- data_gesamt
 data_datawrapper$Wahlkreis_fr <- data_gesamt$Wahlkreis
+
+#Suous-arrondissement mergen
+
 
 #Farbe definieren
 data_datawrapper$Color <- 0

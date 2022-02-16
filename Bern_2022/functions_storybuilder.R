@@ -155,7 +155,7 @@ get_liste_diverse <- function(diverse_sitze) {
   output <- ""  
   if (nrow(diverse_sitze) > 1) {
     for (p in 1:nrow(diverse_sitze)){
-      output <- paste0(output,"die Liste '",diverse_sitze$Liste_Name,"' holt ",diverse_sitze$Sitze," Sitze, ")  
+      output <- paste0(output,"die Liste '",diverse_sitze$Liste_Name[p],"' holt ",diverse_sitze$Sitze[p]," Sitze, ")  
       
     }  
     output <- gsub("1 Sitze","1 Sitz",output)
@@ -170,7 +170,7 @@ get_liste_diverse_fr <- function(diverse_sitze) {
   output <- ""  
   if (nrow(diverse_sitze) > 1) {
     for (p in 1:nrow(diverse_sitze)){
-      output <- paste0(output,"la list '",diverse_sitze$Liste_Name,"' obtient ",diverse_sitze$Sitze," sièges, ")  
+      output <- paste0(output,"la list '",diverse_sitze$Liste_Name[p],"' obtient ",diverse_sitze$Sitze[p]," sièges, ")  
       
     }  
     output <- gsub("1 sièges","1 siège",output)

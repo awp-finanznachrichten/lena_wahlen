@@ -5,9 +5,9 @@ setwd("C:/Users/simon/OneDrive/LENA_Project/lena_wahlen/Vaud_2022")
 source("config.R")
 
 #Wahlkreise
-wahlkreise <- c("Aigle","Broye-Vully","Gros-de-Vaud","Jura-Nord vaudois (La Vallée)","Jura-Nord vaudois (Yverdon)",
-                "Lausanne (Lausanne Ville)","Lausanne (Romandel)","Lavaux-Oron","Morges","Nyon","Ouest lausannois",
-                "Riviera-Pays-d'Enhaut (Vevey)","Riviera-Pays-d'Enhaut (Pays-d'Enhaut)")
+wahlkreise <- c("Aigle","Broye-Vully","Gros-de-Vaud","La Vallée","Yverdon",
+                "Lausanne Ville","Romandel","Lavaux-Oron","Morges","Nyon","Ouest lausannois",
+                "Vevey","Pays-d'Enhaut")
 
 codes_wahlkreise <- c("A2","A3","A4","A11","A12","A13","A14","A5","A6","A7","A8","A9","A10")
 
@@ -85,6 +85,8 @@ print(data_wahlkreis)
 }
 
 data_gesamt <- data_gesamt[-1,]
+
+#saveRDS(data_gesamt,"data_vaud_new.RDS")
 #Storyfinder
 
 #Storybuider
