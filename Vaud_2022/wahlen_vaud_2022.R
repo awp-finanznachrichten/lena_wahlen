@@ -215,22 +215,28 @@ data_datawrapper$Wahlkreis_fr <- data_gesamt$Wahlkreis
 
 #Suous-arrondissement mergen
 new_entry <- data.frame("Jura-Nord vaudois",data_datawrapper$Storyboard[4],
-                        paste0(data_datawrapper$Text_de[4],"<br><br>",data_datawrapper$Text_de[5]),
-                        paste0(data_datawrapper$Text_fr[4],"<br><br>",data_datawrapper$Text_fr[5]),
+                        paste0("<b>Sous-arrondissement: La Vallée</b><br>",data_datawrapper$Text_de[4],"<br><br>",
+                               "<b>Sous-arrondissement: Yverdon</b><br>",data_datawrapper$Text_de[5]),
+                        paste0("<b>Sous-arrondissement: La Vallée</b><br>",data_datawrapper$Text_fr[4],"<br><br>",
+                               "<b>Sous-arrondissement: Yverdon</b><br>",data_datawrapper$Text_fr[5]),
                         "Jura-Nord vaudois")
 colnames(new_entry) <- c("Wahlkreis","Storyboard","Text_de","Text_fr","Wahlkreis_fr")
 data_datawrapper <- rbind(data_datawrapper,new_entry)
 
 new_entry <- data.frame("Lausanne",data_datawrapper$Storyboard[6],
-                        paste0(data_datawrapper$Text_de[6],"<br><br>",data_datawrapper$Text_de[7]),
-                        paste0(data_datawrapper$Text_fr[6],"<br><br>",data_datawrapper$Text_fr[7]),
+                        paste0("<b>Sous-arrondissement: Lausanne-Ville</b><br>",data_datawrapper$Text_de[6],"<br><br>",
+                               "<b>Sous-arrondissement: Romanel</b><br>",data_datawrapper$Text_de[7]),
+                        paste0("<b>Sous-arrondissement: Lausanne-Ville</b><br>",data_datawrapper$Text_fr[6],"<br><br>",
+                               "<b>Sous-arrondissement: Romanel</b><br>",data_datawrapper$Text_fr[7]),
                         "Lausanne")
 colnames(new_entry) <- c("Wahlkreis","Storyboard","Text_de","Text_fr","Wahlkreis_fr")
 data_datawrapper <- rbind(data_datawrapper,new_entry)
 
 new_entry <- data.frame("Riviera-Pays d'Enhaut",data_datawrapper$Storyboard[12],
-                        paste0(data_datawrapper$Text_de[12],"<br><br>",data_datawrapper$Text_de[13]),
-                        paste0(data_datawrapper$Text_fr[12],"<br><br>",data_datawrapper$Text_fr[13]),
+                        paste0("<b>Sous-arrondissement: Pays-d'Enhaut</b><br>",data_datawrapper$Text_de[12],"<br><br>",
+                               "<b>Sous-arrondissement: Vevey</b><br>",data_datawrapper$Text_de[13]),
+                        paste0("<b>Sous-arrondissement: Pays-d'Enhaut</b><br>",data_datawrapper$Text_fr[12],"<br><br>",
+                               "<b>Sous-arrondissement: Vevey</b><br>",data_datawrapper$Text_fr[13]),
                         "Riviera-Pays d'Enhaut")
 colnames(new_entry) <- c("Wahlkreis","Storyboard","Text_de","Text_fr","Wahlkreis_fr")
 data_datawrapper <- rbind(data_datawrapper,new_entry)
