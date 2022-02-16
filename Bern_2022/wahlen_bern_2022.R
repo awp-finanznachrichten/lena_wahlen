@@ -11,15 +11,17 @@ source("functions_text_adaptation.R", encoding = "UTF-8")
 wahlkreise <- c("Jura bernois","Biel-Bienne - Seeland","Oberaargau","Emmental","Mittelland-Nord",
                 "Bern","Mittelland-Süd","Thun","Oberland")
 
-####Dataframe für alle Daten
-data_gesamt <- data.frame("Wahlkreis","Storyboard","Text_de","Text_fr")
-colnames(data_gesamt) <- c("Wahlkreis","Storyboard","Text_de","Text_fr")
+wahlkreise_fr <- c("Jura bernois","Bienne-Seeland","Haute-Argovie","Emmental","Mittelland septentrional",
+                "Berne","Mittelland méridional","Thoune","Oberland")
 
-#Untertitel Datawrapper
-untertitel <- "Folgende Wahlkreise sind bereits ausgezählt: "
+####Dataframe für alle Daten
+data_gesamt <- data.frame("Wahlkreis","Wahlkreis_fr","Storyboard","Text_de","Text_fr")
+colnames(data_gesamt) <- c("Wahlkreis","Wahlkreis_fr","Storyboard","Text_de","Text_fr")
+
 
 for (w in 1:length(wahlkreise)) {
 wahlkreis <- wahlkreise[w]
+wahlkreis_fr <- wahlkreise_fr[w]
 
 #Sind Daten schon da?
 link <- paste0("https://www.bewas.sites.be.ch/2018/2018-03-25/WAHL_GROSSRAT/csvResultatWahlkreis-",LETTERS[w],".csv")
@@ -46,8 +48,8 @@ storyboard <- NA
 text <- paste0("Der Wahlkreis ",wahlkreis," ist noch nicht ausgezählt")
 text_fr <- paste0("Le cercle électoral ",wahlkreis," n'a pas encore été comptée")
 
-new_entry <- data.frame(wahlkreis,storyboard,text,text_fr)
-colnames(new_entry) <- c("Wahlkreis","Storyboard","Text_de","Text_fr")
+new_entry <- data.frame(wahlkreis,wahlkreis_fr,storyboard,text,text_fr)
+colnames(new_entry) <- c("Wahlkreis","Wahlkreis_fr","Storyboard","Text_de","Text_fr")
 data_gesamt <- rbind(data_gesamt,new_entry)
 
 } else {  
@@ -196,12 +198,10 @@ text_fr <- green_cleanup_fr(text_fr,anzahl_sitze_partei)
 text_fr <- text_optimisation_fr(text_fr)
 
 #Daten einfügen
-new_entry <- data.frame(wahlkreis,storyboard,text,text_fr)
-colnames(new_entry) <- c("Wahlkreis","Storyboard","Text_de","Text_fr")
+new_entry <- data.frame(wahlkreis,wahlkreis_fr,storyboard,text,text_fr)
+colnames(new_entry) <- c("Wahlkreis","Wahlkreis_fr","Storyboard","Text_de","Text_fr")
 data_gesamt <- rbind(data_gesamt,new_entry)
 
-#Untertitel für Datawrapper ergänzen
-untertitel <- paste0(untertitel,wahlkreis,", ")
 cat(text)
 
 }
@@ -215,7 +215,7 @@ data_gesamt <- data_gesamt[-1,]
 data_datawrapper <- data_gesamt
 data_datawrapper$Wahlkreis[1] <- "Berner Jura"
 data_datawrapper$Wahlkreis[2] <- "Biel-Seeland"
-data_datawrapper$Wahlkreis_fr <- data_gesamt$Wahlkreis
+
 
 #Farbe definieren
 data_datawrapper$Color <- 0
@@ -237,12 +237,6 @@ gitcommit()
 gitpush()
 
 #Datawrapper-Grafik aktualisieren
-if (nchar(untertitel) == 45) {
-untertitel <- "Es sind noch keine Wahlkreise ausgezählt."  
-} else {
-untertitel <- substr(untertitel,1,nchar(untertitel)-2)  
-}  
-
 datawrapper_auth("BMcG33cGBCp2FpqF1BSN5lHhKrw2W8Ait4AYbDEjkjVgCiWe07iqoX5pwHXdW36g", overwrite = TRUE)
 dw_edit_chart("Gypmx",annotate=paste0("Letzte Aktualisierung: ",format(Sys.time(),"%d.%m.%Y %H:%M Uhr")))
 dw_publish_chart("Gypmx")
