@@ -63,6 +63,11 @@ Sitzverteilung_Historisch <- read_excel("Daten/LENA_Listen_Kanton_Vaud.xlsx",
 
 cat("Listen und Sitzverteilunge geladen\n")
 
+
+Gewaehlte_Vaud_2017 <- readRDS("./Daten/Gewaehlte_Vaud_2017.RDS")
+
+cat("Bisherig Gewählte Personen geladen\n")
+
 Textbausteine <- read_excel("Daten/Textbausteine_LENA_Wahlen_Kantonal.xlsx")
 
 cat("Texte geladen\n")

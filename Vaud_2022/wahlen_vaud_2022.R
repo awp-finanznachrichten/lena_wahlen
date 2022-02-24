@@ -1,5 +1,5 @@
 #Working Directory definieren
-setwd("C:/Users/simon/OneDrive/LENA_Project/lena_wahlen/Vaud_2022")
+setwd("C:/Users/sw/OneDrive/LENA_Project/lena_wahlen/Vaud_2022")
 
 #Bibliotheken, Funktionen und vorhandene Daten laden
 source("config.R", encoding = "UTF-8")
@@ -18,6 +18,9 @@ codes_wahlkreise <- c("A2","A3","A4","A11","A12","A13","A14","A5","A6","A7","A8"
 data_gesamt <- data.frame("Wahlkreis","Storyboard","Text_de","Text_fr")
 colnames(data_gesamt) <- c("Wahlkreis","Storyboard","Text_de","Text_fr")
 
+#Dataframe bisherige
+Bisherige <- data.frame("Wahlkreis","Gewaehlt")
+colnames(Bisherige) <- c("Wahlkreis","Gewaehlt")
 
 for (w in 1:length(wahlkreise)) {
 wahlkreis <- wahlkreise[w]
@@ -28,7 +31,7 @@ fail_check <- FALSE
 if (fail_check == TRUE) {
   storyboard <- NA
   text <- paste0("Der Wahlkreis ",wahlkreis," ist noch nicht ausgezählt")
-  text_fr <- paste0("Le cercle électoral ",wahlkreis," n'a pas encore été comptée")
+  text_fr <- paste0("L'arrondissement",wahlkreis," n'a pas encore été comptée")
   
   new_entry <- data.frame(wahlkreis,storyboard,text,text_fr)
   colnames(new_entry) <- c("Wahlkreis","Storyboard","Text_de","Text_fr")
@@ -43,9 +46,9 @@ if (fail_check == TRUE) {
   ###Neue Daten von Website scrapen 
   url <- paste0("https://www.elections.vd.ch/votelec/app5/html/VDGC20170430-",codes_wahlkreise[w],"/Resultat/resultatsGenerauxResultatElection.html")
   webpage <- read_html(url)
-  
+
   data_table <- html_text(html_nodes(webpage,"td"))
-  
+
   #Create new Dataframe
   data_wahlkreis <- data.frame("Liste_Nummer","Liste_Name","Liste_Kurzname","Sitze")
   colnames(data_wahlkreis) <- c("Liste_Nummer","Liste_Name","Liste_Kurzname","Sitze")
@@ -71,16 +74,31 @@ if (fail_check == TRUE) {
   liste_wahlkreis <- left_join(liste_wahlkreis,new_data)
   liste_wahlkreis$Sitze <- as.numeric(liste_wahlkreis$Sitze)
   
-  #Gewählte Personen
-  gewaehlte_personen <- ""
-  
+  #Neu Gewählte Personen
+  neu_gewaehlt <- ""
+  abgewaehlt <- ""
+  ListeNeugewaehlt <- ""
+  bisherige <- Gewaehlte_Vaud_2017[Gewaehlte_Vaud_2017$Wahlkreis == wahlkreis,]
+  Liste_bisherige <- gsub("; ","|",bisherige$Gewaehlt)
+  count_neu_gewaehlt <- 0
+
   for (i in seq(which(grepl("Total",data_table))+3,length(data_table),3) ) {
-    gewaehlte_personen <- paste0(gewaehlte_personen,data_table[i]," (",data_table[i+1],"); ")
+  if (grepl(data_table[i],Liste_bisherige) == FALSE) {
+    ListeNeugewaehlt <- paste0(ListeNeugewaehlt,data_table[i]," (",data_table[i+1],"), ")
+    count_neu_gewaehlt <- count_neu_gewaehlt + 1
+  }
+  }
+
+  if (count_neu_gewaehlt > 1) {
+    ListeNeugewaehlt <- substr(ListeNeugewaehlt,1,nchar(ListeNeugewaehlt)-2)
+    ListeNeugewaehlt <- stri_replace_last(ListeNeugewaehlt,fixed=","," et")
+    neu_gewaehlt <- "Neu_gewaehlt_mehrere;"
+    } else if (count_neu_gewaehlt == 1) {
+      ListeNeugewaehlt <- substr(ListeNeugewaehlt,1,nchar(ListeNeugewaehlt)-2)
+      neu_gewaehlt <- "Neu_gewaehlt_1Person;"
+    } else {
+  neu_gewaehlt <- "Neu_gewaehlt_keine;"
   }  
-  
-  #Abgleich Personendaten (neu gewählt und abgewählt)
-  #candidates_neu_gewaehlt
-  #candidates_abgewaehlt
   
   
   #Sitze aufsummieren nach Partei
@@ -135,17 +153,10 @@ if (fail_check == TRUE) {
   #Sitzverteilung Aufrecht
   sitzverteilung_aufrecht <- get_sitzverteilung_aufrecht(aufrecht_sitze)
   
-  #Neu Gewählt
-  #neu_gewaehlt <- get_neu_gewaehlt(candidates_neu_gewaehlt)
-  
-  
-  #Abgewaehlt
-  #abgewaehlt <- get_abgewaehlt(candidates_abgewaehlt)
-  
   storyboard <- paste0(winners,losers,nochange,
-                       sitzverteilung,sitzverteilung_diverse,sitzverteilung_aufrecht
-                       #neu_gewaehlt, abgewaehlt)
-  )
+                       sitzverteilung,sitzverteilung_diverse,sitzverteilung_aufrecht,
+                       neu_gewaehlt, abgewaehlt)
+
   
   ###Storybuilder
   
@@ -160,9 +171,6 @@ if (fail_check == TRUE) {
 
   ListeSitzverteilung <- get_liste_sitzverteilung(anzahl_sitze_partei)
   ListeParteienOut <- get_liste_parteienout(anzahl_sitze_partei)
-  #ListeNeugewaehlt <- get_liste_neugewaehlt(candidates_neu_gewaehlt)
-  #ListeAbgewaehlt <- get_liste_abgewaehlt(candidates_abgewaehlt)
-  ListeNeugewaehlt <- gewaehlte_personen
   ListeAbgewaehlt <- ""
   
   ListeGewinner_fr <- get_liste_gewinner_fr(anzahl_sitze_partei)
@@ -171,12 +179,9 @@ if (fail_check == TRUE) {
   
   ListeSitzverteilung_fr <- get_liste_sitzverteilung_fr(anzahl_sitze_partei)
   ListeParteienOut_fr <- get_liste_parteienout_fr(anzahl_sitze_partei)
-  #ListeNeugewaehlt_fr <- get_liste_neugewaehlt_fr(candidates_neu_gewaehlt)
-  #ListeAbgewaehlt_fr <- get_liste_abgewaehlt_fr(candidates_abgewaehlt)
-  ListeNeugewaehlt_fr <- gewaehlte_personen
+  ListeNeugewaehlt_fr <- ListeNeugewaehlt
   ListeAbgewaehlt_fr <- ""
-  
-  
+
   
   #Variablen ersetzen
   text <- replace_varables_de(text,wahlkreis,anzahl_sitze_partei,diverse_sitze,aufrecht_sitze,
@@ -205,6 +210,9 @@ if (fail_check == TRUE) {
   
 }
 }
+
+
+
 
 #Daten vorbereiten für Datawrapper
 data_gesamt <- data_gesamt[-1,]
@@ -257,7 +265,7 @@ write.csv(data_datawrapper,"Output/Uebersicht_dw_vaud.csv", na = "", row.names =
 
 #Auf Github hochladen
 #git2r::config(user.name = "awp-finanznachrichten",user.email = "sw@awp.ch")
-token <- read.csv("C:/Users/simon/OneDrive/Github_Token/token.txt",header=FALSE)[1,1]
+token <- read.csv("C:/Users/sw/OneDrive/Github_Token/token.txt",header=FALSE)[1,1]
 git2r::cred_token(token)
 gitadd()
 gitcommit()

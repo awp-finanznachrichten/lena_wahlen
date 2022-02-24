@@ -65,6 +65,7 @@ Gemeinden_Wahlkreise <- read_excel("Daten/Bern_Wahlkreise.xlsx")
 
 cat("Listen und Sitzverteilunge geladen\n")
 
+
 Textbausteine <- read_excel("Daten/Textbausteine_LENA_Wahlen_Kantonal.xlsx")
 
 cat("Texte geladen\n")
