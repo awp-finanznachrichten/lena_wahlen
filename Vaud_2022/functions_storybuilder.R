@@ -175,7 +175,7 @@ get_liste_diverse_fr <- function(diverse_sitze) {
     }  
     output <- gsub("1 sièges","1 siège",output)
     output <- substr(output,1,nchar(output)-2)
-    output <- stri_replace_last(output,fixed=","," und")
+    output <- stri_replace_last(output,fixed=","," et")
   }
   return(output)  
 }  
