@@ -377,7 +377,7 @@ replace_varables_fr <- function(text,wahlkreis,anzahl_sitze_partei,diverse_sitze
   text <- gsub("#ListeVerlierer_fr",ListeVerlierer,text)
   
   text <- gsub("#ListeSitzverteilung_fr",ListeSitzverteilung,text)
-  text <- gsub("#ParteienOut_fr",ListeParteienOut,text)
+  text <- gsub("#ParteienOut_fr",ListeParteienOut_fr,text)
   text <- gsub("#ListeDiversemitSitze_fr",ListeDiversemitSitze,text)
   
   text <- gsub("#ListeNeugewaehlt_fr",ListeNeugewaehlt,text)

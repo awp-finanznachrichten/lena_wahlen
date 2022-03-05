@@ -186,7 +186,7 @@ if (fail_check == TRUE) {
   ListeNeugewaehlt_fr <- ListeNeugewaehlt
   ListeAbgewaehlt_fr <- ""
 
-  
+
   #Variablen ersetzen
   text <- replace_varables_de(text,wahlkreis,anzahl_sitze_partei,diverse_sitze,aufrecht_sitze,
                               ListeGewinner,ListeVerlierer,
@@ -211,6 +211,7 @@ if (fail_check == TRUE) {
   data_gesamt <- rbind(data_gesamt,new_entry)
   
   cat(text)
+  cat(text_fr)
   
 }
 }
@@ -285,4 +286,6 @@ dw_publish_chart("nEP9l")
 #library(xlsx)
 #write.xlsx(data_gesamt,"LENA_Wahlen_Vaud_Texte.xlsx",row.names = FALSE)
 
+data_datawrapper$Text_fr
 
+View(data_datawrapper)
