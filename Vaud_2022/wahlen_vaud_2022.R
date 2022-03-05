@@ -70,6 +70,9 @@ if (fail_check == TRUE) {
   new_data <- data_wahlkreis %>%
     select("Liste_Nummer","Sitze") 
   
+  #Plan B: Get new data from Excel
+  new_data <- liste_wahlkreis %>%
+    select(Liste_Nummer,Sitze)
 
   #Daten zusammenführen
   liste_wahlkreis <- left_join(liste_wahlkreis,new_data)
