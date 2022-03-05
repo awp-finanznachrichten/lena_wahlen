@@ -401,9 +401,8 @@ replace_varables_fr <- function(text,wahlkreis,anzahl_sitze_partei,diverse_sitze
     text <- gsub("#ParteiOut_fr",parteien_out$Fraktion_fr[1],text)
   }  
   
-  
+
   return(text)
 }  
-
 
 

@@ -109,10 +109,11 @@ if (fail_check == TRUE) {
   anzahl_sitze_partei <- liste_wahlkreis %>%
     filter(Fraktion_de != "Diverse",
            Fraktion_de != "Aufrecht Schweiz") %>%
-    group_by(Fraktion_de) %>%
+    group_by(Fraktion_de,Fraktion_fr) %>%
     summarise(Sitze=sum(Sitze)
     )
   
+ 
   #Diverse Listen Sitze
   diverse_sitze <- liste_wahlkreis %>%
     filter(Fraktion_de == "Diverse",
@@ -139,7 +140,6 @@ if (fail_check == TRUE) {
   anzahl_sitze_partei <- na.omit(anzahl_sitze_partei)
   anzahl_sitze_partei <- anzahl_sitze_partei[order(-anzahl_sitze_partei$change),]
   print(anzahl_sitze_partei)
-  
   
   ###Storyfinder
   
@@ -284,4 +284,5 @@ dw_publish_chart("nEP9l")
 #Texte speichern
 #library(xlsx)
 #write.xlsx(data_gesamt,"LENA_Wahlen_Vaud_Texte.xlsx",row.names = FALSE)
+
 
