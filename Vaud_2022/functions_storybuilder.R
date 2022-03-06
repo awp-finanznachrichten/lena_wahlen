@@ -139,9 +139,12 @@ get_liste_sitzverteilung_fr <- function(anzahl_sitze_partei) {
     filter(Sitze > 0)
   
   for (p in 1:nrow(anzahl_sitze_partei)){
+  if (p == 1) {
+    output <- paste0(output,"Le ",anzahl_sitze_partei$Fraktion_fr[p]," détient désormais ",anzahl_sitze_partei$Sitze[p]," sièges, ")
+  } else {
     output <- paste0(output,"le ",anzahl_sitze_partei$Fraktion_fr[p]," ",anzahl_sitze_partei$Sitze[p]," sièges, ")  
-    
-  }  
+  }
+  }
   output <- gsub("1 sièges","1 siège",output)
   output <- substr(output,1,nchar(output)-2)
   output <- stri_replace_last(output,fixed=","," et")
