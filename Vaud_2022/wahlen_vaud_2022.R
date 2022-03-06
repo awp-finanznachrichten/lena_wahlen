@@ -167,7 +167,7 @@ if (fail_check == TRUE) {
   #Textbausteine holen
   text <- get_textbausteine_de(storyboard,Textbausteine)
   text_fr <- get_textbausteine_fr(storyboard,Textbausteine)
-  
+
   #Kompliziertere Variablen erstellen
   ListeGewinner <- get_liste_gewinner(anzahl_sitze_partei)
   ListeVerlierer <- get_liste_verlierer(anzahl_sitze_partei)
@@ -185,6 +185,7 @@ if (fail_check == TRUE) {
   ListeParteienOut_fr <- get_liste_parteienout_fr(anzahl_sitze_partei)
   ListeNeugewaehlt_fr <- ListeNeugewaehlt
   ListeAbgewaehlt_fr <- ""
+
 
 
   #Variablen ersetzen
@@ -285,7 +286,5 @@ dw_publish_chart("nEP9l")
 #Texte speichern
 #library(xlsx)
 #write.xlsx(data_gesamt,"LENA_Wahlen_Vaud_Texte.xlsx",row.names = FALSE)
-
-data_datawrapper$Text_fr
 
 View(data_datawrapper)
