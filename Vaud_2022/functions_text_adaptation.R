@@ -45,10 +45,14 @@ green_cleanup_fr <- function(text, anzahl_sitze_partei) {
   }  
   
   text <- gsub("Le Ensemble","Ensemble",text)
+  text <- gsub("Le <b>Ensemble","<b>Ensemble",text)
   text <- gsub("le Ensemble","Ensemble",text)
-  text <- gsub("Le UDC","l'UDC",text)
+  text <- gsub("le <b>Ensemble","<b>Ensemble",text)
+  text <- gsub("Le UDC","L'UDC",text)
+  text <- gsub("Le <b>UDC","<b>L'UDC",text)
   text <- gsub("le UDC","l'UDC",text)
-  View(anzahl_sitze_partei)
+  text <- gsub("le <b>UDC","<b>l'UDC",text)
+
   
   text <- gsub("Le <b>Verts</b> est ","Les <b>Verts</b> sont ",text)
   text <- gsub("Le Verts est ","Les Verts sont ",text)
@@ -74,8 +78,6 @@ green_cleanup_fr <- function(text, anzahl_sitze_partei) {
   text <- gsub("le <b>Libres</b> ","les <b>Libres</b> ",text)
   text <- gsub("le Libres ","les Libres ",text)
 
-  
-  
   return(text)  
   
 }  

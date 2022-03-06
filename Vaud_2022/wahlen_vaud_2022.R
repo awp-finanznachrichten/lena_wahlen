@@ -287,4 +287,3 @@ dw_publish_chart("nEP9l")
 #library(xlsx)
 #write.xlsx(data_gesamt,"LENA_Wahlen_Vaud_Texte.xlsx",row.names = FALSE)
 
-View(data_datawrapper)
