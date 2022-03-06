@@ -77,6 +77,13 @@ green_cleanup_fr <- function(text, anzahl_sitze_partei) {
   text <- gsub("Le Libres ","Les Libres ",text)
   text <- gsub("le <b>Libres</b> ","les <b>Libres</b> ",text)
   text <- gsub("le Libres ","les Libres ",text)
+  
+  text <- str_replace_all(text,"de A","d'A") 
+  text <- str_replace_all(text,"de E","d'E")
+  text <- str_replace_all(text,"de I","d'I") 
+  text <- str_replace_all(text,"de O","d'O") 
+  text <- str_replace_all(text,"de U","d'U")
+  text <- str_replace_all(text,"de Yv","d'Yv")
 
   return(text)  
   

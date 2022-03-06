@@ -17,7 +17,7 @@ green_cleanup <- function(text, anzahl_sitze_partei) {
   text <- gsub("die <b>Grüne</b> hält ","die <b>Grünen</b> halten ",text)
   text <- gsub("die Grüne hält ","die Grünen halten ",text)
   text <- gsub("Die <b>Grüne</b> ","Die <b>Grünen</b> ",text)
-  text <- gsub("die Grüne ","die Grünen ",text)
+  text <- gsub("Die Grüne ","Die Grünen ",text)
   text <- gsub("Die <b>Grüne</b> ","Die <b>Grünen</b> ",text)
   text <- gsub("die Grüne ","die Grünen ",text)
 
@@ -27,29 +27,64 @@ return(text)
 }  
 
 green_cleanup_fr <- function(text, anzahl_sitze_partei) {
-  
-  if (anzahl_sitze_partei$Fraktion_de[1] == "Grüne") {
-    text <- gsub("grosse Gewinnerin. Sie holt ","grossen Gewinner. Sie holen ",text)
+
+  if (anzahl_sitze_partei$Fraktion_fr[1] == "Verts" ||
+      anzahl_sitze_partei$Fraktion_fr[1] == "Vert'libéraux" ||
+      anzahl_sitze_partei$Fraktion_fr[1] == "Libres" 
+      ) {
+    text <- gsub("est le grand gagnant ","sont le grand gagnants ",text)
+    text <- gsub("Il remporte ","Il remportertent ",text)
   }  
   
-  if (anzahl_sitze_partei$Fraktion_de[nrow(anzahl_sitze_partei)] == "Grüne") {
-    text <- gsub("grosse Verliererin. Sie büsst ","grossen Verlierer. Sie büssen ",text)
+  if (anzahl_sitze_partei$Fraktion_fr[nrow(anzahl_sitze_partei)] == "Verts" ||
+      anzahl_sitze_partei$Fraktion_fr[nrow(anzahl_sitze_partei)] == "Vert'libéraux" ||
+      anzahl_sitze_partei$Fraktion_fr[nrow(anzahl_sitze_partei)] == "Libres" 
+      ) {
+    text <- gsub("est le grand battu ","sont les grands battus ",text)
+    text <- gsub("Il perd ","Ils perdent ",text)
   }  
   
-  text <- gsub("Die <b>Grüne</b> ist ","Die <b>Grünen</b> sind ",text)
-  text <- gsub("Die Grüne ist ","Die Grünen sind ",text)
-  text <- gsub("hält die <b>Grüne</b> ","halten die <b>Grünen</b> ",text)
-  text <- gsub("hält die Grüne ","halten die Grünen ",text)
-  text <- gsub("die <b>Grüne</b> verliert ","die <b>Grünen</b> verlieren ",text)
-  text <- gsub("die Grüne verliert ","die Grünen verlieren ",text)
-  text <- gsub("die <b>Grüne</b> hält ","die <b>Grünen</b> halten ",text)
-  text <- gsub("die Grüne hält ","die Grünen halten ",text)
-  text <- gsub("Die <b>Grüne</b> ","Die <b>Grünen</b> ",text)
-  text <- gsub("die Grüne ","die Grünen ",text)
-  text <- gsub("Die <b>Grüne</b> ","Die <b>Grünen</b> ",text)
-  text <- gsub("die Grüne ","die Grünen ",text)
+  text <- gsub("Le Ensemble","Ensemble",text)
+  text <- gsub("Le <b>Ensemble","<b>Ensemble",text)
+  text <- gsub("le Ensemble","Ensemble",text)
+  text <- gsub("le <b>Ensemble","<b>Ensemble",text)
+  text <- gsub("Le UDC","L'UDC",text)
+  text <- gsub("Le <b>UDC","<b>L'UDC",text)
+  text <- gsub("le UDC","l'UDC",text)
+  text <- gsub("le <b>UDC","<b>l'UDC",text)
+
   
+  text <- gsub("Le <b>Verts</b> est ","Les <b>Verts</b> sont ",text)
+  text <- gsub("Le Verts est ","Les Verts sont ",text)
+  text <- gsub("Le <b>Vert'libéraux</b> est ","Les <b>Vert'libéraux</b> sont ",text)
+  text <- gsub("Le Vert'libéraux est ","Les Vert'libéraux sont ",text)
+  text <- gsub("Le <b>Libres</b> est ","Les <b>Libres</b> sont ",text)
+  text <- gsub("Le Libres est ","Les Libres sont ",text)
   
+  text <- gsub("Le Verts a perdu tous ses sièges","Les Verts ont perdu tous les leurs sièges",text)
+  text <- gsub("Le Vert'libéraux a perdu tous ses sièges","Les Vert'libéraux ont perdu tous les leurs sièges",text)
+  text <- gsub("Le Libres a perdu tous ses sièges","Les Libres ont perdu tous les leurs sièges",text)
+  
+  text <- gsub("Le <b>Verts</b> ","Les <b>Verts</b> ",text)
+  text <- gsub("Le Verts ","Les Verts ",text)
+  text <- gsub("le <b>Verts</b> ","les <b>Verts</b> ",text)
+  text <- gsub("le Verts ","les Verts ",text)
+  text <- gsub("Le <b>Vert'libéraux</b> ","Les <b>Vert'libéraux</b> ",text)
+  text <- gsub("Le Vert'libéraux ","Les Vert'libéraux ",text)
+  text <- gsub("le <b>Vert'libéraux</b> ","les <b>Vert'libéraux</b> ",text)
+  text <- gsub("le Vert'libéraux ","les Vert'libéraux ",text)
+  text <- gsub("Le <b>Libres</b> ","Les <b>Libres</b> ",text)
+  text <- gsub("Le Libres ","Les Libres ",text)
+  text <- gsub("le <b>Libres</b> ","les <b>Libres</b> ",text)
+  text <- gsub("le Libres ","les Libres ",text)
+  
+  text <- str_replace_all(text,"de A","d'A") 
+  text <- str_replace_all(text,"de E","d'E")
+  text <- str_replace_all(text,"de I","d'I") 
+  text <- str_replace_all(text,"de O","d'O") 
+  text <- str_replace_all(text,"de U","d'U")
+  text <- str_replace_all(text,"de Yv","d'Yv")
+
   return(text)  
   
 }  
