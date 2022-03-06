@@ -223,7 +223,6 @@ if (fail_check == TRUE) {
 #Daten vorbereiten für Datawrapper
 data_gesamt <- data_gesamt[-1,]
 
-#data_datawrapper <- merge(Gemeinden_Wahlkreise,data_gesamt)
 data_datawrapper <- data_gesamt
 data_datawrapper$Wahlkreis_fr <- data_gesamt$Wahlkreis
 

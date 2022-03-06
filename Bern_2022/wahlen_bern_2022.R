@@ -1,5 +1,5 @@
 #Working Directory definieren
-setwd("C:/Users/sw/OneDrive/LENA_Project/lena_wahlen/Bern_2022")
+setwd("C:/Users/simon/OneDrive/LENA_Project/lena_wahlen/Bern_2022")
 
 #Bibliotheken, Funktionen und vorhandene Daten laden
 source("config.R", encoding = "UTF-8")
@@ -93,7 +93,7 @@ liste_wahlkreis$Sitze <- as.numeric(liste_wahlkreis$Sitze)
 anzahl_sitze_partei <- liste_wahlkreis %>%
   filter(Fraktion_de != "Diverse",
          Fraktion_de != "Aufrecht Schweiz") %>%
-  group_by(Fraktion_de) %>%
+  group_by(Fraktion_de,Fraktion_fr) %>%
   summarise(Sitze=sum(Sitze)
   )
 
