@@ -203,6 +203,7 @@ colnames(new_entry) <- c("Wahlkreis","Wahlkreis_fr","Storyboard","Text_de","Text
 data_gesamt <- rbind(data_gesamt,new_entry)
 
 cat(text)
+cat(text_fr)
 
 }
 }
