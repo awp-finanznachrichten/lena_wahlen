@@ -283,6 +283,6 @@ dw_publish_chart("nEP9l")
 
 
 #Texte speichern
-#library(xlsx)
-#write.xlsx(data_gesamt,"LENA_Wahlen_Vaud_Texte.xlsx",row.names = FALSE)
+library(xlsx)
+write.xlsx(data_gesamt,"LENA_Wahlen_Vaud_Texte.xlsx",row.names = FALSE)
 
