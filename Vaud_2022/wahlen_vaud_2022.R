@@ -198,7 +198,7 @@ if (fail_check == TRUE) {
                                  ListeGewinner_fr,ListeVerlierer_fr,
                                  ListeSitzverteilung_fr,ListeDiversemitSitze_fr,
                                  ListeNeugewaehlt_fr,ListeAbgewaehlt_fr)
-  
+
   #Letzte Textanpassungen
   text <- green_cleanup(text,anzahl_sitze_partei)
   text <- text_optimisation(text)
