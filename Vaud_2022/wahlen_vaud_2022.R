@@ -278,9 +278,11 @@ gitpush()
 
 #Datawrapper-Grafik aktualisieren
 datawrapper_auth("BMcG33cGBCp2FpqF1BSN5lHhKrw2W8Ait4AYbDEjkjVgCiWe07iqoX5pwHXdW36g", overwrite = TRUE)
-dw_edit_chart("nEP9l",annotate=paste0("Etat: ",format(Sys.time(),"%d.%m.%Y %H.%M")))
+dw_edit_chart("nEP9l",intro=paste0("Etat: ",format(Sys.time(),"%d.%m.%Y %H.%M")))
 dw_publish_chart("nEP9l")
 
+dw_edit_chart("krbAA",intro=paste0("Letzte Aktualisierung: ",format(Sys.time(),"%d.%m.%Y %H.%M")))
+dw_publish_chart("krbAA")
 
 #Texte speichern
 #library(xlsx)

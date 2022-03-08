@@ -239,10 +239,10 @@ gitpush()
 
 #Datawrapper-Grafik aktualisieren
 datawrapper_auth("BMcG33cGBCp2FpqF1BSN5lHhKrw2W8Ait4AYbDEjkjVgCiWe07iqoX5pwHXdW36g", overwrite = TRUE)
-dw_edit_chart("Gypmx",annotate=paste0("Letzte Aktualisierung: ",format(Sys.time(),"%d.%m.%Y %H:%M Uhr")))
+dw_edit_chart("Gypmx",intro=paste0("Letzte Aktualisierung: ",format(Sys.time(),"%d.%m.%Y %H:%M Uhr")))
 dw_publish_chart("Gypmx")
 
-dw_edit_chart("mlkcf",annotate=paste0("Etat: ",format(Sys.time(),"%d.%m.%Y %Hh%M")))
+dw_edit_chart("mlkcf",intro=paste0("Etat: ",format(Sys.time(),"%d.%m.%Y %Hh%M")))
 dw_publish_chart("mlkcf")
 
 
