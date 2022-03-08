@@ -1,10 +1,17 @@
 green_cleanup <- function(text, anzahl_sitze_partei) {
 
-  if (anzahl_sitze_partei$Fraktion_de[1] == "Grüne") {
+  text <- gsub("Die Ensemble","Ensemble",text)
+  text <- gsub("Die <b>Ensemble","<b>Ensemble",text)
+  text <- gsub("die Ensemble","Ensemble",text)
+  text <- gsub("die <b>Ensemble","<b>Ensemble",text)
+  
+  if (anzahl_sitze_partei$Fraktion_de[1] == "Grüne" ||
+      anzahl_sitze_partei$Fraktion_de[1] == "Libres" ) {
     text <- gsub("grosse Gewinnerin. Sie holt ","grossen Gewinner. Sie holen ",text)
   }  
   
-  if (anzahl_sitze_partei$Fraktion_de[nrow(anzahl_sitze_partei)] == "Grüne") {
+  if (anzahl_sitze_partei$Fraktion_de[nrow(anzahl_sitze_partei)] == "Grüne" ||
+      anzahl_sitze_partei$Fraktion_de[nrow(anzahl_sitze_partei)] == "Libres") {
     text <- gsub("grosse Verliererin. Sie büsst ","grossen Verlierer. Sie büssen ",text)
   }  
   
@@ -18,9 +25,21 @@ green_cleanup <- function(text, anzahl_sitze_partei) {
   text <- gsub("die Grüne hält ","die Grünen halten ",text)
   text <- gsub("Die <b>Grüne</b> ","Die <b>Grünen</b> ",text)
   text <- gsub("Die Grüne ","Die Grünen ",text)
-  text <- gsub("Die <b>Grüne</b> ","Die <b>Grünen</b> ",text)
+  text <- gsub("die <b>Grüne</b> ","die <b>Grünen</b> ",text)
   text <- gsub("die Grüne ","die Grünen ",text)
-
+  
+  text <- gsub("Die <b>Libres</b> ist ","Les <b>Libres</b> sind ",text)
+  text <- gsub("Die Libres ist ","Les Libres sind ",text)
+  text <- gsub("hält die <b>Libres</b> ","halten les <b>Libres</b> ",text)
+  text <- gsub("hält die Libres ","halten les Libres ",text)
+  text <- gsub("die <b>Libres</b> verliert ","les <b>Libres</b> verlieren ",text)
+  text <- gsub("die Libres verliert ","les Libres verlieren ",text)
+  text <- gsub("die <b>Libres</b> hält ","les <b>Libres</b> halten ",text)
+  text <- gsub("die Libres hält ","les Libres halten ",text)
+  text <- gsub("Die <b>Libres</b> ","Les <b>Libres</b> ",text)
+  text <- gsub("Die Libres ","Les Libres ",text)
+  text <- gsub("die <b>Libres</b> ","les <b>Libres</b> ",text)
+  text <- gsub("die Libres ","les Libres ",text)
 
 return(text)  
   

@@ -1,9 +1,9 @@
 green_cleanup <- function(text, anzahl_sitze_partei) {
 
-  text <- gsub("Le Ensemble","Ensemble",text)
-  text <- gsub("Le <b>Ensemble","<b>Ensemble",text)
-  text <- gsub("le Ensemble","Ensemble",text)
-  text <- gsub("le <b>Ensemble","<b>Ensemble",text)
+  text <- gsub("Die Ensemble","Ensemble",text)
+  text <- gsub("Die <b>Ensemble","<b>Ensemble",text)
+  text <- gsub("die Ensemble","Ensemble",text)
+  text <- gsub("die <b>Ensemble","<b>Ensemble",text)
   
   if (anzahl_sitze_partei$Fraktion_de[1] == "Grüne" ||
       anzahl_sitze_partei$Fraktion_de[1] == "Libres" ) {
@@ -25,7 +25,7 @@ green_cleanup <- function(text, anzahl_sitze_partei) {
   text <- gsub("die Grüne hält ","die Grünen halten ",text)
   text <- gsub("Die <b>Grüne</b> ","Die <b>Grünen</b> ",text)
   text <- gsub("Die Grüne ","Die Grünen ",text)
-  text <- gsub("Die <b>Grüne</b> ","Die <b>Grünen</b> ",text)
+  text <- gsub("die <b>Grüne</b> ","die <b>Grünen</b> ",text)
   text <- gsub("die Grüne ","die Grünen ",text)
   
   text <- gsub("Die <b>Libres</b> ist ","Les <b>Libres</b> sind ",text)
@@ -36,9 +36,9 @@ green_cleanup <- function(text, anzahl_sitze_partei) {
   text <- gsub("die Libres verliert ","les Libres verlieren ",text)
   text <- gsub("die <b>Libres</b> hält ","les <b>Libres</b> halten ",text)
   text <- gsub("die Libres hält ","les Libres halten ",text)
-  text <- gsub("Die <b>Libres</b> ","les <b>Libres</b> ",text)
-  text <- gsub("Die Libres ","Les Libres ",text)
   text <- gsub("Die <b>Libres</b> ","Les <b>Libres</b> ",text)
+  text <- gsub("Die Libres ","Les Libres ",text)
+  text <- gsub("die <b>Libres</b> ","les <b>Libres</b> ",text)
   text <- gsub("die Libres ","les Libres ",text)
 
 return(text)  
