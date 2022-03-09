@@ -247,5 +247,5 @@ dw_publish_chart("mlkcf")
 
 
 #Texte speichern
-#library(xlsx)
-#write.xlsx(data_gesamt,"LENA_Wahlen_Bern_Texte.xlsx",row.names = FALSE)
+library(xlsx)
+write.xlsx(data_gesamt,"LENA_Wahlen_Bern_Texte.xlsx",row.names = FALSE)

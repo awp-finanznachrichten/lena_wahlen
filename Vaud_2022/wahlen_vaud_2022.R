@@ -285,6 +285,6 @@ dw_edit_chart("krbAA",intro=paste0("Letzte Aktualisierung: ",format(Sys.time(),"
 dw_publish_chart("krbAA")
 
 #Texte speichern
-#library(xlsx)
-#write.xlsx(data_gesamt,"LENA_Wahlen_Vaud_Texte.xlsx",row.names = FALSE)
+library(xlsx)
+write.xlsx(data_gesamt,"LENA_Wahlen_Vaud_Texte.xlsx",row.names = FALSE)
 
