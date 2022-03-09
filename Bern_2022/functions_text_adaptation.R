@@ -51,16 +51,20 @@ green_cleanup_fr <- function(text, anzahl_sitze_partei) {
       anzahl_sitze_partei$Fraktion_fr[1] == "Vert'libéraux" ||
       anzahl_sitze_partei$Fraktion_fr[1] == "Libres" 
       ) {
-    text <- gsub("est le grand gagnant ","sont le grand gagnants ",text)
-    text <- gsub("Il remporte ","Il remportertent ",text)
+    text <- gsub("est le grand gagnant","sont le grand gagnants",text)
+    text <- gsub("Il remporte ","Ils remportertent ",text)
+    text <- gsub("Il gagne ","Ils gagnent ",text)
+    
   }  
   
   if (anzahl_sitze_partei$Fraktion_fr[nrow(anzahl_sitze_partei)] == "Verts" ||
       anzahl_sitze_partei$Fraktion_fr[nrow(anzahl_sitze_partei)] == "Vert'libéraux" ||
       anzahl_sitze_partei$Fraktion_fr[nrow(anzahl_sitze_partei)] == "Libres" 
       ) {
-    text <- gsub("est le grand battu ","sont les grands battus ",text)
+    text <- gsub("est le grand battu","sont les grands battus",text)
     text <- gsub("Il perd ","Ils perdent ",text)
+    text <- gsub("recule ","reculent ",text)
+    text <- gsub("perd ","predent ",text)
   }  
   
   text <- gsub("Le Ensemble","Ensemble",text)
