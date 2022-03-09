@@ -26,12 +26,14 @@ for (w in 1:length(wahlkreise)) {
 wahlkreis <- wahlkreise[w]
 
 #Sind Daten schon da?
-fail_check <- FALSE
+fail_check <- rep(FALSE,FALSE,FALSE,FALSE,FALSE,
+                  FALSE,FALSE,FALSE,FALSE,FALSE,
+                  FALSE,FALSE,FALSE)
 
-if (fail_check == TRUE) {
+if (fail_check[w] == TRUE) {
   storyboard <- NA
   text <- paste0("Der Wahlkreis ",wahlkreis," ist noch nicht ausgezählt")
-  text_fr <- paste0("L'arrondissement",wahlkreis," n'a pas encore été comptée")
+  text_fr <- paste0("L'arrondissement ",wahlkreis," n'a pas encore été comptée")
   
   new_entry <- data.frame(wahlkreis,storyboard,text,text_fr)
   colnames(new_entry) <- c("Wahlkreis","Storyboard","Text_de","Text_fr")
@@ -46,7 +48,7 @@ if (fail_check == TRUE) {
   ###Neue Daten von Website scrapen 
   url <- paste0("https://www.elections.vd.ch/votelec/app5/html/VDGC20170430-",codes_wahlkreise[w],"/Resultat/resultatsGenerauxResultatElection.html")
   webpage <- read_html(url)
-
+url
   data_table <- html_text(html_nodes(webpage,"td"))
 
   #Create new Dataframe
@@ -70,7 +72,7 @@ if (fail_check == TRUE) {
   new_data <- data_wahlkreis %>%
     select("Liste_Nummer","Sitze") 
   
-  #Plan B: Get new data from Excel
+###Plan B: Get new data from Excel
   new_data <- liste_wahlkreis %>%
     select(Liste_Nummer,Sitze)
 
@@ -285,6 +287,6 @@ dw_edit_chart("krbAA",intro=paste0("Letzte Aktualisierung: ",format(Sys.time(),"
 dw_publish_chart("krbAA")
 
 #Texte speichern
-library(xlsx)
-write.xlsx(data_gesamt,"LENA_Wahlen_Vaud_Texte.xlsx",row.names = FALSE)
+#library(xlsx)
+#write.xlsx(data_gesamt,"LENA_Wahlen_Vaud_Texte.xlsx",row.names = FALSE)
 
