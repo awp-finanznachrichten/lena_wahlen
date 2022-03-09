@@ -26,7 +26,7 @@ for (w in 1:length(wahlkreise)) {
 wahlkreis <- wahlkreise[w]
 
 #Sind Daten schon da?
-fail_check <- rep(FALSE,FALSE,FALSE,FALSE,FALSE,
+fail_check <- c(FALSE,FALSE,FALSE,FALSE,FALSE,
                   FALSE,FALSE,FALSE,FALSE,FALSE,
                   FALSE,FALSE,FALSE)
 
@@ -48,7 +48,6 @@ if (fail_check[w] == TRUE) {
   ###Neue Daten von Website scrapen 
   url <- paste0("https://www.elections.vd.ch/votelec/app5/html/VDGC20170430-",codes_wahlkreise[w],"/Resultat/resultatsGenerauxResultatElection.html")
   webpage <- read_html(url)
-url
   data_table <- html_text(html_nodes(webpage,"td"))
 
   #Create new Dataframe
@@ -64,7 +63,8 @@ url
     data_wahlkreis <- rbind(data_wahlkreis,new_data)
     list_number <- list_number+1
   }
-  
+
+
   data_wahlkreis <- data_wahlkreis[-1,]
   data_wahlkreis$Sitze <- as.numeric(data_wahlkreis$Sitze)
   data_wahlkreis$Liste_Nummer <- as.numeric(data_wahlkreis$Liste_Nummer)
@@ -105,7 +105,6 @@ url
     } else {
   neu_gewaehlt <- "Neu_gewaehlt_keine;"
   }  
-  
   
   #Sitze aufsummieren nach Partei
   anzahl_sitze_partei <- liste_wahlkreis %>%
