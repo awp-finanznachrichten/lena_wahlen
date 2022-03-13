@@ -30,13 +30,17 @@ fail_check <- c(FALSE,FALSE,FALSE,FALSE,FALSE,
                   FALSE,FALSE,FALSE,FALSE,FALSE,
                   FALSE,FALSE,FALSE)
 
-if (fail_check[w] == TRUE) {
+if (fail_check[w] == FALSE) {
   storyboard <- NA
-  text <- paste0("Der Wahlkreis ",wahlkreis," ist noch nicht ausgezählt")
-  text_fr <- paste0("L'arrondissement ",wahlkreis," n'a pas encore été comptée")
+  text <- paste0("Der Wahlkreis ist noch nicht ausgezählt")
+  text_fr <- paste0("L'arrondissement n'a pas encore été comptée")
   
-  new_entry <- data.frame(wahlkreis,storyboard,text,text_fr)
-  colnames(new_entry) <- c("Wahlkreis","Storyboard","Text_de","Text_fr")
+  sitze_wahlkreis_historisch <- Sitzverteilung_Historisch %>%
+    filter(Wahlkreis == wahlkreise[w]) %>%
+    gather()
+  
+  new_entry <- data.frame(wahlkreis,storyboard,text,text_fr,sitze_wahlkreis_historisch$value[nrow(sitze_wahlkreis_historisch)])
+  colnames(new_entry) <- c("Wahlkreis","Storyboard","Text_de","Text_fr","Sitze_all")
   data_gesamt <- rbind(data_gesamt,new_entry)
   
 } else {  
@@ -235,8 +239,6 @@ new_entry <- data.frame("Jura-Nord vaudois",data_datawrapper$Storyboard[4],
                         )
 colnames(new_entry) <- c("Wahlkreis","Storyboard","Text_de","Text_fr","Sitze_all","Wahlkreis_fr")
 data_datawrapper <- rbind(data_datawrapper,new_entry)
-
-View(data_datawrapper)
 
 new_entry <- data.frame("Lausanne",data_datawrapper$Storyboard[6],
                         paste0("<b>Sous-arrondissement de Lausanne-Ville (26 Sitze)</b><br>",data_datawrapper$Text_de[6],"<br><br>",
