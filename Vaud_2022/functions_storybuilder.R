@@ -173,7 +173,7 @@ get_liste_diverse_fr <- function(diverse_sitze) {
   output <- ""  
   if (nrow(diverse_sitze) > 1) {
     for (p in 1:nrow(diverse_sitze)){
-      output <- paste0(output,"la list '",diverse_sitze$Liste_Name[p],"' obtient ",diverse_sitze$Sitze[p]," sièges, ")  
+      output <- paste0(output,"la liste '",diverse_sitze$Liste_Name[p],"' obtient ",diverse_sitze$Sitze[p]," sièges, ")  
       
     }  
     output <- gsub("1 sièges","1 siège",output)
