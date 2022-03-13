@@ -32,6 +32,7 @@ green_cleanup <- function(text, anzahl_sitze_partei) {
   text <- gsub("Die Grüne","Die Grünen",text)
   text <- gsub("die <b>Grüne</b>","die <b>Grünen</b> ",text)
   text <- gsub("die Grüne","die Grünen",text)
+  text <- gsub("die <b>Grünen</b> holt ","die <b>Grünen</b> holen ",text)
   
   text <- gsub("Die <b>Libres</b> ist ","Les <b>Libres</b> sind ",text)
   text <- gsub("Die Libres ist ","Les Libres sind ",text)
@@ -45,6 +46,7 @@ green_cleanup <- function(text, anzahl_sitze_partei) {
   text <- gsub("Die Libres","Les Libres",text)
   text <- gsub("die <b>Libres</b>","les <b>Libres</b>",text)
   text <- gsub("die Libres","les Libres",text)
+  text <- gsub("les <b>Libres</b> holt ","les <b>Libres</b> holen ",text)
   
   text <- gsub("<b>Ensemble à gauche et POP</b> ist ","<b>Ensemble à gauche et POP</b> sind ",text)
   text <- gsub("Ensemble à gauche et POP ist ","Ensemble à gauche et POP sind ",text)
@@ -54,6 +56,7 @@ green_cleanup <- function(text, anzahl_sitze_partei) {
   text <- gsub("Ensemble à gauche et POP verliert ","Ensemble à gauche et POP verlieren ",text)
   text <- gsub("<b>Ensemble à gauche et POP</b> hält ","<b>Ensemble à gauche et POP</b> halten ",text)
   text <- gsub("Ensemble à gauche et POP hält ","Ensemble à gauche et POP halten ",text)
+  text <- gsub("<b>Ensemble à gauche et POP</b> holt ","<b>Ensemble à gauche et POP</b> holen ",text)
 
 return(text)  
   
