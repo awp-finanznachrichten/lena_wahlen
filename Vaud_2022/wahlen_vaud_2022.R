@@ -30,7 +30,7 @@ fail_check <- c(FALSE,FALSE,FALSE,FALSE,FALSE,
                   FALSE,FALSE,FALSE,FALSE,FALSE,
                   FALSE,FALSE,FALSE)
 
-if (fail_check[w] == FALSE) {
+if (fail_check[w] == TRUE) {
   storyboard <- NA
   text <- paste0("Der Wahlkreis ist noch nicht ausgezählt")
   text_fr <- paste0("L'arrondissement n'a pas encore été comptée")
