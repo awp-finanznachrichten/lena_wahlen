@@ -218,9 +218,6 @@ if (fail_check[w] == TRUE) {
 }
 }
 
-
-
-
 #Daten vorbereiten für Datawrapper
 data_gesamt <- data_gesamt[-1,]
 
