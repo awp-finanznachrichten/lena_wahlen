@@ -150,6 +150,7 @@ text_optimisation_fr <- function(text) {
   text <- str_replace_all(text,"arrondissement ","arrondissement de ")
   text <- str_replace_all(text,"de Jura-Nord","du Jura-Nord")
   text <- str_replace_all(text,"de Gros-de-Vaud","du Gros-de-Vaud")
+  text <- str_replace_all(text,"de Ouest Lausannois","de l'Ouest Lausannois")
   text <- str_replace_all(text,"Broye-Vully","la Broye et du Vully")
   text <- str_replace_all(text,"l'arrondissement de La Vallée","le sous-arrondissement de la Vallée")
   text <- str_replace_all(text,"l'arrondissement de Yverdon","le sous-arrondissement d'Yverdon")
