@@ -263,8 +263,9 @@ data_datawrapper$text_wahlkreis_fr <- paste0("Arrondissement de ",data_datawrapp
 data_datawrapper$text_wahlkreis_fr <- str_replace_all(data_datawrapper$text_wahlkreis_fr,"de Jura-Nord","du Jura-Nord")
 data_datawrapper$text_wahlkreis_fr <- str_replace_all(data_datawrapper$text_wahlkreis_fr,"de Gros-de-Vaud","du Gros-de-Vaud")
 data_datawrapper$text_wahlkreis_fr <- str_replace_all(data_datawrapper$text_wahlkreis_fr,"Broye-Vully","la Broye et du Vully")
-data_datawrapper$text_wahlkreis_fr <- str_replace_all(data_datawrapper$text_wahlkreis_fr,"de Ouest Lausannois","de l'Ouest Lausannois")
+data_datawrapper$text_wahlkreis_fr <- str_replace_all(data_datawrapper$text_wahlkreis_fr,"de Ouest lausannois","de l'Ouest Lausannois")
 data_datawrapper$text_wahlkreis_fr <- str_replace_all(data_datawrapper$text_wahlkreis_fr,"de Aigle","d'Aigle")
+data_datawrapper$text_wahlkreis_fr  <- str_replace_all(data_datawrapper$text_wahlkreis_fr,"Riviera-Pays d'Enhaut","la Riviera et du Pays d’Enhaut")
 
 #Farbe definieren
 data_datawrapper$Color <- 0
