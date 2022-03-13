@@ -49,17 +49,20 @@ green_cleanup_fr <- function(text, anzahl_sitze_partei) {
 
   if (anzahl_sitze_partei$Fraktion_fr[1] == "Verts" ||
       anzahl_sitze_partei$Fraktion_fr[1] == "Vert'libéraux" ||
-      anzahl_sitze_partei$Fraktion_fr[1] == "Libres" 
+      anzahl_sitze_partei$Fraktion_fr[1] == "Libres" ||
+      anzahl_sitze_partei$Fraktion_fr[1] == "Ensemble à gauche et POP"
       ) {
-    text <- gsub("est le grand gagnant","sont le grand gagnants",text)
-    text <- gsub("Il remporte ","Ils remportertent ",text)
+    text <- gsub("est le grand gagnant","sont les grand gagnants",text)
+    text <- gsub("Il remporte ","Ils remportent ",text)
+    text <- gsub("termine premier ","terminent premiers ",text)
     text <- gsub("Il gagne ","Ils gagnent ",text)
     
   }  
   
   if (anzahl_sitze_partei$Fraktion_fr[nrow(anzahl_sitze_partei)] == "Verts" ||
       anzahl_sitze_partei$Fraktion_fr[nrow(anzahl_sitze_partei)] == "Vert'libéraux" ||
-      anzahl_sitze_partei$Fraktion_fr[nrow(anzahl_sitze_partei)] == "Libres" 
+      anzahl_sitze_partei$Fraktion_fr[nrow(anzahl_sitze_partei)] == "Libres" ||
+      anzahl_sitze_partei$Fraktion_fr[nrow(anzahl_sitze_partei)] == "Ensemble à gauche et POP" 
       ) {
     text <- gsub("est le grand battu","sont les grands battus",text)
     text <- gsub("Il perd ","Ils perdent ",text)
@@ -83,10 +86,13 @@ green_cleanup_fr <- function(text, anzahl_sitze_partei) {
   text <- gsub("Le Vert'libéraux est ","Les Vert'libéraux sont ",text)
   text <- gsub("Le <b>Libres</b> est ","Les <b>Libres</b> sont ",text)
   text <- gsub("Le Libres est ","Les Libres sont ",text)
+  text <- gsub("<b>Ensemble à gauche et POP</b> est ","<b>Ensemble à gauche et POP</b> sont ",text)
+  text <- gsub("Ensemble à gauche est ","Ensemble à gauche sont ",text)
   
-  text <- gsub("Le Verts a perdu tous ses sièges","Les Verts ont perdu tous les leurs sièges",text)
-  text <- gsub("Le Vert'libéraux a perdu tous ses sièges","Les Vert'libéraux ont perdu tous les leurs sièges",text)
-  text <- gsub("Le Libres a perdu tous ses sièges","Les Libres ont perdu tous les leurs sièges",text)
+  text <- gsub("Le Verts a perdu tous ses sièges","Les Verts perdent tous leurs sièges",text)
+  text <- gsub("Le Vert'libéraux a perdu tous ses sièges","Les Vert'libéraux perdent tout leurs sièges",text)
+  text <- gsub("Le Libres a perdu tous ses sièges","Les Libres perdent tout leurs sièges",text)
+  text <- gsub("Ensemble à gauche et POP a perdu tous ses sièges","Ensemble à gauche et POP perdent tout leurs sièges",text)
   
   text <- gsub("Le <b>Verts</b> ","Les <b>Verts</b> ",text)
   text <- gsub("Le Verts ","Les Verts ",text)
@@ -100,13 +106,6 @@ green_cleanup_fr <- function(text, anzahl_sitze_partei) {
   text <- gsub("Le Libres ","Les Libres ",text)
   text <- gsub("le <b>Libres</b> ","les <b>Libres</b> ",text)
   text <- gsub("le Libres ","les Libres ",text)
-  
-  text <- str_replace_all(text,"de A","d'A") 
-  text <- str_replace_all(text,"de E","d'E")
-  text <- str_replace_all(text,"de I","d'I") 
-  text <- str_replace_all(text,"de O","d'O") 
-  text <- str_replace_all(text,"de U","d'U")
-  text <- str_replace_all(text,"de Yv","d'Yv")
 
   return(text)  
   
@@ -147,6 +146,25 @@ text_optimisation_fr <- function(text) {
   text <- gsub(" 10 "," dix ",text)
   text <- gsub(" 11 "," onze ",text)
   text <- gsub(" 12 "," douze ",text)
+  
+  text <- str_replace_all(text,"arrondissement ","arrondissement de ")
+  text <- str_replace_all(text,"de Jura-Nord","du Jura-Nord")
+  text <- str_replace_all(text,"de Gros-de-Vaud","du Gros-de-Vaud")
+  text <- str_replace_all(text,"Broye-Vully","la Broye et du Vully")
+  text <- str_replace_all(text,"l'arrondissement de La Vallée","le sous-arrondissement de la Vallée")
+  text <- str_replace_all(text,"l'arrondissement de Yverdon","le sous-arrondissement d'Yverdon")
+  text <- str_replace_all(text,"l'arrondissement de Lausanne-Ville","le sous-arrondissement de Lausanne-Ville")
+  text <- str_replace_all(text,"l'arrondissement de Romanel","le sous-arrondissement de Romanel")
+  text <- str_replace_all(text,"l'arrondissement de Vevey","le sous-arrondissement de Vevey")
+  text <- str_replace_all(text,"l'arrondissement de Pays-d'Enhaut","le sous-arrondissement du Pays d'Enhaut")
+  
+  text <- str_replace_all(text,"de A","d'A")
+  text <- str_replace_all(text,"de E","d'E")
+  text <- str_replace_all(text,"de I","d'I") 
+  text <- str_replace_all(text,"de O","d'O") 
+  text <- str_replace_all(text,"de U","d'U")
+  text <- str_replace_all(text,"de Yv","d'Yv")
+  text <- str_replace_all(text,"de le ","du ")
   
   text <- substring(text,1,nchar(text)-8)
   return(text)  

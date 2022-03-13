@@ -229,34 +229,40 @@ data_datawrapper$Wahlkreis_fr <- data_gesamt$Wahlkreis
 
 #Suous-arrondissement mergen
 new_entry <- data.frame("Jura-Nord vaudois",data_datawrapper$Storyboard[4],
-                        paste0("<b>Sous-arrondissement: La Vallée</b><br>",data_datawrapper$Text_de[4],"<br><br>",
-                               "<b>Sous-arrondissement: Yverdon</b><br>",data_datawrapper$Text_de[5]),
-                        paste0("<b>Sous-arrondissement: La Vallée</b><br>",data_datawrapper$Text_fr[4],"<br><br>",
-                               "<b>Sous-arrondissement: Yverdon</b><br>",data_datawrapper$Text_fr[5]),
+                        paste0("<b>Sous-arrondissement de la Vallée</b><br>",data_datawrapper$Text_de[4],"<br><br>",
+                               "<b>Sous-arrondissement d'Yverdon</b><br>",data_datawrapper$Text_de[5]),
+                        paste0("<b>Sous-arrondissement de la Vallée</b><br>",data_datawrapper$Text_fr[4],"<br><br>",
+                               "<b>Sous-arrondissement d'Yverdon</b><br>",data_datawrapper$Text_fr[5]),
                         "Jura-Nord vaudois")
 colnames(new_entry) <- c("Wahlkreis","Storyboard","Text_de","Text_fr","Wahlkreis_fr")
 data_datawrapper <- rbind(data_datawrapper,new_entry)
 
 new_entry <- data.frame("Lausanne",data_datawrapper$Storyboard[6],
-                        paste0("<b>Sous-arrondissement: Lausanne-Ville</b><br>",data_datawrapper$Text_de[6],"<br><br>",
-                               "<b>Sous-arrondissement: Romanel</b><br>",data_datawrapper$Text_de[7]),
-                        paste0("<b>Sous-arrondissement: Lausanne-Ville</b><br>",data_datawrapper$Text_fr[6],"<br><br>",
-                               "<b>Sous-arrondissement: Romanel</b><br>",data_datawrapper$Text_fr[7]),
+                        paste0("<b>Sous-arrondissement de Lausanne-Ville</b><br>",data_datawrapper$Text_de[6],"<br><br>",
+                               "<b>Sous-arrondissement de Romanel</b><br>",data_datawrapper$Text_de[7]),
+                        paste0("<b>Sous-arrondissement de Lausanne-Ville</b><br>",data_datawrapper$Text_fr[6],"<br><br>",
+                               "<b>Sous-arrondissement de Romanel</b><br>",data_datawrapper$Text_fr[7]),
                         "Lausanne")
 colnames(new_entry) <- c("Wahlkreis","Storyboard","Text_de","Text_fr","Wahlkreis_fr")
 data_datawrapper <- rbind(data_datawrapper,new_entry)
 
 new_entry <- data.frame("Riviera-Pays d'Enhaut",data_datawrapper$Storyboard[12],
-                        paste0("<b>Sous-arrondissement: Vevey</b><br>",data_datawrapper$Text_de[12],"<br><br>",
-                               "<b>Sous-arrondissement: </b><br>",data_datawrapper$Text_de[13]),
-                        paste0("<b>Sous-arrondissement: Vevey</b><br>",data_datawrapper$Text_fr[12],"<br><br>",
-                               "<b>Sous-arrondissement: Pays-d'Enhaut</b><br>",data_datawrapper$Text_fr[13]),
+                        paste0("<b>Sous-arrondissement de Vevey</b><br>",data_datawrapper$Text_de[12],"<br><br>",
+                               "<b>Sous-arrondissement du Pays d'Enhaut </b><br>",data_datawrapper$Text_de[13]),
+                        paste0("<b>Sous-arrondissement de Vevey</b><br>",data_datawrapper$Text_fr[12],"<br><br>",
+                               "<b>Sous-arrondissement du Pays-d'Enhaut</b><br>",data_datawrapper$Text_fr[13]),
                         "Riviera-Pays d'Enhaut")
 
 colnames(new_entry) <- c("Wahlkreis","Storyboard","Text_de","Text_fr","Wahlkreis_fr")
 data_datawrapper <- rbind(data_datawrapper,new_entry)
 
 data_datawrapper <- data_datawrapper[-c(4:7,12:13),]
+
+#Anpassung Wahlkreis
+data_datawrapper$text_wahlkreis_fr <- paste0("Arrondissement de ",data_datawrapper$Wahlkreis_fr)
+data_datawrapper$text_wahlkreis_fr <- str_replace_all(data_datawrapper$text_wahlkreis_fr,"de Jura-Nord","du Jura-Nord")
+data_datawrapper$text_wahlkreis_fr <- str_replace_all(data_datawrapper$text_wahlkreis_fr,"de Gros-de-Vaud","du Gros-de-Vaud")
+data_datawrapper$text_wahlkreis_fr <- str_replace_all(data_datawrapper$text_wahlkreis_fr,"Broye-Vully","la Broye et du Vully")
 
 #Farbe definieren
 data_datawrapper$Color <- 0
@@ -289,3 +295,4 @@ dw_publish_chart("krbAA")
 #library(xlsx)
 #write.xlsx(data_gesamt,"LENA_Wahlen_Vaud_Texte.xlsx",row.names = FALSE)
 
+View(data_datawrapper)
