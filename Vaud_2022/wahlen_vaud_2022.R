@@ -15,8 +15,8 @@ wahlkreise <- c("Aigle","Broye-Vully","Gros-de-Vaud","La Vallée","Yverdon",
 codes_wahlkreise <- c("A2","A3","A4","A11","A12","A13","A14","A5","A6","A7","A8","A9","A10")
 
 ####Dataframe für alle Daten
-data_gesamt <- data.frame("Wahlkreis","Storyboard","Text_de","Text_fr")
-colnames(data_gesamt) <- c("Wahlkreis","Storyboard","Text_de","Text_fr")
+data_gesamt <- data.frame("Wahlkreis","Storyboard","Text_de","Text_fr","Sitze_all")
+colnames(data_gesamt) <- c("Wahlkreis","Storyboard","Text_de","Text_fr","Sitze_all")
 
 #Dataframe bisherige
 Bisherige <- data.frame("Wahlkreis","Gewaehlt")
@@ -124,12 +124,12 @@ if (fail_check[w] == TRUE) {
   aufrecht_sitze <- liste_wahlkreis %>%
     filter(Fraktion_de == "Aufrecht Schweiz",
            Sitze > 0)
-  
+
   #Zusammenführen mit historischen Daten und Vergleich
   sitze_wahlkreis_historisch <- Sitzverteilung_Historisch %>%
     filter(Wahlkreis == wahlkreise[w]) %>%
     gather()
-  
+
   anzahl_sitze_partei <- left_join(anzahl_sitze_partei,
                                    sitze_wahlkreis_historisch,
                                    by = c("Fraktion_de"="key")) %>%
@@ -143,7 +143,7 @@ if (fail_check[w] == TRUE) {
   print(anzahl_sitze_partei)
   
   ###Storyfinder
-  
+
   #Gewinner und Verlierer  
   winners <- get_winner(anzahl_sitze_partei)
   losers <- get_losers(anzahl_sitze_partei)
@@ -208,8 +208,8 @@ if (fail_check[w] == TRUE) {
   text_fr <- text_optimisation_fr(text_fr)
   
   #Daten einfügen
-  new_entry <- data.frame(wahlkreis,storyboard,text,text_fr)
-  colnames(new_entry) <- c("Wahlkreis","Storyboard","Text_de","Text_fr")
+  new_entry <- data.frame(wahlkreis,storyboard,text,text_fr,sitze_wahlkreis_historisch$value[nrow(sitze_wahlkreis_historisch)])
+  colnames(new_entry) <- c("Wahlkreis","Storyboard","Text_de","Text_fr","Sitze_all")
   data_gesamt <- rbind(data_gesamt,new_entry)
   
   cat(text)
@@ -226,43 +226,50 @@ data_datawrapper$Wahlkreis_fr <- data_gesamt$Wahlkreis
 
 #Suous-arrondissement mergen
 new_entry <- data.frame("Jura-Nord vaudois",data_datawrapper$Storyboard[4],
-                        paste0("<b>Sous-arrondissement de la Vallée</b><br>",data_datawrapper$Text_de[4],"<br><br>",
-                               "<b>Sous-arrondissement d'Yverdon</b><br>",data_datawrapper$Text_de[5]),
-                        paste0("<b>Sous-arrondissement de la Vallée</b><br>",data_datawrapper$Text_fr[4],"<br><br>",
-                               "<b>Sous-arrondissement d'Yverdon</b><br>",data_datawrapper$Text_fr[5]),
-                        "Jura-Nord vaudois")
-colnames(new_entry) <- c("Wahlkreis","Storyboard","Text_de","Text_fr","Wahlkreis_fr")
+                        paste0("<b>Sous-arrondissement de la Vallée (2 Sitze)</b><br>",data_datawrapper$Text_de[4],"<br><br>",
+                               "<b>Sous-arrondissement d'Yverdon (15 Sitze)</b><br>",data_datawrapper$Text_de[5]),
+                        paste0("<b>Sous-arrondissement de la Vallée (2 sièges)</b><br>",data_datawrapper$Text_fr[4],"<br><br>",
+                               "<b>Sous-arrondissement d'Yverdon (15 sièges)</b><br>",data_datawrapper$Text_fr[5]),
+                        as.numeric(data_datawrapper$Sitze_all[4])+as.numeric(data_datawrapper$Sitze_all[5]),
+                        "Jura-Nord vaudois"
+                        )
+colnames(new_entry) <- c("Wahlkreis","Storyboard","Text_de","Text_fr","Sitze_all","Wahlkreis_fr")
 data_datawrapper <- rbind(data_datawrapper,new_entry)
 
+View(data_datawrapper)
+
 new_entry <- data.frame("Lausanne",data_datawrapper$Storyboard[6],
-                        paste0("<b>Sous-arrondissement de Lausanne-Ville</b><br>",data_datawrapper$Text_de[6],"<br><br>",
-                               "<b>Sous-arrondissement de Romanel</b><br>",data_datawrapper$Text_de[7]),
-                        paste0("<b>Sous-arrondissement de Lausanne-Ville</b><br>",data_datawrapper$Text_fr[6],"<br><br>",
-                               "<b>Sous-arrondissement de Romanel</b><br>",data_datawrapper$Text_fr[7]),
+                        paste0("<b>Sous-arrondissement de Lausanne-Ville (26 Sitze)</b><br>",data_datawrapper$Text_de[6],"<br><br>",
+                               "<b>Sous-arrondissement de Romanel (5 Sitze)</b><br>",data_datawrapper$Text_de[7]),
+                        paste0("<b>Sous-arrondissement de Lausanne-Ville (26 sièges)</b><br>",data_datawrapper$Text_fr[6],"<br><br>",
+                               "<b>Sous-arrondissement de Romanel (5 sièges)</b><br>",data_datawrapper$Text_fr[7]),
+                        as.numeric(data_datawrapper$Sitze_all[6])+as.numeric(data_datawrapper$Sitze_all[7]),
                         "Lausanne")
-colnames(new_entry) <- c("Wahlkreis","Storyboard","Text_de","Text_fr","Wahlkreis_fr")
+colnames(new_entry) <- c("Wahlkreis","Storyboard","Text_de","Text_fr","Sitze_all","Wahlkreis_fr")
 data_datawrapper <- rbind(data_datawrapper,new_entry)
 
 new_entry <- data.frame("Riviera-Pays d'Enhaut",data_datawrapper$Storyboard[12],
-                        paste0("<b>Sous-arrondissement de Vevey</b><br>",data_datawrapper$Text_de[12],"<br><br>",
-                               "<b>Sous-arrondissement du Pays d'Enhaut </b><br>",data_datawrapper$Text_de[13]),
-                        paste0("<b>Sous-arrondissement de Vevey</b><br>",data_datawrapper$Text_fr[12],"<br><br>",
-                               "<b>Sous-arrondissement du Pays-d'Enhaut</b><br>",data_datawrapper$Text_fr[13]),
+                        paste0("<b>Sous-arrondissement de Vevey (14 Sitze)</b><br>",data_datawrapper$Text_de[12],"<br><br>",
+                               "<b>Sous-arrondissement du Pays d'Enhaut (2 Sitze)</b><br>",data_datawrapper$Text_de[13]),
+                        paste0("<b>Sous-arrondissement de Vevey (15 sièges)</b><br>",data_datawrapper$Text_fr[12],"<br><br>",
+                               "<b>Sous-arrondissement du Pays-d'Enhaut (2 sièges)</b><br>",data_datawrapper$Text_fr[13]),
+                        as.numeric(data_datawrapper$Sitze_all[12])+as.numeric(data_datawrapper$Sitze_all[13]),
                         "Riviera-Pays d'Enhaut")
 
-colnames(new_entry) <- c("Wahlkreis","Storyboard","Text_de","Text_fr","Wahlkreis_fr")
+colnames(new_entry) <- c("Wahlkreis","Storyboard","Text_de","Text_fr","Sitze_all","Wahlkreis_fr")
 data_datawrapper <- rbind(data_datawrapper,new_entry)
 
 data_datawrapper <- data_datawrapper[-c(4:7,12:13),]
 
 #Anpassung Wahlkreis
-data_datawrapper$text_wahlkreis_fr <- paste0("Arrondissement de ",data_datawrapper$Wahlkreis_fr)
+data_datawrapper$text_wahlkreis_fr <- paste0("Arrondissement de ",data_datawrapper$Wahlkreis_fr," (",data_datawrapper$Sitze_all," sièges)")
 data_datawrapper$text_wahlkreis_fr <- str_replace_all(data_datawrapper$text_wahlkreis_fr,"de Jura-Nord","du Jura-Nord")
 data_datawrapper$text_wahlkreis_fr <- str_replace_all(data_datawrapper$text_wahlkreis_fr,"de Gros-de-Vaud","du Gros-de-Vaud")
 data_datawrapper$text_wahlkreis_fr <- str_replace_all(data_datawrapper$text_wahlkreis_fr,"Broye-Vully","la Broye et du Vully")
 data_datawrapper$text_wahlkreis_fr <- str_replace_all(data_datawrapper$text_wahlkreis_fr,"de Ouest lausannois","de l'Ouest Lausannois")
 data_datawrapper$text_wahlkreis_fr <- str_replace_all(data_datawrapper$text_wahlkreis_fr,"de Aigle","d'Aigle")
 data_datawrapper$text_wahlkreis_fr  <- str_replace_all(data_datawrapper$text_wahlkreis_fr,"Riviera-Pays d'Enhaut","la Riviera et du Pays d’Enhaut")
+data_datawrapper$text_wahlkreis_de <- gsub("sièges","Sitze",data_datawrapper$text_wahlkreis_fr)
 
 #Farbe definieren
 data_datawrapper$Color <- 0
