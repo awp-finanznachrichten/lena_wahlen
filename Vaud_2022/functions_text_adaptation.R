@@ -6,13 +6,16 @@ green_cleanup <- function(text, anzahl_sitze_partei) {
   text <- gsub("die <b>Ensemble","<b>Ensemble",text)
   
   if (anzahl_sitze_partei$Fraktion_de[1] == "Grüne" ||
-      anzahl_sitze_partei$Fraktion_de[1] == "Libres" ) {
+      anzahl_sitze_partei$Fraktion_de[1] == "Libres" ||
+      anzahl_sitze_partei$Fraktion_de[1] == "Ensemble à gauche et POP"
+      ) {
     text <- gsub("grosse Gewinnerin. Sie holt ","grossen Gewinner. Sie holen ",text)
     text <- gsub("Gewinnerin. Sie holt ","Gewinner. Sie holen ",text)
   }  
   
   if (anzahl_sitze_partei$Fraktion_de[nrow(anzahl_sitze_partei)] == "Grüne" ||
-      anzahl_sitze_partei$Fraktion_de[nrow(anzahl_sitze_partei)] == "Libres") {
+      anzahl_sitze_partei$Fraktion_de[nrow(anzahl_sitze_partei)] == "Libres" ||
+      anzahl_sitze_partei$Fraktion_de[nrow(anzahl_sitze_partei)] == "Ensemble à gauche et POP" ) {
     text <- gsub("grosse Verliererin. Sie büsst ","grossen Verlierer. Sie büssen ",text)
     text <- gsub("Verliererin. Sie büsst ","Verlierer. Sie büssen ",text)
   }  
@@ -42,6 +45,15 @@ green_cleanup <- function(text, anzahl_sitze_partei) {
   text <- gsub("Die Libres","Les Libres",text)
   text <- gsub("die <b>Libres</b>","les <b>Libres</b>",text)
   text <- gsub("die Libres","les Libres",text)
+  
+  text <- gsub("<b>Ensemble à gauche et POP</b> ist ","<b>Ensemble à gauche et POP</b> sind ",text)
+  text <- gsub("Ensemble à gauche et POP ist ","Ensemble à gauche et POP sind ",text)
+  text <- gsub("hält <b>Ensemble à gauche et POP</b> ","halten <b>Ensemble à gauche et POP</b> ",text)
+  text <- gsub("hält Ensemble à gauche et POP ","halten Ensemble à gauche et POP ",text)
+  text <- gsub("<b>Ensemble à gauche et POP</b> verliert ","<b>Ensemble à gauche et POP</b> verlieren ",text)
+  text <- gsub("Ensemble à gauche et POP verliert ","Ensemble à gauche et POP verlieren ",text)
+  text <- gsub("<b>Ensemble à gauche et POP</b> hält ","<b>Ensemble à gauche et POP</b> halten ",text)
+  text <- gsub("Ensemble à gauche et POP hält ","Ensemble à gauche et POP halten ",text)
 
 return(text)  
   
@@ -122,6 +134,7 @@ green_cleanup_fr <- function(text, anzahl_sitze_partei) {
 
 text_optimisation <- function(text) {
   text <- gsub("<br><br>die","<br><br>Die",text)
+  text <- gsub(": die",": Die",text)
   text <- gsub(" 1 "," einen ",text)
   text <- gsub(" 2 "," zwei ",text)
   text <- gsub(" 3 "," drei ",text)

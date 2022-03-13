@@ -100,7 +100,7 @@ get_liste_verlierer_fr <- function(anzahl_sitze_partei) {
   
   if (nrow(anzahl_sitze_partei) > 1) {
     for (p in 1:nrow(anzahl_sitze_partei)){
-      output <- paste0(output,"le <b>",anzahl_sitze_partei$Fraktion_fr[p],"</b> perd ",abs(anzahl_sitze_partei$change[p])," sièges, ")  
+      output <- paste0(output,"le <b>",anzahl_sitze_partei$Fraktion_fr[p],"</b> qui perd ",abs(anzahl_sitze_partei$change[p])," sièges, ")  
       
     }  
     output <- gsub("1 sièges","1 siège",output)
@@ -173,7 +173,7 @@ get_liste_diverse_fr <- function(diverse_sitze) {
   output <- ""  
   if (nrow(diverse_sitze) > 1) {
     for (p in 1:nrow(diverse_sitze)){
-      output <- paste0(output,"la list '",diverse_sitze$Liste_Name[p],"' obtient ",diverse_sitze$Sitze[p]," sièges, ")  
+      output <- paste0(output,"la liste '",diverse_sitze$Liste_Name[p],"' obtient ",diverse_sitze$Sitze[p]," sièges, ")  
       
     }  
     output <- gsub("1 sièges","1 siège",output)
