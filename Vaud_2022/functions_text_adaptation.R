@@ -67,9 +67,9 @@ green_cleanup_fr <- function(text, anzahl_sitze_partei) {
     text <- gsub("est le grand battu","sont les grands battus",text)
     text <- gsub("Il perd ","Ils perdent ",text)
     text <- gsub("recule ","reculent ",text)
-    text <- gsub("perd ","predent ",text)
+    text <- gsub("perd un siège[.]","predent un siège.",text)
   }  
-  
+
   text <- gsub("Le Ensemble","Ensemble",text)
   text <- gsub("Le <b>Ensemble","<b>Ensemble",text)
   text <- gsub("le Ensemble","Ensemble",text)
@@ -93,6 +93,12 @@ green_cleanup_fr <- function(text, anzahl_sitze_partei) {
   text <- gsub("Le Vert'libéraux a perdu tous ses sièges","Les Vert'libéraux perdent tout leurs sièges",text)
   text <- gsub("Le Libres a perdu tous ses sièges","Les Libres perdent tout leurs sièges",text)
   text <- gsub("Ensemble à gauche et POP a perdu tous ses sièges","Ensemble à gauche et POP perdent tout leurs sièges",text)
+  
+  text <- gsub("le <b>Verts</b> qui perd ","les <b>Verts</b> qui perdent ",text)
+  text <- gsub("le <b>Vert'libéraux</b> qui perd ","les <b>Vert'libéraux</b> qui perdent ",text)
+  text <- gsub("le <b>Libres</b> qui perd ","les <b>Libres</b> qui perdent ",text)
+  text <- gsub("le <b>Ensemble à gauche et POP</b> qui perd ","<b>Ensemble à gauche et POP</b> qui perdent ",text)
+  
   
   text <- gsub("Le <b>Verts</b> ","Les <b>Verts</b> ",text)
   text <- gsub("Le Verts ","Les Verts ",text)
