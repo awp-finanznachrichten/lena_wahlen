@@ -8,11 +8,13 @@ green_cleanup <- function(text, anzahl_sitze_partei) {
   if (anzahl_sitze_partei$Fraktion_de[1] == "Grüne" ||
       anzahl_sitze_partei$Fraktion_de[1] == "Libres" ) {
     text <- gsub("grosse Gewinnerin. Sie holt ","grossen Gewinner. Sie holen ",text)
+    text <- gsub("Gewinnerin. Sie holt ","Gewinner. Sie holen ",text)
   }  
   
   if (anzahl_sitze_partei$Fraktion_de[nrow(anzahl_sitze_partei)] == "Grüne" ||
       anzahl_sitze_partei$Fraktion_de[nrow(anzahl_sitze_partei)] == "Libres") {
     text <- gsub("grosse Verliererin. Sie büsst ","grossen Verlierer. Sie büssen ",text)
+    text <- gsub("Verliererin. Sie büsst ","Verlierer. Sie büssen ",text)
   }  
   
   text <- gsub("Die <b>Grüne</b> ist ","Die <b>Grünen</b> sind ",text)
