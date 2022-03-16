@@ -162,7 +162,7 @@ return(text)
 
 
 text_optimisation_fr <- function(text) {
-  text <- gsub("<br><br>le","<br><br>Le",text)
+  text <- gsub("<br><br>l","<br><br>L",text)
   text <- gsub(" 1 "," un ",text)
   text <- gsub(" 2 "," deux ",text)
   text <- gsub(" 3 "," trois ",text)
