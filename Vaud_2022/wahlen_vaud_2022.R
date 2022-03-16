@@ -26,7 +26,7 @@ for (w in 1:length(wahlkreise)) {
 wahlkreis <- wahlkreise[w]
 
 #Sind Daten schon da?
-fail_check <- c(TRUE,FALSE,FALSE,FALSE,FALSE,
+fail_check <- c(FALSE,FALSE,FALSE,FALSE,FALSE,
                   FALSE,FALSE,FALSE,FALSE,FALSE,
                   FALSE,FALSE,FALSE)
 
