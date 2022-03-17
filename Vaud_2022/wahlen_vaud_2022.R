@@ -238,7 +238,7 @@ data_gesamt <- data_gesamt[-1,]
 
 data_datawrapper <- data_gesamt
 data_datawrapper$Wahlkreis_fr <- data_gesamt$Wahlkreis
-
+View(data_gesamt)
 #Suous-arrondissement mergen
 new_entry <- data.frame("Jura-Nord vaudois",data_datawrapper$Storyboard[4],
                         paste0("<b>Sous-arrondissement de la Vallée (2 Sitze)</b><br>",data_datawrapper$Text_de[4],"<br><br>",
@@ -302,7 +302,7 @@ git2r::cred_token(token)
 gitadd()
 gitcommit()
 gitpush()
-url
+
 #Datawrapper-Grafik aktualisieren
 datawrapper_auth("BMcG33cGBCp2FpqF1BSN5lHhKrw2W8Ait4AYbDEjkjVgCiWe07iqoX5pwHXdW36g", overwrite = TRUE)
 dw_edit_chart("nEP9l",intro=paste0("Etat: ",format(Sys.time(),"%d.%m.%Y %H.%M")))
