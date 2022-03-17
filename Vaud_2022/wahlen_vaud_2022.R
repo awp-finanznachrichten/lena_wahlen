@@ -26,6 +26,17 @@ for (w in 1:length(wahlkreise)) {
 wahlkreis <- wahlkreise[w]
 
 #Sind Daten schon da?
+#url <- paste0("https://www.elections.vd.ch/votelec/app15/html/VDGC2022032-",codes_wahlkreise[w],"/Resultat/resultatsGenerauxResultatElection.html")
+
+#check_website <- tryCatch( {
+#  webpage <- read_html(url)
+#}, error= function(e) {
+#  print(e)
+#}    
+#)
+
+#fail_check <- grepl("HTTP error",check_website)
+
 fail_check <- c(FALSE,FALSE,FALSE,FALSE,FALSE,
                   FALSE,FALSE,FALSE,FALSE,FALSE,
                   FALSE,FALSE,FALSE)
@@ -83,8 +94,8 @@ if (fail_check[w] == TRUE) {
   #Daten zusammenführen
   liste_wahlkreis <- left_join(liste_wahlkreis,new_data)
   liste_wahlkreis$Sitze <- as.numeric(liste_wahlkreis$Sitze)
-  
-  #Neu Gewählte Personen
+
+###Neu Gewählte Personen
   neu_gewaehlt <- ""
   abgewaehlt <- ""
   ListeNeugewaehlt <- ""
@@ -253,7 +264,7 @@ data_datawrapper <- rbind(data_datawrapper,new_entry)
 new_entry <- data.frame("Riviera-Pays d'Enhaut",data_datawrapper$Storyboard[12],
                         paste0("<b>Sous-arrondissement de Vevey (14 Sitze)</b><br>",data_datawrapper$Text_de[12],"<br><br>",
                                "<b>Sous-arrondissement du Pays d'Enhaut (2 Sitze)</b><br>",data_datawrapper$Text_de[13]),
-                        paste0("<b>Sous-arrondissement de Vevey (15 sièges)</b><br>",data_datawrapper$Text_fr[12],"<br><br>",
+                        paste0("<b>Sous-arrondissement de Vevey (14 sièges)</b><br>",data_datawrapper$Text_fr[12],"<br><br>",
                                "<b>Sous-arrondissement du Pays-d'Enhaut (2 sièges)</b><br>",data_datawrapper$Text_fr[13]),
                         as.numeric(data_datawrapper$Sitze_all[12])+as.numeric(data_datawrapper$Sitze_all[13]),
                         "Riviera-Pays d'Enhaut")
@@ -291,7 +302,7 @@ git2r::cred_token(token)
 gitadd()
 gitcommit()
 gitpush()
-
+url
 #Datawrapper-Grafik aktualisieren
 datawrapper_auth("BMcG33cGBCp2FpqF1BSN5lHhKrw2W8Ait4AYbDEjkjVgCiWe07iqoX5pwHXdW36g", overwrite = TRUE)
 dw_edit_chart("nEP9l",intro=paste0("Etat: ",format(Sys.time(),"%d.%m.%Y %H.%M")))
@@ -303,6 +314,3 @@ dw_publish_chart("krbAA")
 #Texte speichern
 #library(xlsx)
 #write.xlsx(data_gesamt,"LENA_Wahlen_Vaud_Texte.xlsx",row.names = FALSE)
-
-View(data_datawrapper)
-data_datawrapper$Text_fr

@@ -13,7 +13,6 @@ library(git2r)
 library(DatawRappr)
 library(rvest)
 library(readxl)
-library(rvest)
 
 cat("Benoetigte Bibliotheken geladen\n")
 
