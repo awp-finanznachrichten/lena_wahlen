@@ -43,7 +43,7 @@ check_csv2 <- tryCatch( {
 fail_check1 <- grepl("Verbindung nicht",check_csv1[1])
 fail_check2 <- grepl("Verbindung nicht",check_csv2[1])
 
-if (fail_check1 == TRUE || fail_check2 == TRUE) {
+if (fail_check1 == FALSE || fail_check2 == FALSE) {
 storyboard <- NA
 text <- paste0("Der Wahlkreis ",wahlkreis," ist noch nicht ausgezählt")
 text_fr <- paste0("Le cercle électoral ",wahlkreis_fr," n'a pas encore été comptée")
