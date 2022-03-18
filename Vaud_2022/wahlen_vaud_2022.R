@@ -41,7 +41,7 @@ fail_check <- c(FALSE,FALSE,FALSE,FALSE,FALSE,
                   FALSE,FALSE,FALSE,FALSE,FALSE,
                   FALSE,FALSE,FALSE)
 
-if (fail_check[w] == TRUE) {
+if (fail_check[w] == FALSE) {
   storyboard <- NA
   text <- paste0("Der Wahlkreis ist noch nicht ausgezählt")
   text_fr <- paste0("L'arrondissement n'a pas encore été comptée")
@@ -238,7 +238,7 @@ data_gesamt <- data_gesamt[-1,]
 
 data_datawrapper <- data_gesamt
 data_datawrapper$Wahlkreis_fr <- data_gesamt$Wahlkreis
-View(data_gesamt)
+
 #Suous-arrondissement mergen
 new_entry <- data.frame("Jura-Nord vaudois",data_datawrapper$Storyboard[4],
                         paste0("<b>Sous-arrondissement de la Vallée (2 Sitze)</b><br>",data_datawrapper$Text_de[4],"<br><br>",

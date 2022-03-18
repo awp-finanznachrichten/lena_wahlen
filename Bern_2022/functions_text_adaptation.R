@@ -119,8 +119,12 @@ green_cleanup_fr <- function(text, anzahl_sitze_partei) {
   text <- gsub("le <b>Verts</b> obtient ","les <b>Verts</b> obtiennent ",text)
   text <- gsub("le <b>Vert'libéraux</b> obtient ","les <b>Vert'libéraux</b> obtiennent ",text)
   text <- gsub("le <b>Libres</b> obtient ","les <b>Libres</b> obtiennent ",text)
-  text <- gsub("<b>Ensemble à gauche et POP</b> obtient","<b>Ensemble à gauche et POP</b> obtiennent ",text)
+  text <- gsub("<b>Ensemble à gauche et POP</b> obtient ","<b>Ensemble à gauche et POP</b> obtiennent ",text)
   
+  text <- gsub("Verts détient ","Verts détiennent ",text)
+  text <- gsub("Vert'libéraux détient ","Vert'libéraux détiennent ",text)
+  text <- gsub("Libres détient ","Libres détiennent ",text)
+  text <- gsub("Ensemble à gauche et POP détient ","Ensemble à gauche et POP détiennent ",text)
   
   text <- gsub("Le <b>Verts</b>","Les <b>Verts</b>",text)
   text <- gsub("Le Verts","Les Verts",text)
