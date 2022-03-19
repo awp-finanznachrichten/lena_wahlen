@@ -27,7 +27,6 @@ wahlkreis <- wahlkreise[w]
 
 #Sind Daten schon da?
 url <- paste0("https://www.elections.vd.ch/votelec/app16/html/VDGC20220320-",codes_wahlkreise[w],"/Resultat/resultatsGenerauxResultatElection.html")
-
 webpage <- read_html(url)
 data_table <- html_text(html_nodes(webpage,"td"))
 
@@ -84,8 +83,8 @@ if (fail_check == TRUE) { #fail_check[w]
     select("Liste_Nummer","Sitze") 
   
 ###Plan B: Get new data from Excel
-  new_data <- liste_wahlkreis %>%
-    select(Liste_Nummer,Sitze)
+#  new_data <- liste_wahlkreis %>%
+#    select(Liste_Nummer,Sitze)
 
   #Daten zusammenführen
   liste_wahlkreis <- left_join(liste_wahlkreis,new_data)
