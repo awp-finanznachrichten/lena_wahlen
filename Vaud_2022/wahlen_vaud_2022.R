@@ -26,22 +26,18 @@ for (w in 1:length(wahlkreise)) {
 wahlkreis <- wahlkreise[w]
 
 #Sind Daten schon da?
-#url <- paste0("https://www.elections.vd.ch/votelec/app15/html/VDGC2022032-",codes_wahlkreise[w],"/Resultat/resultatsGenerauxResultatElection.html")
+url <- paste0("https://www.elections.vd.ch/votelec/app16/html/VDGC20220320-",codes_wahlkreise[w],"/Resultat/resultatsGenerauxResultatElection.html")
 
-#check_website <- tryCatch( {
-#  webpage <- read_html(url)
-#}, error= function(e) {
-#  print(e)
-#}    
-#)
+webpage <- read_html(url)
+data_table <- html_text(html_nodes(webpage,"td"))
 
-#fail_check <- grepl("HTTP error",check_website)
+fail_check <- length(data_table) == 0
+print(data_table)
+#fail_check <- c(FALSE,FALSE,FALSE,FALSE,FALSE,
+#                  FALSE,FALSE,FALSE,FALSE,FALSE,
+#                  FALSE,FALSE,FALSE)
 
-fail_check <- c(FALSE,FALSE,FALSE,FALSE,FALSE,
-                  FALSE,FALSE,FALSE,FALSE,FALSE,
-                  FALSE,FALSE,FALSE)
-
-if (fail_check[w] == FALSE) {
+if (fail_check == TRUE) { #fail_check[w]
   storyboard <- NA
   text <- paste0("Der Wahlkreis ist noch nicht ausgezählt")
   text_fr <- paste0("L'arrondissement n'a pas encore été comptée")
@@ -61,7 +57,7 @@ if (fail_check[w] == FALSE) {
     filter(Wahlkreis == wahlkreise[w])
 
   ###Neue Daten von Website scrapen 
-  url <- paste0("https://www.elections.vd.ch/votelec/app5/html/VDGC20170430-",codes_wahlkreise[w],"/Resultat/resultatsGenerauxResultatElection.html")
+  url <- paste0("https://www.elections.vd.ch/votelec/app16/html/VDGC20220320-",codes_wahlkreise[w],"/Resultat/resultatsGenerauxResultatElection.html")
   webpage <- read_html(url)
   data_table <- html_text(html_nodes(webpage,"td"))
 
