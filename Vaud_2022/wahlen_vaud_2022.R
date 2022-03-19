@@ -32,7 +32,7 @@ webpage <- read_html(url)
 data_table <- html_text(html_nodes(webpage,"td"))
 
 fail_check <- length(data_table) == 0
-print(data_table)
+
 #fail_check <- c(FALSE,FALSE,FALSE,FALSE,FALSE,
 #                  FALSE,FALSE,FALSE,FALSE,FALSE,
 #                  FALSE,FALSE,FALSE)
