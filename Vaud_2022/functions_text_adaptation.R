@@ -169,6 +169,8 @@ text_optimisation <- function(text) {
   text <- gsub("zusätzlichen ","",text)
   text <- gsub("zusätzliche ","",text)
   
+  text <- str_replace_all(text,"da[.] [(]EàG[)]","EàG")
+  
   text <- substring(text,1,nchar(text)-8)
 return(text)  
 }  
