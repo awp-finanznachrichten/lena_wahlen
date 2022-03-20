@@ -49,6 +49,9 @@ if (fail_check == TRUE) { #fail_check[w]
   colnames(new_entry) <- c("Wahlkreis","Storyboard","Text_de","Text_fr","Sitze_all")
   data_gesamt <- rbind(data_gesamt,new_entry)
   
+  cat(text)
+  cat(text_fr)
+  
 } else {  
   
   #Listendaten filtern
