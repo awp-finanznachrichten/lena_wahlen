@@ -29,7 +29,7 @@ wahlkreis <- wahlkreise[w]
 url <- paste0("https://www.elections.vd.ch/votelec/app16/html/VDGC20220320-",codes_wahlkreise[w],"/Resultat/resultatsGenerauxResultatElection.html")
 webpage <- read_html(url)
 data_table <- html_text(html_nodes(webpage,"td"))
-url
+
 fail_check <- length(data_table) == 0
 
 #fail_check <- c(FALSE,FALSE,FALSE,FALSE,FALSE,
@@ -84,7 +84,7 @@ if (fail_check == TRUE) { #fail_check[w]
 
   new_data <- data_wahlkreis %>%
     select("Liste_Nummer","Sitze") 
-  
+
 ###Plan B: Get new data from Excel
 #  new_data <- liste_wahlkreis %>%
 #    select(Liste_Nummer,Sitze)
@@ -127,7 +127,7 @@ if (fail_check == TRUE) { #fail_check[w]
     summarise(Sitze=sum(Sitze)
     )
   
- 
+
   #Diverse Listen Sitze
   diverse_sitze <- liste_wahlkreis %>%
     filter(Fraktion_de == "Diverse",
