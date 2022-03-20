@@ -139,7 +139,7 @@ green_cleanup_fr <- function(text, anzahl_sitze_partei) {
   text <- gsub("le <b>Libres</b>","les <b>Libres</b>",text)
   text <- gsub("le Libres","les Libres",text)
   
-  text <- gsub("sont les gagnant","sont les gagnants",text)
+  text <- gsub("sont le gagnant","sont les gagnants",text)
   
 
   return(text)  
