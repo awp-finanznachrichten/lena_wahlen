@@ -7,6 +7,9 @@ source("functions_storyfinder.R", encoding = "UTF-8")
 source("functions_storybuilder.R", encoding = "UTF-8")
 source("functions_text_adaptation.R", encoding = "UTF-8")
 
+Gewaehlte_Vaud_2017$Wahlkreis[12] <-	"Pays-d'Enhaut"
+Gewaehlte_Vaud_2017$Wahlkreis[13] <-	"Vevey"
+
 #Wahlkreise
 wahlkreise <- c("Aigle","Broye-Vully","Gros-de-Vaud","La Vallée","Yverdon",
                 "Lausanne-Ville","Romanel","Lavaux-Oron","Morges","Nyon","Ouest lausannois",
