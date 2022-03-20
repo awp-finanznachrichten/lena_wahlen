@@ -10,7 +10,7 @@ source("functions_text_adaptation.R", encoding = "UTF-8")
 #Wahlkreise
 wahlkreise <- c("Aigle","Broye-Vully","Gros-de-Vaud","La Vallée","Yverdon",
                 "Lausanne-Ville","Romanel","Lavaux-Oron","Morges","Nyon","Ouest lausannois",
-                "Vevey","Pays-d'Enhaut")
+                "Pays-d'Enhaut","Vevey")
 
 codes_wahlkreise <- c("A2","A3","A4","A11","A12","A13","A14","A5","A6","A7","A8","A9","A10")
 
