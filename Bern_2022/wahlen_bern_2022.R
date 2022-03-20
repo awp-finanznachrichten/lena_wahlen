@@ -1,3 +1,5 @@
+#Cercle électoral
+
 #Working Directory definieren
 setwd("C:/Users/simon/OneDrive/LENA_Project/lena_wahlen/Bern_2022")
 
