@@ -199,6 +199,8 @@ if (fail_check == TRUE) { #fail_check[w]
   ListeParteienOut_fr <- get_liste_parteienout_fr(anzahl_sitze_partei)
   ListeNeugewaehlt_fr <- ListeNeugewaehlt
   ListeAbgewaehlt_fr <- ""
+  
+  ListeNeugewaehlt <- gsub(" et "," und",ListeNeugewaehlt)
 
 
 
