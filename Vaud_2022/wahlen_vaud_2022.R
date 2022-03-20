@@ -265,10 +265,10 @@ colnames(new_entry) <- c("Wahlkreis","Storyboard","Text_de","Text_fr","Sitze_all
 data_datawrapper <- rbind(data_datawrapper,new_entry)
 
 new_entry <- data.frame("Riviera-Pays d'Enhaut",data_datawrapper$Storyboard[12],
-                        paste0("<b>Sous-arrondissement du Pays-d'Enhaut (14 Sitze)</b><br>",data_datawrapper$Text_de[12],"<br><br>",
-                               "<b>Sous-arrondissement de Vevey (2 Sitze)</b><br>",data_datawrapper$Text_de[13]),
-                        paste0("<b>Sous-arrondissement du Pays-d'Enhaut (14 sièges)</b><br>",data_datawrapper$Text_fr[12],"<br><br>",
-                               "<b>Sous-arrondissement de Vevey (2 sièges)</b><br>",data_datawrapper$Text_fr[13]),
+                        paste0("<b>Sous-arrondissement du Pays-d'Enhaut (2 Sitze)</b><br>",data_datawrapper$Text_de[12],"<br><br>",
+                               "<b>Sous-arrondissement de Vevey (14 Sitze)</b><br>",data_datawrapper$Text_de[13]),
+                        paste0("<b>Sous-arrondissement du Pays-d'Enhaut (2 sièges)</b><br>",data_datawrapper$Text_fr[12],"<br><br>",
+                               "<b>Sous-arrondissement de Vevey (14 sièges)</b><br>",data_datawrapper$Text_fr[13]),
                         as.numeric(data_datawrapper$Sitze_all[12])+as.numeric(data_datawrapper$Sitze_all[13]),
                         "Riviera-Pays d'Enhaut")
 
