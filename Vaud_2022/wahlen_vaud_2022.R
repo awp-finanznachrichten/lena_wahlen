@@ -29,7 +29,7 @@ wahlkreis <- wahlkreise[w]
 url <- paste0("https://www.elections.vd.ch/votelec/app16/html/VDGC20220320-",codes_wahlkreise[w],"/Resultat/resultatsGenerauxResultatElection.html")
 webpage <- read_html(url)
 data_table <- html_text(html_nodes(webpage,"td"))
-
+url
 fail_check <- length(data_table) == 0
 
 #fail_check <- c(FALSE,FALSE,FALSE,FALSE,FALSE,
