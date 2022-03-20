@@ -33,7 +33,7 @@ green_cleanup <- function(text, anzahl_sitze_partei) {
   text <- gsub("die <b>Grüne</b>","die <b>Grünen</b> ",text)
   text <- gsub("die Grüne","die Grünen",text)
   text <- gsub("die <b>Grünen</b> holt","die <b>Grünen</b> holen",text)
-  
+
   text <- gsub("Die <b>Libres</b> ist ","Les <b>Libres</b> sind ",text)
   text <- gsub("Die Libres ist ","Les Libres sind ",text)
   text <- gsub("hält die <b>Libres</b> ","halten les <b>Libres</b> ",text)
