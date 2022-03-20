@@ -200,7 +200,7 @@ if (fail_check == TRUE) { #fail_check[w]
   ListeNeugewaehlt_fr <- ListeNeugewaehlt
   ListeAbgewaehlt_fr <- ""
   
-  ListeNeugewaehlt <- gsub(" et "," und",ListeNeugewaehlt)
+  ListeNeugewaehlt <- gsub(" et "," und ",ListeNeugewaehlt)
 
 
 
