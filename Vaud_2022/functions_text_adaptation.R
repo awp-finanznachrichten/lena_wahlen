@@ -166,6 +166,9 @@ text_optimisation <- function(text) {
   text <- gsub(" 11 "," elf ",text)
   text <- gsub(" 12 "," zwölf ",text)
   
+  text <- gsub("zusätzlichen ","",text)
+  text <- gsub("zusätzliche ","",text)
+  
   text <- substring(text,1,nchar(text)-8)
 return(text)  
 }  
