@@ -287,6 +287,8 @@ data_datawrapper$text_wahlkreis_fr <- str_replace_all(data_datawrapper$text_wahl
 data_datawrapper$text_wahlkreis_fr  <- str_replace_all(data_datawrapper$text_wahlkreis_fr,"Riviera-Pays d'Enhaut","la Riviera et du Pays d’Enhaut")
 data_datawrapper$text_wahlkreis_de <- gsub("sièges","Sitze",data_datawrapper$text_wahlkreis_fr)
 
+data_datawrapper$Text_fr[7] <- gsub("Ils gagnent un siège supplémentaire","Ils décrochent un siège",data_datawrapper$Text_fr[7])
+
 #Farbe definieren
 data_datawrapper$Color <- 0
 for (r in 1:nrow(data_datawrapper) ) {
