@@ -7,7 +7,6 @@ source("functions_storyfinder.R", encoding = "UTF-8")
 source("functions_storybuilder.R", encoding = "UTF-8")
 source("functions_text_adaptation.R", encoding = "UTF-8")
 
-View(Gewaehlte_Vaud_2017)
 #Wahlkreise
 wahlkreise <- c("Aigle","Broye-Vully","Gros-de-Vaud","La Vallée","Yverdon",
                 "Lausanne-Ville","Romanel","Lavaux-Oron","Morges","Nyon","Ouest lausannois",
