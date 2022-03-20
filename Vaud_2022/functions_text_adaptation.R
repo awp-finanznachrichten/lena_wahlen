@@ -201,6 +201,8 @@ text_optimisation_fr <- function(text) {
   text <- str_replace_all(text,"de Yv","d'Yv")
   text <- str_replace_all(text,"de le ","du ")
   
+  text <- str_replace_all(text,"da[.] [(]EàG[)]","EàG")
+  
   text <- substring(text,1,nchar(text)-8)
   return(text)  
 }  
