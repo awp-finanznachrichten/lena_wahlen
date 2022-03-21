@@ -47,8 +47,8 @@ fail_check2 <- grepl("Verbindung nicht",check_csv2[1])
 
 if (fail_check1 == FALSE || fail_check2 == FALSE) {
 storyboard <- NA
-text <- paste0("Der Wahlkreis ",wahlkreis," ist noch nicht ausgezählt")
-text_fr <- paste0("Le cercle électoral ",wahlkreis_fr," n'a pas encore été comptée")
+text <- paste0("Der Wahlkreis ist noch nicht ausgezählt")
+text_fr <- paste0("Le cercle électoral n'a pas encore été comptée")
 
 new_entry <- data.frame(wahlkreis,wahlkreis_fr,storyboard,text,text_fr)
 colnames(new_entry) <- c("Wahlkreis","Wahlkreis_fr","Storyboard","Text_de","Text_fr")
@@ -228,6 +228,7 @@ data_datawrapper$Color[r] <- r
 }
 }
   
+#Anpassungen Wahlkreis
   
 write.csv(data_datawrapper,"Output/Uebersicht_dw_new.csv", na = "", row.names = FALSE, fileEncoding = "UTF-8")
 

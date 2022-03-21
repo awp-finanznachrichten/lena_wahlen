@@ -30,10 +30,10 @@ green_cleanup <- function(text, anzahl_sitze_partei) {
   text <- gsub("die Grüne hält ","die Grünen halten ",text)
   text <- gsub("Die <b>Grüne</b>","Die <b>Grünen</b>",text)
   text <- gsub("Die Grüne","Die Grünen",text)
-  text <- gsub("die <b>Grüne</b>","die <b>Grünen</b> ",text)
+  text <- gsub("die <b>Grüne</b>","die <b>Grünen</b>",text)
   text <- gsub("die Grüne","die Grünen",text)
-  text <- gsub("die <b>Grünen</b> holt ","die <b>Grünen</b> holen ",text)
-  
+  text <- gsub("die <b>Grünen</b> holt","die <b>Grünen</b> holen",text)
+
   text <- gsub("Die <b>Libres</b> ist ","Les <b>Libres</b> sind ",text)
   text <- gsub("Die Libres ist ","Les Libres sind ",text)
   text <- gsub("hält die <b>Libres</b> ","halten les <b>Libres</b> ",text)
@@ -138,6 +138,12 @@ green_cleanup_fr <- function(text, anzahl_sitze_partei) {
   text <- gsub("Le Libres","Les Libres",text)
   text <- gsub("le <b>Libres</b>","les <b>Libres</b>",text)
   text <- gsub("le Libres","les Libres",text)
+  
+  text <- gsub("sont le gagnant","sont les gagnants",text)
+  text <- gsub(" supplémentaires","",text)
+  text <- gsub(" supplémentaire","",text)
+
+  
 
   return(text)  
   
@@ -159,6 +165,11 @@ text_optimisation <- function(text) {
   text <- gsub(" 10 "," zehn ",text)
   text <- gsub(" 11 "," elf ",text)
   text <- gsub(" 12 "," zwölf ",text)
+  
+  text <- gsub("zusätzlichen ","",text)
+  text <- gsub("zusätzliche ","",text)
+  
+  text <- str_replace_all(text,"da[.] [(]EàG[)]","EàG")
   
   text <- substring(text,1,nchar(text)-8)
 return(text)  
@@ -200,6 +211,8 @@ text_optimisation_fr <- function(text) {
   text <- str_replace_all(text,"de U","d'U")
   text <- str_replace_all(text,"de Yv","d'Yv")
   text <- str_replace_all(text,"de le ","du ")
+  
+  text <- str_replace_all(text,"da[.] [(]EàG[)]","EàG")
   
   text <- substring(text,1,nchar(text)-8)
   return(text)  

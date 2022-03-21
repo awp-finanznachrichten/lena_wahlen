@@ -1,5 +1,5 @@
 #Working Directory definieren
-setwd("C:/Users/simon/OneDrive/LENA_Project/lena_wahlen/Vaud_2022")
+setwd("C:/Users/sw/OneDrive/LENA_Project/lena_wahlen/Vaud_2022")
 
 #Bibliotheken, Funktionen und vorhandene Daten laden
 source("config.R", encoding = "UTF-8")
@@ -100,27 +100,27 @@ if (fail_check == TRUE) { #fail_check[w]
   neu_gewaehlt <- ""
   abgewaehlt <- ""
   ListeNeugewaehlt <- ""
-  bisherige <- Gewaehlte_Vaud_2017[Gewaehlte_Vaud_2017$Wahlkreis == wahlkreis,]
-  Liste_bisherige <- gsub("; ","|",bisherige$Gewaehlt)
-  count_neu_gewaehlt <- 0
+ # bisherige <- Gewaehlte_Vaud_2017[Gewaehlte_Vaud_2017$Wahlkreis == wahlkreis,]
+# Liste_bisherige <- gsub("; ","|",bisherige$Gewaehlt)
+ # count_neu_gewaehlt <- 0
 
-  for (i in seq(which(grepl("Total",data_table))+3,length(data_table),3) ) {
-  if (grepl(data_table[i],Liste_bisherige) == FALSE) {
-    ListeNeugewaehlt <- paste0(ListeNeugewaehlt,data_table[i]," (",data_table[i+1],"), ")
-    count_neu_gewaehlt <- count_neu_gewaehlt + 1
-  }
-  }
+#  for (i in seq(which(grepl("Total",data_table))+3,length(data_table),3) ) {
+#  if (grepl(data_table[i],Liste_bisherige) == FALSE) {
+#    ListeNeugewaehlt <- paste0(ListeNeugewaehlt,data_table[i]," (",data_table[i+1],"), ")
+#    count_neu_gewaehlt <- count_neu_gewaehlt + 1
+#  }
+#  }
 
-  if (count_neu_gewaehlt > 1) {
-    ListeNeugewaehlt <- substr(ListeNeugewaehlt,1,nchar(ListeNeugewaehlt)-2)
-    ListeNeugewaehlt <- stri_replace_last(ListeNeugewaehlt,fixed=","," et")
-    neu_gewaehlt <- "Neu_gewaehlt_mehrere;"
-    } else if (count_neu_gewaehlt == 1) {
-      ListeNeugewaehlt <- substr(ListeNeugewaehlt,1,nchar(ListeNeugewaehlt)-2)
-      neu_gewaehlt <- "Neu_gewaehlt_1Person;"
-    } else {
-  neu_gewaehlt <- "Neu_gewaehlt_keine;"
-  }  
+#  if (count_neu_gewaehlt > 1) {
+#    ListeNeugewaehlt <- substr(ListeNeugewaehlt,1,nchar(ListeNeugewaehlt)-2)
+#    ListeNeugewaehlt <- stri_replace_last(ListeNeugewaehlt,fixed=","," et")
+#    neu_gewaehlt <- "Neu_gewaehlt_mehrere;"
+#    } else if (count_neu_gewaehlt == 1) {
+#      ListeNeugewaehlt <- substr(ListeNeugewaehlt,1,nchar(ListeNeugewaehlt)-2)
+#      neu_gewaehlt <- "Neu_gewaehlt_1Person;"
+#    } else {
+#  neu_gewaehlt <- "Neu_gewaehlt_keine;"
+#  }  
   
   #Sitze aufsummieren nach Partei
   anzahl_sitze_partei <- liste_wahlkreis %>%
@@ -303,7 +303,7 @@ write.csv(data_datawrapper,"Output/Uebersicht_dw_vaud.csv", na = "", row.names =
 
 #Auf Github hochladen
 #git2r::config(user.name = "awp-finanznachrichten",user.email = "sw@awp.ch")
-token <- read.csv("C:/Users/simon/OneDrive/Github_Token/token.txt",header=FALSE)[1,1]
+token <- read.csv("C:/Users/sw/OneDrive/Github_Token/token.txt",header=FALSE)[1,1]
 git2r::cred_token(token)
 gitadd()
 gitcommit()
