@@ -45,7 +45,7 @@ check_csv2 <- tryCatch( {
 fail_check1 <- grepl("Verbindung nicht",check_csv1[1])
 fail_check2 <- grepl("Verbindung nicht",check_csv2[1])
 
-if (fail_check1 == FALSE || fail_check2 == FALSE) {
+if (fail_check1 == TRUE || fail_check2 == TRUE) {
 storyboard <- NA
 text <- paste0("Der Wahlkreis ist noch nicht ausgezählt")
 text_fr <- paste0("Le cercle électoral n'a pas encore été comptée")
@@ -75,10 +75,8 @@ new_data <- new_data %>%
          "Sitze" = "Sièges")
 
 ###Plan B: Get new data from Excel
-#  new_data <- liste_wahlkreis %>%
-#    select(Liste_Nummer,Sitze)
-
-
+  new_data <- liste_wahlkreis %>%
+    select(Liste_Nummer,Sitze)
 
 #Daten zusammenführen
 liste_wahlkreis <- left_join(liste_wahlkreis,new_data)
