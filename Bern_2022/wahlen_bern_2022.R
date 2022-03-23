@@ -17,8 +17,8 @@ wahlkreise_fr <- c("Jura bernois","Bienne-Seeland","Haute-Argovie","Emmental","M
                 "Berne","Mittelland méridional","Thoune","Oberland")
 
 ####Dataframe für alle Daten
-data_gesamt <- data.frame("Wahlkreis","Wahlkreis_fr","Storyboard","Text_de","Text_fr")
-colnames(data_gesamt) <- c("Wahlkreis","Wahlkreis_fr","Storyboard","Text_de","Text_fr")
+data_gesamt <- data.frame("Wahlkreis","Wahlkreis_fr","Storyboard","Text_de","Text_fr","Sitze_all")
+colnames(data_gesamt) <- c("Wahlkreis","Wahlkreis_fr","Storyboard","Text_de","Text_fr","Sitze_all")
 
 
 for (w in 1:length(wahlkreise)) {
@@ -50,9 +50,12 @@ storyboard <- NA
 text <- paste0("Der Wahlkreis ist noch nicht ausgezählt")
 text_fr <- paste0("Le cercle électoral n'a pas encore été comptée")
 
-new_entry <- data.frame(wahlkreis,wahlkreis_fr,storyboard,text,text_fr)
-colnames(new_entry) <- c("Wahlkreis","Wahlkreis_fr","Storyboard","Text_de","Text_fr")
+new_entry <- data.frame(wahlkreis,wahlkreis_fr,storyboard,text,text_fr,Sitzverteilung_Historisch$Total[w])
+colnames(new_entry) <- c("Wahlkreis","Wahlkreis_fr","Storyboard","Text_de","Text_fr","Sitze_all")
 data_gesamt <- rbind(data_gesamt,new_entry)
+
+cat(text)
+cat(text_fr)
 
 } else {  
 
@@ -71,6 +74,17 @@ new_data <- new_data %>%
   rename("Liste_Nummer" = "No.liste",
          "Sitze" = "Sièges")
 
+###Plan B: Get new data from Excel
+#  new_data <- liste_wahlkreis %>%
+#    select(Liste_Nummer,Sitze)
+
+
+
+#Daten zusammenführen
+liste_wahlkreis <- left_join(liste_wahlkreis,new_data)
+liste_wahlkreis$Sitze <- as.numeric(liste_wahlkreis$Sitze)
+
+
 #Neu gewählte und abgewählte Kandidaten scrapen
 link <- paste0("https://www.bewas.sites.be.ch/2018/2018-03-25/WAHL_GROSSRAT/reportResultatWahlkreisRanglisteCsv-",LETTERS[w],".csv")
 candidates_data <- read.csv(link,sep =";",skip = 2)
@@ -85,10 +99,6 @@ candidates_abgewaehlt <- candidates_data %>%
   filter(Gew..elu.e == "",
          Bish..Sort. == "x")
 
-
-#Daten zusammenführen
-liste_wahlkreis <- left_join(liste_wahlkreis,new_data)
-liste_wahlkreis$Sitze <- as.numeric(liste_wahlkreis$Sitze)
 
 
 #Sitze aufsummieren nach Partei
@@ -200,8 +210,8 @@ text_fr <- green_cleanup_fr(text_fr,anzahl_sitze_partei)
 text_fr <- text_optimisation_fr(text_fr)
 
 #Daten einfügen
-new_entry <- data.frame(wahlkreis,wahlkreis_fr,storyboard,text,text_fr)
-colnames(new_entry) <- c("Wahlkreis","Wahlkreis_fr","Storyboard","Text_de","Text_fr")
+new_entry <- data.frame(wahlkreis,wahlkreis_fr,storyboard,text,text_fr,Sitzverteilung_Historisch$Total[w])
+colnames(new_entry) <- c("Wahlkreis","Wahlkreis_fr","Storyboard","Text_de","Text_fr","Sitze_all")
 data_gesamt <- rbind(data_gesamt,new_entry)
 
 cat(text)
@@ -214,10 +224,16 @@ cat(text_fr)
 #Daten vorbereiten für Datawrapper
 data_gesamt <- data_gesamt[-1,]
 
-#data_datawrapper <- merge(Gemeinden_Wahlkreise,data_gesamt)
 data_datawrapper <- data_gesamt
 data_datawrapper$Wahlkreis[1] <- "Berner Jura"
 data_datawrapper$Wahlkreis[2] <- "Biel-Seeland"
+
+#Texte für Wahlkreise
+data_datawrapper$text_wahlkreis_de <- paste0("Wahlkreis ",data_datawrapper$Wahlkreis,
+                                           " (",data_datawrapper$Sitze_all," Sitze)")
+
+data_datawrapper$text_wahlkreis_fr <- paste0("Cercle électoral de ",data_datawrapper$Wahlkreis_fr,
+                                           " (",data_datawrapper$Sitze_all," sièges)")
 
 
 #Farbe definieren
