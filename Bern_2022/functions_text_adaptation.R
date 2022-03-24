@@ -95,6 +95,10 @@ green_cleanup_fr <- function(text, anzahl_sitze_partei) {
   text <- gsub("Le <b>UDC","<b>L'UDC",text)
   text <- gsub("le UDC","l'UDC",text)
   text <- gsub("le <b>UDC","<b>l'UDC",text)
+  text <- gsub("Le UDF","L'UDF",text)
+  text <- gsub("Le <b>UDF","<b>L'UDF",text)
+  text <- gsub("le UDF","l'UDF",text)
+  text <- gsub("le <b>UDF","<b>l'UDF",text)
 
   
   text <- gsub("Le <b>Verts</b> est ","Les <b>Verts</b> sont ",text)
