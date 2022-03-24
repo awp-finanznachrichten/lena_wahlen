@@ -1,7 +1,7 @@
 #Cercle électoral
 
 #Working Directory definieren
-setwd("C:/Users/simon/OneDrive/LENA_Project/lena_wahlen/Bern_2022")
+setwd("C:/Users/sw/OneDrive/LENA_Project/lena_wahlen/Bern_2022")
 
 #Bibliotheken, Funktionen und vorhandene Daten laden
 source("config.R", encoding = "UTF-8")
@@ -88,7 +88,7 @@ link <- paste0("https://www.bewas.sites.be.ch/2018/2018-03-25/WAHL_GROSSRAT/repo
 candidates_data <- read.csv(link,sep =";",skip = 2)
 candidates_data$Liste.liste <- as.numeric(gsub(" .*","",candidates_data$Liste.liste))
 candidates_data <- left_join(candidates_data,liste_wahlkreis,by=c(Liste.liste = "Liste_Nummer"))
-
+View(candidates_data)
 candidates_neu_gewaehlt <- candidates_data %>%
   filter(Gew..elu.e == "*",
          Bish..Sort. == "")
@@ -233,7 +233,14 @@ data_datawrapper$text_wahlkreis_de <- paste0("Wahlkreis ",data_datawrapper$Wahlk
 data_datawrapper$text_wahlkreis_fr <- paste0("Cercle électoral de ",data_datawrapper$Wahlkreis_fr,
                                            " (",data_datawrapper$Sitze_all," sièges)")
 
+data_datawrapper$text_wahlkreis_fr <- str_replace_all(data_datawrapper$text_wahlkreis_fr,"de Jura bernois","du Jura bernois")
+data_datawrapper$text_wahlkreis_fr <- str_replace_all(data_datawrapper$text_wahlkreis_fr,"de Haute-Argovie","de la Haute-Argovie")
+data_datawrapper$text_wahlkreis_fr <- str_replace_all(data_datawrapper$text_wahlkreis_fr,"de Emmental","de l’Emmental")
+data_datawrapper$text_wahlkreis_fr <- str_replace_all(data_datawrapper$text_wahlkreis_fr,"de Mittelland septentrional","du Mittelland septentrional")
+data_datawrapper$text_wahlkreis_fr <- str_replace_all(data_datawrapper$text_wahlkreis_fr,"de Mittelland méridional","du Mittelland méridional")
+data_datawrapper$text_wahlkreis_fr  <- str_replace_all(data_datawrapper$text_wahlkreis_fr,"de Oberland","de l’Oberland")
 
+View(data_datawrapper)
 #Farbe definieren
 data_datawrapper$Color <- 0
 for (r in 1:nrow(data_datawrapper) ) {
@@ -248,7 +255,7 @@ write.csv(data_datawrapper,"Output/Uebersicht_dw_new.csv", na = "", row.names = 
 
 #Auf Github hochladen
 #git2r::config(user.name = "awp-finanznachrichten",user.email = "sw@awp.ch")
-token <- read.csv("C:/Users/simon/OneDrive/Github_Token/token.txt",header=FALSE)[1,1]
+token <- read.csv("C:/Users/sw/OneDrive/Github_Token/token.txt",header=FALSE)[1,1]
 git2r::cred_token(token)
 gitadd()
 gitcommit()

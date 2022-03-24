@@ -192,6 +192,13 @@ text_optimisation_fr <- function(text) {
   text <- gsub(" 12 "," douze ",text)
   
   text <- str_replace_all(text,"l'arrondissement ","le cercle électoral de ")
+  text <- str_replace_all(text,"de Jura bernois","du Jura bernois")
+  text <- str_replace_all(text,"de Haute-Argovie","de la Haute-Argovie")
+  text <- str_replace_all(text,"de Emmental","de l’Emmental")
+  text <- str_replace_all(text,"de Mittelland septentrional","du Mittelland septentrional")
+  text <- str_replace_all(text,"de Mittelland méridional","du Mittelland méridional")
+  text  <- str_replace_all(text,"de Oberland","de l’Oberland")
+  
   
   text <- str_replace_all(text,"de A","d'A")
   text <- str_replace_all(text,"de E","d'E")
