@@ -1,7 +1,7 @@
 #Cercle électoral
 
 #Working Directory definieren
-setwd("C:/Users/sw/OneDrive/LENA_Project/lena_wahlen/Bern_2022")
+setwd("C:/Users/simon/OneDrive/LENA_Project/lena_wahlen/Bern_2022")
 
 #Bibliotheken, Funktionen und vorhandene Daten laden
 source("config.R", encoding = "UTF-8")
@@ -26,7 +26,7 @@ wahlkreis <- wahlkreise[w]
 wahlkreis_fr <- wahlkreise_fr[w]
 
 #Sind Daten schon da?
-link <- paste0("https://www.bewas.sites.be.ch/2018/2018-03-25/WAHL_GROSSRAT/csvResultatWahlkreis-",LETTERS[w],".csv")
+link <- paste0("https://www.bewas.sites.be.ch/2022/2022-03-27/WAHL_GROSSRAT/csvResultatWahlkreis-",LETTERS[w],".csv")
 check_csv1 <- tryCatch( {
   read.csv(link,sep =";",skip = 4) 
   }, error= function(e) {
@@ -34,7 +34,7 @@ check_csv1 <- tryCatch( {
   }    
 )
 
-link <- paste0("https://www.bewas.sites.be.ch/2018/2018-03-25/WAHL_GROSSRAT/reportResultatWahlkreisRanglisteCsv-",LETTERS[w],".csv")
+link <- paste0("https://www.bewas.sites.be.ch/2022/2022-03-27/WAHL_GROSSRAT/reportResultatWahlkreisRanglisteCsv-",LETTERS[w],".csv")
 check_csv2 <- tryCatch( {
   read.csv(link,sep =";",skip = 4) 
 }, error= function(e) {
@@ -64,7 +64,7 @@ liste_wahlkreis <- Listen_und_Parteien %>%
   filter(Wahlkreis == wahlkreise[w])
 
 ###Neue Daten von CSV scrapen (Tabelle als Alternative?)
-link <- paste0("https://www.bewas.sites.be.ch/2018/2018-03-25/WAHL_GROSSRAT/csvResultatWahlkreis-",LETTERS[w],".csv")
+link <- paste0("https://www.bewas.sites.be.ch/2022/2022-03-27/WAHL_GROSSRAT/csvResultatWahlkreis-",LETTERS[w],".csv")
 new_data <- read.csv(link,sep =";",skip = 4)
 new_data$No.liste <- as.numeric(new_data$No.liste)
 new_data <- new_data[1:nrow(liste_wahlkreis),]
@@ -75,8 +75,8 @@ new_data <- new_data %>%
          "Sitze" = "Sièges")
 
 ###Plan B: Get new data from Excel
-  new_data <- liste_wahlkreis %>%
-    select(Liste_Nummer,Sitze)
+#  new_data <- liste_wahlkreis %>%
+#    select(Liste_Nummer,Sitze)
 
 #Daten zusammenführen
 liste_wahlkreis <- left_join(liste_wahlkreis,new_data)
@@ -84,7 +84,7 @@ liste_wahlkreis$Sitze <- as.numeric(liste_wahlkreis$Sitze)
 
 
 #Neu gewählte und abgewählte Kandidaten scrapen
-link <- paste0("https://www.bewas.sites.be.ch/2018/2018-03-25/WAHL_GROSSRAT/reportResultatWahlkreisRanglisteCsv-",LETTERS[w],".csv")
+link <- paste0("https://www.bewas.sites.be.ch/2022/2022-03-27/WAHL_GROSSRAT/reportResultatWahlkreisRanglisteCsv-",LETTERS[w],".csv")
 candidates_data <- read.csv(link,sep =";",skip = 2)
 candidates_data$Liste.liste <- as.numeric(gsub(" .*","",candidates_data$Liste.liste))
 candidates_data <- left_join(candidates_data,liste_wahlkreis,by=c(Liste.liste = "Liste_Nummer"))
@@ -96,7 +96,6 @@ candidates_neu_gewaehlt <- candidates_data %>%
 candidates_abgewaehlt <- candidates_data %>%
   filter(Gew..elu.e == "",
          Bish..Sort. == "x")
-
 
 #Sitze aufsummieren nach Partei
 anzahl_sitze_partei <- liste_wahlkreis %>%
@@ -254,7 +253,7 @@ write.csv(data_datawrapper,"Output/Uebersicht_dw_new.csv", na = "", row.names = 
 
 #Auf Github hochladen
 #git2r::config(user.name = "awp-finanznachrichten",user.email = "sw@awp.ch")
-token <- read.csv("C:/Users/sw/OneDrive/Github_Token/token.txt",header=FALSE)[1,1]
+token <- read.csv("C:/Users/simon/OneDrive/Github_Token/token.txt",header=FALSE)[1,1]
 git2r::cred_token(token)
 gitadd()
 gitcommit()
