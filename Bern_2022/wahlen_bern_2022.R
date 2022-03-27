@@ -75,6 +75,7 @@ new_data <- read.csv(link,sep =";",skip = 4)
 new_data$No.liste <- as.numeric(new_data$No.liste)
 new_data <- new_data[1:nrow(liste_wahlkreis),]
 
+View(new_data)
 new_data <- new_data %>%
   select("No.liste","Sièges") %>%
   rename("Liste_Nummer" = "No.liste",
