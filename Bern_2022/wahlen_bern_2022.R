@@ -45,6 +45,12 @@ check_csv2 <- tryCatch( {
 fail_check1 <- grepl("Verbindung nicht",check_csv1[1])
 fail_check2 <- grepl("Verbindung nicht",check_csv2[1])
 
+#fail_check1 <- c(TRUE,TRUE,TRUE,TRUE,TRUE,
+#                 TRUE,TRUE,TRUE,TRUE,TRUE)
+
+#fail_check2 <- c(TRUE,TRUE,TRUE,TRUE,TRUE,
+#                 TRUE,TRUE,TRUE,TRUE,TRUE)
+
 if (fail_check1 == TRUE || fail_check2 == TRUE) {
 storyboard <- NA
 text <- paste0("Der Wahlkreis ist noch nicht ausgezählt")
@@ -152,9 +158,11 @@ sitzverteilung_aufrecht <- get_sitzverteilung_aufrecht(aufrecht_sitze)
 
 #Neu Gewählt
 neu_gewaehlt <- get_neu_gewaehlt(candidates_neu_gewaehlt)
+#neu_gewaehlt <- ""
 
 #Abgewaehlt
 abgewaehlt <- get_abgewaehlt(candidates_abgewaehlt)
+#abgewaehlt <- ""
 
 storyboard <- paste0(winners,losers,nochange,
                 sitzverteilung,sitzverteilung_diverse,sitzverteilung_aufrecht,
@@ -175,6 +183,8 @@ ListeSitzverteilung <- get_liste_sitzverteilung(anzahl_sitze_partei)
 ListeParteienOut <- get_liste_parteienout(anzahl_sitze_partei)
 ListeNeugewaehlt <- get_liste_neugewaehlt(candidates_neu_gewaehlt)
 ListeAbgewaehlt <- get_liste_abgewaehlt(candidates_abgewaehlt)
+#ListeNeugewaehlt <- ""
+#ListeAbgewaehlt <- ""
 
 ListeGewinner_fr <- get_liste_gewinner_fr(anzahl_sitze_partei)
 ListeVerlierer_fr <- get_liste_verlierer_fr(anzahl_sitze_partei)
@@ -184,7 +194,8 @@ ListeSitzverteilung_fr <- get_liste_sitzverteilung_fr(anzahl_sitze_partei)
 ListeParteienOut_fr <- get_liste_parteienout_fr(anzahl_sitze_partei)
 ListeNeugewaehlt_fr <- get_liste_neugewaehlt_fr(candidates_neu_gewaehlt)
 ListeAbgewaehlt_fr <- get_liste_abgewaehlt_fr(candidates_abgewaehlt)
-
+#ListeNeugewaehlt_fr <- ""
+#ListeAbgewaehlt_fr <- ""
 
 
 #Variablen ersetzen
