@@ -20,10 +20,10 @@ wahlkreise_fr <- c("Jura bernois","Bienne-Seeland","Haute-Argovie","Emmental","M
 data_gesamt <- data.frame("Wahlkreis","Wahlkreis_fr","Storyboard","Text_de","Text_fr","Sitze_all")
 colnames(data_gesamt) <- c("Wahlkreis","Wahlkreis_fr","Storyboard","Text_de","Text_fr","Sitze_all")
 
-fail_check1 <- c(FALSE,FALSE,FALSE,FALSE,FALSE,
+fail_check1 <- c(FALSE,FALSE,FALSE,FALSE,TRUE,
                  TRUE,FALSE,FALSE,FALSE)
 
-fail_check2 <- c(FALSE,FALSE,FALSE,FALSE,FALSE,
+fail_check2 <- c(FALSE,FALSE,FALSE,FALSE,TRUE,
                  TRUE,FALSE,FALSE,FALSE)
 
 
