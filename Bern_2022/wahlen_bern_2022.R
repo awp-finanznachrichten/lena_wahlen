@@ -20,36 +20,36 @@ wahlkreise_fr <- c("Jura bernois","Bienne-Seeland","Haute-Argovie","Emmental","M
 data_gesamt <- data.frame("Wahlkreis","Wahlkreis_fr","Storyboard","Text_de","Text_fr","Sitze_all")
 colnames(data_gesamt) <- c("Wahlkreis","Wahlkreis_fr","Storyboard","Text_de","Text_fr","Sitze_all")
 
+fail_check1 <- c(TRUE,TRUE,FALSE,TRUE,TRUE,
+                 TRUE,TRUE,TRUE,TRUE,TRUE)
+
+fail_check2 <- c(TRUE,TRUE,FALSE,TRUE,TRUE,
+                 TRUE,TRUE,TRUE,TRUE,TRUE)
+
 
 for (w in 1:length(wahlkreise)) {
 wahlkreis <- wahlkreise[w]
 wahlkreis_fr <- wahlkreise_fr[w]
 
 #Sind Daten schon da?
-link <- paste0("https://www.bewas.sites.be.ch/2022/2022-03-27/WAHL_GROSSRAT/csvResultatWahlkreis-",LETTERS[w],".csv")
-check_csv1 <- tryCatch( {
-  read.csv(link,sep =";",skip = 4) 
-  }, error= function(e) {
-    print(e)
-  }    
-)
+#link <- paste0("https://www.bewas.sites.be.ch/2022/2022-03-27/WAHL_GROSSRAT/csvResultatWahlkreis-",LETTERS[w],".csv")
+#check_csv1 <- tryCatch( {
+#  read.csv(link,sep =";",skip = 4) 
+#  }, error= function(e) {
+#    print(e)
+#  }    
+#)
 
-link <- paste0("https://www.bewas.sites.be.ch/2022/2022-03-27/WAHL_GROSSRAT/reportResultatWahlkreisRanglisteCsv-",LETTERS[w],".csv")
-check_csv2 <- tryCatch( {
-  read.csv(link,sep =";",skip = 4) 
-}, error= function(e) {
-  print(e)
-}    
-)
+#link <- paste0("https://www.bewas.sites.be.ch/2022/2022-03-27/WAHL_GROSSRAT/reportResultatWahlkreisRanglisteCsv-",LETTERS[w],".csv")
+#check_csv2 <- tryCatch( {
+#  read.csv(link,sep =";",skip = 4) 
+#}, error= function(e) {
+#  print(e)
+#}    
+#)
 
-fail_check1 <- grepl("Verbindung nicht",check_csv1[1])
-fail_check2 <- grepl("Verbindung nicht",check_csv2[1])
-
-fail_check1 <- c(TRUE,TRUE,TRUE,TRUE,TRUE,
-                 TRUE,TRUE,TRUE,TRUE,TRUE)
-
-fail_check2 <- c(TRUE,TRUE,TRUE,TRUE,TRUE,
-                 TRUE,TRUE,TRUE,TRUE,TRUE)
+#fail_check1 <- grepl("Verbindung nicht",check_csv1[1])
+#fail_check2 <- grepl("Verbindung nicht",check_csv2[1])
 
 if (fail_check1[w] == TRUE || fail_check2[w] == TRUE) {
 storyboard <- NA
@@ -94,16 +94,17 @@ liste_wahlkreis$Sitze <- as.numeric(liste_wahlkreis$Sitze)
 #Neu gewählte und abgewählte Kandidaten scrapen
 link <- paste0("https://www.bewas.sites.be.ch/2022/2022-03-27/WAHL_GROSSRAT/reportResultatWahlkreisRanglisteCsv-",LETTERS[w],".csv")
 candidates_data <- read.csv(link,sep =";",skip = 2)
-candidates_data$Liste.liste <- as.numeric(gsub(" .*","",candidates_data$Liste.liste))
-candidates_data <- left_join(candidates_data,liste_wahlkreis,by=c(Liste.liste = "Liste_Nummer"))
-View(candidates_data)
+candidates_data$Liste <- as.numeric(gsub(" .*","",candidates_data$Liste))
+candidates_data <- left_join(candidates_data,liste_wahlkreis,by=c(Liste = "Liste_Nummer"))
+
+
 candidates_neu_gewaehlt <- candidates_data %>%
-  filter(Gew..elu.e == "*",
-         Bish..Sort. == "")
+  filter(Gew....Elu.e == "*",
+         Bish....Sort. == "")
 
 candidates_abgewaehlt <- candidates_data %>%
-  filter(Gew..elu.e == "",
-         Bish..Sort. == "x")
+  filter(Gew....Elu.e == "",
+         Bish....Sort. == "x")
 
 #Sitze aufsummieren nach Partei
 anzahl_sitze_partei <- liste_wahlkreis %>%
@@ -160,11 +161,11 @@ sitzverteilung_aufrecht <- get_sitzverteilung_aufrecht(aufrecht_sitze)
 
 #Neu Gewählt
 neu_gewaehlt <- get_neu_gewaehlt(candidates_neu_gewaehlt)
-#neu_gewaehlt <- ""
+neu_gewaehlt <- ""
 
 #Abgewaehlt
 abgewaehlt <- get_abgewaehlt(candidates_abgewaehlt)
-#abgewaehlt <- ""
+abgewaehlt <- ""
 
 storyboard <- paste0(winners,losers,nochange,
                 sitzverteilung,sitzverteilung_diverse,sitzverteilung_aufrecht,
@@ -185,8 +186,8 @@ ListeSitzverteilung <- get_liste_sitzverteilung(anzahl_sitze_partei)
 ListeParteienOut <- get_liste_parteienout(anzahl_sitze_partei)
 ListeNeugewaehlt <- get_liste_neugewaehlt(candidates_neu_gewaehlt)
 ListeAbgewaehlt <- get_liste_abgewaehlt(candidates_abgewaehlt)
-#ListeNeugewaehlt <- ""
-#ListeAbgewaehlt <- ""
+ListeNeugewaehlt <- ""
+ListeAbgewaehlt <- ""
 
 ListeGewinner_fr <- get_liste_gewinner_fr(anzahl_sitze_partei)
 ListeVerlierer_fr <- get_liste_verlierer_fr(anzahl_sitze_partei)
@@ -196,8 +197,8 @@ ListeSitzverteilung_fr <- get_liste_sitzverteilung_fr(anzahl_sitze_partei)
 ListeParteienOut_fr <- get_liste_parteienout_fr(anzahl_sitze_partei)
 ListeNeugewaehlt_fr <- get_liste_neugewaehlt_fr(candidates_neu_gewaehlt)
 ListeAbgewaehlt_fr <- get_liste_abgewaehlt_fr(candidates_abgewaehlt)
-#ListeNeugewaehlt_fr <- ""
-#ListeAbgewaehlt_fr <- ""
+ListeNeugewaehlt_fr <- ""
+ListeAbgewaehlt_fr <- ""
 
 
 #Variablen ersetzen
