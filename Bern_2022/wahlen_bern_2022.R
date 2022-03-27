@@ -45,13 +45,13 @@ check_csv2 <- tryCatch( {
 fail_check1 <- grepl("Verbindung nicht",check_csv1[1])
 fail_check2 <- grepl("Verbindung nicht",check_csv2[1])
 
-#fail_check1 <- c(TRUE,TRUE,TRUE,TRUE,TRUE,
-#                 TRUE,TRUE,TRUE,TRUE,TRUE)
+fail_check1 <- c(TRUE,TRUE,TRUE,TRUE,TRUE,
+                 TRUE,TRUE,TRUE,TRUE,TRUE)
 
-#fail_check2 <- c(TRUE,TRUE,TRUE,TRUE,TRUE,
-#                 TRUE,TRUE,TRUE,TRUE,TRUE)
+fail_check2 <- c(TRUE,TRUE,TRUE,TRUE,TRUE,
+                 TRUE,TRUE,TRUE,TRUE,TRUE)
 
-if (fail_check1 == TRUE || fail_check2 == TRUE) {
+if (fail_check1[w] == TRUE || fail_check2[w] == TRUE) {
 storyboard <- NA
 text <- paste0("Der Wahlkreis ist noch nicht ausgezählt")
 text_fr <- paste0("Le cercle électoral n'a pas encore été comptée")
@@ -90,7 +90,6 @@ new_data <- new_data %>%
 liste_wahlkreis <- left_join(liste_wahlkreis,new_data)
 
 liste_wahlkreis$Sitze <- as.numeric(liste_wahlkreis$Sitze)
-
 
 #Neu gewählte und abgewählte Kandidaten scrapen
 link <- paste0("https://www.bewas.sites.be.ch/2022/2022-03-27/WAHL_GROSSRAT/reportResultatWahlkreisRanglisteCsv-",LETTERS[w],".csv")
