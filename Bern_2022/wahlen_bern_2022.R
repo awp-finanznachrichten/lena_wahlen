@@ -20,11 +20,12 @@ wahlkreise_fr <- c("Jura bernois","Bienne-Seeland","Haute-Argovie","Emmental","M
 data_gesamt <- data.frame("Wahlkreis","Wahlkreis_fr","Storyboard","Text_de","Text_fr","Sitze_all")
 colnames(data_gesamt) <- c("Wahlkreis","Wahlkreis_fr","Storyboard","Text_de","Text_fr","Sitze_all")
 
-fail_check1 <- c(TRUE,TRUE,FALSE,FALSE,TRUE,
+fail_check1 <- c(FALSE,TRUE,FALSE,FALSE,TRUE,
                  TRUE,TRUE,TRUE,TRUE,TRUE)
 
-fail_check2 <- c(TRUE,TRUE,FALSE,FALSE,TRUE,
+fail_check2 <- c(FALSE,TRUE,FALSE,FALSE,TRUE,
                  TRUE,TRUE,TRUE,TRUE,TRUE)
+
 
 
 for (w in 1:length(wahlkreise)) {
@@ -96,7 +97,6 @@ link <- paste0("https://www.bewas.sites.be.ch/2022/2022-03-27/WAHL_GROSSRAT/repo
 candidates_data <- read.csv(link,sep =";",skip = 2)
 candidates_data$Liste <- as.numeric(gsub(" .*","",candidates_data$Liste))
 candidates_data <- left_join(candidates_data,liste_wahlkreis,by=c(Liste = "Liste_Nummer"))
-
 
 candidates_neu_gewaehlt <- candidates_data %>%
   filter(Gew....Elu.e == "*",
