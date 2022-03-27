@@ -68,14 +68,15 @@ cat(text_fr)
 #Listendaten filtern
 liste_wahlkreis <- Listen_und_Parteien %>%
   filter(Wahlkreis == wahlkreise[w])
-
+#w <- 5
 ###Neue Daten von CSV scrapen (Tabelle als Alternative?)
 link <- paste0("https://www.bewas.sites.be.ch/2022/2022-03-27/WAHL_GROSSRAT/csvResultatWahlkreis-",LETTERS[w],".csv")
 new_data <- read.csv(link,sep =";",skip = 4)
 new_data$No.liste <- as.numeric(new_data$No.liste)
 new_data <- new_data[1:nrow(liste_wahlkreis),]
 
-View(new_data)
+#View(new_data)
+
 new_data <- new_data %>%
   select("No.liste","Sièges") %>%
   rename("Liste_Nummer" = "No.liste",
