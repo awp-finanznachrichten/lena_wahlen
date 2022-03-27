@@ -21,10 +21,10 @@ data_gesamt <- data.frame("Wahlkreis","Wahlkreis_fr","Storyboard","Text_de","Tex
 colnames(data_gesamt) <- c("Wahlkreis","Wahlkreis_fr","Storyboard","Text_de","Text_fr","Sitze_all")
 
 fail_check1 <- c(FALSE,FALSE,FALSE,FALSE,TRUE,
-                 TRUE,FALSE,TRUE,FALSE)
+                 TRUE,FALSE,FALSE,FALSE)
 
 fail_check2 <- c(FALSE,FALSE,FALSE,FALSE,TRUE,
-                 TRUE,FALSE,TRUE,FALSE)
+                 TRUE,FALSE,FALSE,FALSE)
 
 
 for (w in 1:length(wahlkreise)) {
@@ -68,7 +68,7 @@ cat(text_fr)
 #Listendaten filtern
 liste_wahlkreis <- Listen_und_Parteien %>%
   filter(Wahlkreis == wahlkreise[w])
-#w <- 2
+#w <- 8
 ###Neue Daten von CSV scrapen (Tabelle als Alternative?)
 link <- paste0("https://www.bewas.sites.be.ch/2022/2022-03-27/WAHL_GROSSRAT/csvResultatWahlkreis-",LETTERS[w],".csv")
 new_data <- read.csv(link,sep =";",skip = 4)
