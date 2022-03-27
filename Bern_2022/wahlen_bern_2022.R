@@ -261,15 +261,14 @@ data_datawrapper$Color[r] <- r
 }
   
 #Letzte Anpassungen
-data_datawrapper$Text_fr[1] <- gsub("Gasser Peter [(]PS[)]","Gasser Peter (ES)",data_datawrapper$Text_fr[1])
+data_datawrapper$Text_fr[1] <- gsub("Gasser Peter [(]PS[)]","Gasser Peter (Ensemble Socialiste)",data_datawrapper$Text_fr[1])
 data_datawrapper$Text_fr[1] <- gsub("Zuber Marina [(]Divers[)]","Zuber Marina (PSA)",data_datawrapper$Text_fr[1])
 data_datawrapper$Text_fr[1] <- gsub("le PS trois sièges","le PS deux sièges",data_datawrapper$Text_fr[1])
 data_datawrapper$Text_fr[1] <- gsub(" et les Verts un siège",", le Verts un siège et l'Ensemble Socialiste un siège",data_datawrapper$Text_fr[1])
-data_datawrapper$Text_de[1] <- gsub("Gasser Peter [(]SP[)]","Gasser Peter (ES)",data_datawrapper$Text_de[1])
+data_datawrapper$Text_de[1] <- gsub("Gasser Peter [(]SP[)]","Gasser Peter (Ensemble Socialiste)",data_datawrapper$Text_de[1])
 data_datawrapper$Text_de[1] <- gsub("Zuber Marina [(]Diverse[)]","Zuber Marina (PSA)",data_datawrapper$Text_de[1])
 data_datawrapper$Text_de[1] <- gsub("die SP drei Sitze","die SP zwei Sitze",data_datawrapper$Text_de[1])
 data_datawrapper$Text_de[1] <- gsub(" und die Grünen einen Sitz",", die Grünen einen Sitz und Ensemble Socialiste einen Sitz",data_datawrapper$Text_de[1])
-
 
 write.csv(data_datawrapper,"Output/Uebersicht_dw_new.csv", na = "", row.names = FALSE, fileEncoding = "UTF-8")
 
