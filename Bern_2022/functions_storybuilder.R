@@ -219,14 +219,14 @@ get_liste_parteienout_fr <- function(anzahl_sitze_partei) {
   }
   return(output)  
 }  
-
+View(candidates_neu_gewaehlt)
 
 #Liste der Neugewählten
 get_liste_neugewaehlt <- function(candidates_neu_gewaehlt) {
   output <- ""
 if (nrow(candidates_neu_gewaehlt) > 0){
   for (n in 1:nrow(candidates_neu_gewaehlt)) {
-    output <- paste0(output,candidates_neu_gewaehlt$Name.nom[n],
+    output <- paste0(output,candidates_neu_gewaehlt$Name...Nom[n],
                                 " (",candidates_neu_gewaehlt$Fraktion_de[n],"), ")  
   }
   output <- substr(output,1,nchar(output)-2)
@@ -241,7 +241,7 @@ get_liste_neugewaehlt_fr <- function(candidates_neu_gewaehlt) {
   output <- ""
   if (nrow(candidates_neu_gewaehlt) > 0){
     for (n in 1:nrow(candidates_neu_gewaehlt)) {
-      output <- paste0(output,candidates_neu_gewaehlt$Name.nom[n],
+      output <- paste0(output,candidates_neu_gewaehlt$Name...Nom[n],
                        " (",candidates_neu_gewaehlt$Fraktion_fr[n],"), ")  
     }
     output <- substr(output,1,nchar(output)-2)
@@ -255,7 +255,7 @@ get_liste_abgewaehlt <- function(candidates_abgewaehlt) {
 output <- ""
 if (nrow(candidates_abgewaehlt) > 0){
   for (n in 1:nrow(candidates_abgewaehlt)) {
-    output <- paste0(output,candidates_abgewaehlt$Name.nom[n],
+    output <- paste0(output,candidates_abgewaehlt$Name...Nom[n],
                               " (",candidates_abgewaehlt$Fraktion_de[n],"), ")  
   }
   output <- substr(output,1,nchar(output)-2)
@@ -269,7 +269,7 @@ get_liste_abgewaehlt_fr <- function(candidates_abgewaehlt) {
   output <- ""
   if (nrow(candidates_abgewaehlt) > 0){
     for (n in 1:nrow(candidates_abgewaehlt)) {
-      output <- paste0(output,candidates_abgewaehlt$Name.nom[n],
+      output <- paste0(output,candidates_abgewaehlt$Name...Nom[n],
                        " (",candidates_abgewaehlt$Fraktion_fr[n],"), ")  
     }
     output <- substr(output,1,nchar(output)-2)
