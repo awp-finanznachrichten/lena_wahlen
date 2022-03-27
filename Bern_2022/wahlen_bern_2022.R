@@ -21,10 +21,10 @@ data_gesamt <- data.frame("Wahlkreis","Wahlkreis_fr","Storyboard","Text_de","Tex
 colnames(data_gesamt) <- c("Wahlkreis","Wahlkreis_fr","Storyboard","Text_de","Text_fr","Sitze_all")
 
 fail_check1 <- c(FALSE,TRUE,FALSE,FALSE,TRUE,
-                 TRUE,TRUE,TRUE,TRUE,FALSE)
+                 TRUE,TRUE,TRUE,FALSE)
 
 fail_check2 <- c(FALSE,TRUE,FALSE,FALSE,TRUE,
-                 TRUE,TRUE,TRUE,TRUE,FALSE)
+                 TRUE,TRUE,TRUE,FALSE)
 
 
 for (w in 1:length(wahlkreise)) {
