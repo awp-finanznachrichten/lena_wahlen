@@ -21,11 +21,10 @@ data_gesamt <- data.frame("Wahlkreis","Wahlkreis_fr","Storyboard","Text_de","Tex
 colnames(data_gesamt) <- c("Wahlkreis","Wahlkreis_fr","Storyboard","Text_de","Text_fr","Sitze_all")
 
 fail_check1 <- c(FALSE,TRUE,FALSE,FALSE,TRUE,
-                 TRUE,TRUE,TRUE,TRUE,TRUE)
+                 TRUE,TRUE,TRUE,TRUE,FALSE)
 
 fail_check2 <- c(FALSE,TRUE,FALSE,FALSE,TRUE,
-                 TRUE,TRUE,TRUE,TRUE,TRUE)
-
+                 TRUE,TRUE,TRUE,TRUE,FALSE)
 
 
 for (w in 1:length(wahlkreise)) {
@@ -76,7 +75,6 @@ new_data <- read.csv(link,sep =";",skip = 4)
 new_data$No.liste <- as.numeric(new_data$No.liste)
 new_data <- new_data[1:nrow(liste_wahlkreis),]
 
-
 new_data <- new_data %>%
   select("No.liste","Sièges") %>%
   rename("Liste_Nummer" = "No.liste",
@@ -97,7 +95,7 @@ link <- paste0("https://www.bewas.sites.be.ch/2022/2022-03-27/WAHL_GROSSRAT/repo
 candidates_data <- read.csv(link,sep =";",skip = 2)
 candidates_data$Liste <- as.numeric(gsub(" .*","",candidates_data$Liste))
 candidates_data <- left_join(candidates_data,liste_wahlkreis,by=c(Liste = "Liste_Nummer"))
-
+link
 candidates_neu_gewaehlt <- candidates_data %>%
   filter(Gew....Elu.e == "*",
          Bish....Sort. == "")
@@ -261,6 +259,7 @@ data_datawrapper$Color[r] <- r
 }
   
 #Letzte Anpassungen
+
   
 write.csv(data_datawrapper,"Output/Uebersicht_dw_new.csv", na = "", row.names = FALSE, fileEncoding = "UTF-8")
 
