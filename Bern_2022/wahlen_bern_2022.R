@@ -75,10 +75,12 @@ new_data <- read.csv(link,sep =";",skip = 4)
 new_data$No.liste <- as.numeric(new_data$No.liste)
 new_data <- new_data[1:nrow(liste_wahlkreis),]
 
+
 new_data <- new_data %>%
   select("No.liste","Sièges") %>%
   rename("Liste_Nummer" = "No.liste",
          "Sitze" = "Sièges")
+
 
 ###Plan B: Get new data from Excel
 #  new_data <- liste_wahlkreis %>%
@@ -86,6 +88,7 @@ new_data <- new_data %>%
 
 #Daten zusammenführen
 liste_wahlkreis <- left_join(liste_wahlkreis,new_data)
+
 liste_wahlkreis$Sitze <- as.numeric(liste_wahlkreis$Sitze)
 
 
