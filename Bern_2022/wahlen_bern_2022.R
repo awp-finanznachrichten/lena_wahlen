@@ -96,7 +96,7 @@ link <- paste0("https://www.bewas.sites.be.ch/2022/2022-03-27/WAHL_GROSSRAT/repo
 candidates_data <- read.csv(link,sep =";",skip = 2)
 candidates_data$Liste.liste <- as.numeric(gsub(" .*","",candidates_data$Liste.liste))
 candidates_data <- left_join(candidates_data,liste_wahlkreis,by=c(Liste.liste = "Liste_Nummer"))
-
+View(candidates_data)
 candidates_neu_gewaehlt <- candidates_data %>%
   filter(Gew..elu.e == "*",
          Bish..Sort. == "")
