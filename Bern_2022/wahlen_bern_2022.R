@@ -161,11 +161,11 @@ sitzverteilung_aufrecht <- get_sitzverteilung_aufrecht(aufrecht_sitze)
 
 #Neu Gewählt
 neu_gewaehlt <- get_neu_gewaehlt(candidates_neu_gewaehlt)
-#neu_gewaehlt <- ""
+neu_gewaehlt <- ""
 
 #Abgewaehlt
 abgewaehlt <- get_abgewaehlt(candidates_abgewaehlt)
-#abgewaehlt <- ""
+abgewaehlt <- ""
 
 storyboard <- paste0(winners,losers,nochange,
                 sitzverteilung,sitzverteilung_diverse,sitzverteilung_aufrecht,
@@ -186,8 +186,8 @@ ListeSitzverteilung <- get_liste_sitzverteilung(anzahl_sitze_partei)
 ListeParteienOut <- get_liste_parteienout(anzahl_sitze_partei)
 ListeNeugewaehlt <- get_liste_neugewaehlt(candidates_neu_gewaehlt)
 ListeAbgewaehlt <- get_liste_abgewaehlt(candidates_abgewaehlt)
-#ListeNeugewaehlt <- ""
-#ListeAbgewaehlt <- ""
+ListeNeugewaehlt <- ""
+ListeAbgewaehlt <- ""
 
 ListeGewinner_fr <- get_liste_gewinner_fr(anzahl_sitze_partei)
 ListeVerlierer_fr <- get_liste_verlierer_fr(anzahl_sitze_partei)
@@ -197,8 +197,8 @@ ListeSitzverteilung_fr <- get_liste_sitzverteilung_fr(anzahl_sitze_partei)
 ListeParteienOut_fr <- get_liste_parteienout_fr(anzahl_sitze_partei)
 ListeNeugewaehlt_fr <- get_liste_neugewaehlt_fr(candidates_neu_gewaehlt)
 ListeAbgewaehlt_fr <- get_liste_abgewaehlt_fr(candidates_abgewaehlt)
-#ListeNeugewaehlt_fr <- ""
-#ListeAbgewaehlt_fr <- ""
+ListeNeugewaehlt_fr <- ""
+ListeAbgewaehlt_fr <- ""
 
 
 #Variablen ersetzen
