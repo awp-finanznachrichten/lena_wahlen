@@ -257,7 +257,7 @@ data_datawrapper$Color[r] <- r
 }
 }
   
-#Anpassungen Wahlkreis
+#Letzte Anpassungen
   
 write.csv(data_datawrapper,"Output/Uebersicht_dw_new.csv", na = "", row.names = FALSE, fileEncoding = "UTF-8")
 
