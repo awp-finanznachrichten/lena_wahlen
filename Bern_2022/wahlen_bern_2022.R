@@ -259,8 +259,9 @@ data_datawrapper$Color[r] <- r
 }
   
 #Letzte Anpassungen
+data_datawrapper$Text_fr[1] <- gsub("Gasser Peter [(]PS[)]","Gasser Peter (ES)",data_datawrapper$Text_fr[1])
+data_datawrapper$Text_de[1] <- gsub("Gasser Peter [(]SP[)]","Gasser Peter (ES)",data_datawrapper$Text_de[1])
 
-  
 write.csv(data_datawrapper,"Output/Uebersicht_dw_new.csv", na = "", row.names = FALSE, fileEncoding = "UTF-8")
 
 #Auf Github hochladen
