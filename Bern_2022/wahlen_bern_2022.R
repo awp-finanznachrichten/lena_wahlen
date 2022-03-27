@@ -68,7 +68,7 @@ cat(text_fr)
 #Listendaten filtern
 liste_wahlkreis <- Listen_und_Parteien %>%
   filter(Wahlkreis == wahlkreise[w])
-#w <- 5
+#w <- 2
 ###Neue Daten von CSV scrapen (Tabelle als Alternative?)
 link <- paste0("https://www.bewas.sites.be.ch/2022/2022-03-27/WAHL_GROSSRAT/csvResultatWahlkreis-",LETTERS[w],".csv")
 new_data <- read.csv(link,sep =";",skip = 4)
@@ -263,8 +263,11 @@ data_datawrapper$Color[r] <- r
 #Letzte Anpassungen
 data_datawrapper$Text_fr[1] <- gsub("Gasser Peter [(]PS[)]","Gasser Peter (ES)",data_datawrapper$Text_fr[1])
 data_datawrapper$Text_fr[1] <- gsub("Zuber Marina [(]Divers[)]","Zuber Marina (PSA)",data_datawrapper$Text_fr[1])
+data_datawrapper$Text_fr[1] <- gsub("le PS trois sièges","le PS (avec Ensemble Socialiste) trois sièges",data_datawrapper$Text_fr[1])
 data_datawrapper$Text_de[1] <- gsub("Gasser Peter [(]SP[)]","Gasser Peter (ES)",data_datawrapper$Text_de[1])
 data_datawrapper$Text_de[1] <- gsub("Zuber Marina [(]Diverse[)]","Zuber Marina (PSA)",data_datawrapper$Text_de[1])
+data_datawrapper$Text_de[1] <- gsub("die SP drei Sitze","die SP (mit Ensemble Socialiste) drei Sitze",data_datawrapper$Text_de[1])
+
 
 write.csv(data_datawrapper,"Output/Uebersicht_dw_new.csv", na = "", row.names = FALSE, fileEncoding = "UTF-8")
 
