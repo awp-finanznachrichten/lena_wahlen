@@ -219,7 +219,7 @@ get_liste_parteienout_fr <- function(anzahl_sitze_partei) {
   }
   return(output)  
 }  
-View(candidates_neu_gewaehlt)
+
 
 #Liste der Neugewählten
 get_liste_neugewaehlt <- function(candidates_neu_gewaehlt) {
