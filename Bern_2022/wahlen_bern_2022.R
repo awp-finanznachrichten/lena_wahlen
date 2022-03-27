@@ -238,7 +238,6 @@ data_datawrapper$text_wahlkreis_fr <- str_replace_all(data_datawrapper$text_wahl
 data_datawrapper$text_wahlkreis_fr <- str_replace_all(data_datawrapper$text_wahlkreis_fr,"de Mittelland méridional","du Mittelland méridional")
 data_datawrapper$text_wahlkreis_fr  <- str_replace_all(data_datawrapper$text_wahlkreis_fr,"de Oberland","de l’Oberland")
 
-View(data_datawrapper)
 #Farbe definieren
 data_datawrapper$Color <- 0
 for (r in 1:nrow(data_datawrapper) ) {
